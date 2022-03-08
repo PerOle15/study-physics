@@ -1,13 +1,130 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  --primary-color: #f25c05;
+  --secondary-color: #f24405;
+  --very-dark-color: #131626;
+  --dark-color: #083540;
+  --light-color: #f2f2f2;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 1rem;
+  color: var(--light-color);
+  background: var(--dark-color);
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 1.2rem;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+a:hover {
+  color: var(--secondary-color);
+}
+
+ul {
+  list-style: none;
+}
+
+header.main-header {
+  z-index: 2;
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: var(--very-dark-color);
+  width: 100%;
+  height: 15vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header.main-header .container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+header.main-header .logo {
+  color: var(--primary-color);
+  margin: 0;
+}
+
+nav.main-nav ul {
+  display: flex;
+}
+
+nav.main-nav ul li {
+  margin-left: 2rem;
+}
+
+nav.main-nav ul li a {
+  color: var(--light-color);
+}
+
+nav.main-nav ul li a.active {
+  color: var(--primary-color);
+}
+
+/* Homepage */
+.parallax-img {
+  background: url('./img/blackboard.jpg') no-repeat center/cover fixed;
+  height: 85vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.parallax-img::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #000;
+  opacity: 0.3;
+}
+
+.parallax-container {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.parallax-container p {
+  max-width: 50%;
+}
+
+.main-footer {
+  background: var(--very-dark-color);
+  padding: 1.5rem 0;
+}
+
+.main-footer p {
+  text-align: center;
+  margin: 0;
 }
