@@ -1,6 +1,18 @@
 import { NavLink } from 'react-router-dom'
+import { FaYinYang } from 'react-icons/fa'
 
 function AppHeader() {
+  const html = document.querySelector('html')
+  const isOsDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  html.dataset.theme = isOsDark ? 'theme-dark' : 'theme-light'
+  function switchTheme(theme) {
+    if (html.dataset.theme === `theme-dark`) {
+      html.dataset.theme = `theme-light`
+    } else {
+      html.dataset.theme = `theme-dark`
+    }
+  }
+
   return (
     <header className='main-header'>
       <div className='container'>
@@ -20,7 +32,7 @@ function AppHeader() {
                 to='/study'
                 className={({ isActive }) => (isActive ? ' active' : '')}
               >
-                Study
+                Lernen
               </NavLink>
             </li>
             <li className='nav-item'>
@@ -46,6 +58,14 @@ function AppHeader() {
               >
                 Contact
               </NavLink>
+            </li>
+            <li>
+              <FaYinYang
+                className='change-theme'
+                onClick={() => {
+                  switchTheme()
+                }}
+              />
             </li>
           </ul>
         </nav>
