@@ -1,5 +1,6 @@
 :root {
   --btn-border-size: 2px;
+  --dark-orange: #f25c05;
 }
 
 :root[data-theme='theme-dark'] {
@@ -8,6 +9,7 @@
   --primary-background-color: #083540;
   --secondary-background-color: #131626;
   --primary-accent-color: #f25c05;
+  --secondary-accent-color: #f08d54;
   --primary-color: #f25c05;
   --secondary-color: #f24405;
   --very-dark-color: #131626;
@@ -17,10 +19,12 @@
 }
 :root[data-theme='theme-light'] {
   --primary-text-color: #000;
-  --secondary-text-color: #cabdb6;
-  --primary-background-color: #91bed4;
-  --secondary-background-color: #d9e8f5;
+  --secondary-text-color: #f7f7f7;
+  --primary-background-color: #d9e8f5;
+  --secondary-background-color: #91bed4;
   --primary-accent-color: #f25c05;
+  --primary-accent-color: #f08d54;
+  --secondary-accent-color: #f08d54;
   --primary-color: #4399a9;
   --secondary-color: #6393a2;
   --very-dark-color: #fcfdff;
@@ -44,14 +48,18 @@ body {
   font-size: 1.2rem;
   background: var(--primary-background-color);
   color: var(--primary-text-color);
+  position: relative;
   height: 100%;
   min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
 }
 
 #root {
   position: relative;
   height: 100%;
-  min-height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -109,7 +117,7 @@ Utils
       left: 0;
       bottom: 0;
       right: 0;
-      border: var(--btn-border-size) solid var(--primary-color);
+      border: var(--btn-border-size) solid var(--secondary-text-color);
       z-index: 1;
       border-radius: 10px;
       transition: 0.2s;
@@ -201,8 +209,13 @@ header.main-header {
     li {
       margin-left: 2rem;
 
+      .change-theme {
+        margin-top: 0.3rem;
+        cursor: pointer;
+      }
+
       a {
-        color: var(--light-color);
+        color: var(--primary-text-color);
         border-radius: 5px;
         padding: 0.3rem 0.9rem;
         transition: 0.2s;
@@ -254,8 +267,8 @@ header.main-header {
 
 .main-footer {
   background: var(--secondary-background-color);
-  padding: 1.5rem 0;
   margin-top: auto;
+  padding: 1.5rem 0;
 
   p {
     text-align: center;
@@ -270,29 +283,55 @@ Study Page
 .study-container {
   padding-top: 1.5rem;
 
+  .topic-title {
+    z-index: 1;
+  }
+
   .card-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 2rem;
+    margin-bottom: 2rem;
   }
 
   .card {
-    background: var(--light-color);
+    background: var(--secondary-accent-color);
     color: var(--secondary-text-color);
     padding: 1rem;
+    height: 17rem;
     border-radius: 15px;
-    border: 1px solid #333;
-    display: inline-block;
+    box-shadow: 0px 0px 5px var(--primary-accent-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     transition: 0.2s;
 
+    .card-icon {
+      font-size: 3.5rem;
+      height: 100%;
+      align-self: center;
+      justify-self: center;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h4.card-title {
+      margin: 0 !important;
+      text-align: center;
+      a {
+        color: var(--secondary-text-color);
+      }
+    }
+
     &:hover {
-      transform: translateY(-1px);
-      box-shadow: 0px 0px 2px var(--light-color);
+      transform: translateY(-4px);
     }
   }
 
   .card-inverse {
-    background: var(--secondary-text-color);
+    background: var(--primary-accent-color);
     color: var(--primary-text-color);
     padding: 1rem;
     border-radius: 15px;

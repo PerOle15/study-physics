@@ -16,7 +16,7 @@ function AppHeader() {
   return (
     <header className='main-header'>
       <div className='container'>
-        <h1 className='logo'>Study-Physics</h1>
+        <h1 className='logo'>Fysihka</h1>
         <nav className='main-nav'>
           <ul>
             <li className='nav-item'>
