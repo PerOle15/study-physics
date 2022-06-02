@@ -40,7 +40,7 @@ function AppHeader() {
                 to='/membership'
                 className={({ isActive }) => (isActive ? ' active' : '')}
               >
-                Membership
+                Mitgliedschaft
               </NavLink>
             </li>
             <li className='nav-item'>
@@ -48,7 +48,7 @@ function AppHeader() {
                 to='/about'
                 className={({ isActive }) => (isActive ? ' active' : '')}
               >
-                About
+                Über Uns
               </NavLink>
             </li>
             <li className='nav-item'>
@@ -56,7 +56,7 @@ function AppHeader() {
                 to='/contact'
                 className={({ isActive }) => (isActive ? ' active' : '')}
               >
-                Contact
+                Kontakt
               </NavLink>
             </li>
             <li>

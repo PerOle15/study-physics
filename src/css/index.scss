@@ -45,7 +45,7 @@
 
 body {
   font-family: 'Open Sans', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   background: var(--primary-background-color);
   color: var(--primary-text-color);
   position: relative;
@@ -67,10 +67,20 @@ body {
 a {
   text-decoration: none;
   color: var(--primary-color);
+  font-size: 1.1rem;
 
   &:hover {
     color: var(--secondary-color);
   }
+}
+
+input {
+  font-size: 1.1rem;
+}
+
+textarea {
+  font-size: 1.1rem;
+  resize: none;
 }
 
 /**
@@ -177,6 +187,8 @@ ul {
   list-style: none;
 }
 
+/* Main Page Header */
+
 header.main-header {
   z-index: 2;
   position: sticky;
@@ -215,6 +227,7 @@ header.main-header {
       }
 
       a {
+        font-size: 1.3rem;
         color: var(--primary-text-color);
         border-radius: 5px;
         padding: 0.3rem 0.9rem;
@@ -337,4 +350,52 @@ Study Page
     border-radius: 15px;
     border: 2px solid var(--medium-color);
   }
+}
+
+/* Contact Page */
+#contact-page {
+  margin: 1rem 0;
+  #contact-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+
+    label {
+      margin-bottom: 0.7rem;
+      font-size: 1.2rem;
+    }
+
+    textarea {
+      height: 200px;
+      max-height: 200px;
+    }
+
+    input.contact-input {
+      height: 2rem;
+    }
+    .contact-input {
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 1rem;
+      border: 1px solid var(--secondary-accent-color);
+      border-radius: 3px;
+
+      &:focus {
+        outline: 2px solid var(--secondary-accent-color);
+      }
+    }
+
+    input[type='submit'] {
+      padding: 0.7rem 1rem;
+    }
+  }
+}
+
+/* Canvas Pages */
+
+#canvasContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
