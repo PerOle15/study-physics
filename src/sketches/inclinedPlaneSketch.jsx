@@ -1,7 +1,5 @@
 import Sketch from 'react-p5'
 
-import { useEffect } from 'react'
-
 function PlaneSketch(props) {
   let controller
   let plane
@@ -24,16 +22,17 @@ function PlaneSketch(props) {
   const maxSlidingFriction = 0.9
   const maxStaticFriction = 0.9
 
-  let degreeInput = document.getElementById('degree-input')
-  let radianInput = document.getElementById('radian-input')
-  let staticFrictionInput = document.getElementById('static-friction-input')
-  let slidingFrictionInput = document.getElementById('sliding-friction-input')
-  useEffect(() => {
-    degreeInput = document.getElementById('degree-input')
-    radianInput = document.getElementById('radian-input')
-    staticFrictionInput = document.getElementById('static-friction-input')
-    slidingFrictionInput = document.getElementById('sliding-friction-input')
-  })
+  let resetBtn
+  let pauseBtn
+  let controlContainer
+  let degreeSlider = document.getElementById('degree-input')
+  let degreeLabel
+  let radianSlider = document.getElementById('radian-input')
+  let radianLabel
+  let staticFrictionSlider
+  let staticFrictionLabel
+  let slidingFrictionSlider
+  let slidingFrictionLabel
 
   const setup = (p, canvasParentRef) => {
     p.createCanvas(800, 500).parent(canvasParentRef)
@@ -43,29 +42,128 @@ function PlaneSketch(props) {
     controller = new Controller(p)
     plane = new Plane(p)
     block = new Block(p)
-    radianInput.value = startingAngle
-    degreeInput.value = (startingAngle / (Math.PI * 2)) * 360
-    slidingFrictionInput.value = startingSlidingFriction
-    staticFrictionInput.value = startingStaticFriction
+
+    // degreeSlider.value = (startingAngle / (Math.PI * 2)) * 360
+    // slidingFrictionSlider.value = startingSlidingFriction
+    // staticFrictionSlider.value = startingStaticFriction
+
+    controlContainer = p
+      .createDiv()
+      .parent(canvasParentRef)
+      .class('sketch-control')
+
+    pauseBtn = p
+      .createButton('Stoppen')
+      .parent(controlContainer)
+      .class('btn sketch-btn')
+      .mousePressed((e) => {
+        controller.handleLoop()
+      })
+
+    resetBtn = p
+      .createButton('Zurücksetzen')
+      .parent(controlContainer)
+      .class('btn sketch-btn')
+      .mousePressed((e) => {
+        controller.resetCanvas()
+      })
+
+    radianLabel = p.createDiv().parent(controlContainer)
+    radianSlider = p
+      .createSlider(minRadianAngle, maxRadianAngle, startingAngle, 0)
+      .parent(controlContainer)
+      .class('sketch-slider')
+      .input(() => {
+        if (!p.isLooping()) {
+          controller.display()
+        }
+        radianLabel.html(
+          `Winkel in Radianten: ${radianSlider.value().toFixed(2)}`
+        )
+        // set degreeslider and degreelabel to change value
+        degreeSlider.value((radianSlider.value() / (Math.PI * 2)) * 360)
+        degreeLabel.html(`Winkel in °: ${degreeSlider.value().toFixed(2)}`)
+      })
+    radianLabel.html(
+      `Winkel in Radianten: ${radianSlider.value().toFixed(2)} Hz`
+    )
+
+    degreeLabel = p.createDiv().parent(controlContainer)
+    degreeSlider = p
+      .createSlider(
+        minDegreeAngle,
+        maxDegreeAngle,
+        (startingAngle / (Math.PI * 2)) * 360,
+        0
+      )
+      .parent(controlContainer)
+      .class('sketch-slider')
+      .input(() => {
+        if (!p.isLooping()) {
+          controller.display()
+        }
+        // set degreelabel value
+        degreeLabel.html(`Winkel in °: ${degreeSlider.value().toFixed(2)}`)
+        // set radianslider and radianlabel to change value
+        radianSlider.value((degreeSlider.value() / 360) * Math.PI * 2)
+        radianLabel.html(
+          `Winkel in Radianten: ${radianSlider.value().toFixed(2)}`
+        )
+      })
+    degreeLabel.html(`Winkel in °: ${degreeSlider.value().toFixed(2)}`)
+
+    staticFrictionLabel = p.createDiv().parent(controlContainer)
+    staticFrictionSlider = p
+      .createSlider(
+        minStaticFriction,
+        maxStaticFriction,
+        startingStaticFriction,
+        0
+      )
+      .parent(controlContainer)
+      .class('sketch-slider')
+      .input(() => {
+        if (!p.isLooping()) {
+          controller.display()
+        }
+        staticFrictionLabel.html(
+          `Haftreibungszahl: ${staticFrictionSlider.value().toFixed(2)}`
+        )
+      })
+    staticFrictionLabel.html(
+      `Haftreibungszahl: ${staticFrictionSlider.value().toFixed(2)}`
+    )
+    slidingFrictionLabel = p.createDiv().parent(controlContainer)
+    slidingFrictionSlider = p
+      .createSlider(
+        minSlidingFriction,
+        maxSlidingFriction,
+        startingSlidingFriction,
+        0
+      )
+      .parent(controlContainer)
+      .class('sketch-slider')
+      .input(() => {
+        if (!p.isLooping()) {
+          controller.display()
+        }
+        slidingFrictionLabel.html(
+          `Gleitreibungszahl: ${slidingFrictionSlider.value().toFixed(2)}`
+        )
+      })
+    slidingFrictionLabel.html(
+      `Gleitreibungszahl: ${slidingFrictionSlider.value().toFixed(2)}`
+    )
   }
 
   const draw = (p) => {
     controller.display(p)
-    radianInput.value = plane.angle
-    degreeInput.value = (plane.angle / (Math.PI * 2)) * 360
-    staticFrictionInput.value = plane.staticFriction
-    slidingFrictionInput.value = plane.slidingFriction
 
     // if (!focused) {
     //   pauseBtn.innerText = 'Fortfahren'
     //   noLoop()
     // }
   }
-
-  // resetBtn.addEventListener('click', () => {
-  //   resetCanvas()
-  //   display()
-  // })
 
   const windowResized = (p) => {
     // p.resizeCanvas(document.body.clientWidth, document.body.clientHeight)
@@ -78,45 +176,34 @@ function PlaneSketch(props) {
 
   function handleAngleChange(e) {
     // value bigger than max value
-    if (
-      (e.target.id === 'degree-input' && e.target.value > maxDegreeAngle) ||
-      (e.target.id === 'radian-input' && e.target.value > maxRadianAngle)
-    ) {
-      e.target.value =
-        e.target.id === 'degree-input' ? maxDegreeAngle : maxRadianAngle
-    }
-    // value smaller than max value
-    if (
-      (e.target.id === 'degree-input' && e.target.value < minDegreeAngle) ||
-      (e.target.id === 'radian-input' && e.target.value < minRadianAngle)
-    ) {
-      e.target.value =
-        e.target.id === 'degree-input' ? minDegreeAngle : minRadianAngle
-    }
-    let radians =
-      e.target.id === 'degree-input'
-        ? (e.target.value / 360) * Math.PI * 2
-        : e.target.value
-    // setRadianAngle(radians)
-    // plane.angle = radians
-
-    let degrees =
-      e.target.id === 'degree-input'
-        ? e.target.value
-        : (e.target.value / (Math.PI * 2)) * 360
-
-    // setDegreeAngle(degrees)
-    degreeInput.value = degrees
-    radianInput.value = radians
-  }
-
-  function handleSlidingFrictionChange(e) {
-    e.preventDefault()
-  }
-
-  function handleStaticFrictionChange(e) {
-    e.preventDefault()
-    // staticFrictionInput.value = Number(e.target.value)
+    // if (
+    //   (e.target.id === 'degree-input' && e.target.value > maxDegreeAngle) ||
+    //   (e.target.id === 'radian-input' && e.target.value > maxRadianAngle)
+    // ) {
+    //   e.target.value =
+    //     e.target.id === 'degree-input' ? maxDegreeAngle : maxRadianAngle
+    // }
+    // // value smaller than max value
+    // if (
+    //   (e.target.id === 'degree-input' && e.target.value < minDegreeAngle) ||
+    //   (e.target.id === 'radian-input' && e.target.value < minRadianAngle)
+    // ) {
+    //   e.target.value =
+    //     e.target.id === 'degree-input' ? minDegreeAngle : minRadianAngle
+    // }
+    // let radians =
+    //   e.target.id === 'degree-input'
+    //     ? (e.target.value / 360) * Math.PI * 2
+    //     : e.target.value
+    // // setRadianAngle(radians)
+    // // plane.angle = radians
+    // let degrees =
+    //   e.target.id === 'degree-input'
+    //     ? e.target.value
+    //     : (e.target.value / (Math.PI * 2)) * 360
+    // // setDegreeAngle(degrees)
+    // degreeSlider.value = degrees
+    // radianSlider.value = radians
   }
 
   function handlePause(e) {
@@ -139,15 +226,15 @@ function PlaneSketch(props) {
       block.velocity = 0
       block.acceleration = 0
       block.x1 = 20
+      this.display()
     }
     handleLoop() {
-      const pauseBtn = document.getElementById('pause-btn')
       if (this.p.isLooping()) {
         this.p.noLoop()
-        pauseBtn.innerText = 'Fortfahren'
+        pauseBtn.html('Fortfahren')
       } else {
         this.p.loop()
-        pauseBtn.innerText = 'Stoppen'
+        pauseBtn.html('Stoppen')
       }
     }
   }
@@ -166,9 +253,9 @@ function PlaneSketch(props) {
     }
 
     update() {
-      this.angle = Number(radianInput.value)
-      this.staticFriction = Number(staticFrictionInput.value)
-      this.slidingFriction = Number(slidingFrictionInput.value)
+      this.angle = radianSlider.value()
+      this.staticFriction = staticFrictionSlider.value()
+      this.slidingFriction = slidingFrictionSlider.value()
       this.distance = this.p.width / Math.cos(this.angle)
       this.x2 = this.p.width
       this.y2 = this.p.height
@@ -299,7 +386,7 @@ function PlaneSketch(props) {
   return (
     <>
       <Sketch setup={setup} draw={draw} windowResized={windowResized} />
-      <form className='sketch-control'>
+      {/* <form className='sketch-control'>
         <button id='pause-btn' className='btn pause-btn' onClick={handlePause}>
           Stoppen
         </button>
@@ -342,7 +429,7 @@ function PlaneSketch(props) {
           step='0.01'
           onChange={handleSlidingFrictionChange}
         />
-      </form>
+      </form>*/}
     </>
   )
 }

@@ -394,20 +394,24 @@ Study Page
 
 /* Canvas Pages */
 
-.sketch-container {
+.react-p5 {
   display: flex;
+  justify-content: space-between;
+
+  canvas {
+    width: 80% !important;
+    height: 100% !important;
+  }
 
   .sketch-control {
+    margin-left: 1rem;
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
 }
 
 @media (max-width: 1000px) {
-  .sketch-container {
-    flex-direction: column;
-  }
-
   /* main navigation mobile */
   nav.main-nav ul {
     flex-direction: column;
@@ -436,6 +440,15 @@ Study Page
           background-color: var(--medium-color);
         }
       }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .react-p5 {
+    flex-direction: column;
+    canvas {
+      width: 100% !important;
     }
   }
 }

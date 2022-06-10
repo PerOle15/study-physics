@@ -11,9 +11,7 @@ export class InclinedPlanePage extends Component {
     return (
       <div className='container'>
         <h1 className='page-title'>Schiefe Ebene</h1>
-        <div className='sketch-container'>
-          <InclinedPlaneSketch />
-        </div>
+        <InclinedPlaneSketch />
       </div>
     )
   }
