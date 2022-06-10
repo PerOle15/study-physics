@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react'
+// import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import AppHeader from './components/AppHeader'
 import AppFooter from './components/AppFooter'
 import HomePage from './pages/HomePage'
 import StudyPage from './pages/StudyPage'
 import ContactPage from './pages/ContactPage'
-import axios from 'axios'
+import AboutPage from './pages/AboutPage'
+// import axios from 'axios'
 
 function App() {
   // const [reqData, setReqData] = useState('')
@@ -31,7 +32,7 @@ function App() {
           </Route> */}
 
           <Route path='/membership' element={<>Membership</>} />
-          <Route path='/about' element={<>About</>} />
+          <Route path='/about' element={<AboutPage />} />
           <Route path='/contact' element={<ContactPage />} />
         </Routes>
       </div>

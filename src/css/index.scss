@@ -394,8 +394,48 @@ Study Page
 
 /* Canvas Pages */
 
-#canvasContainer {
+.sketch-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
+
+  .sketch-control {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 1000px) {
+  .sketch-container {
+    flex-direction: column;
+  }
+
+  /* main navigation mobile */
+  nav.main-nav ul {
+    flex-direction: column;
+
+    li {
+      margin-left: 2rem;
+
+      .change-theme {
+        margin-top: 0.3rem;
+        cursor: pointer;
+      }
+
+      a {
+        font-size: 1.3rem;
+        color: var(--primary-text-color);
+        border-radius: 5px;
+        padding: 0.3rem 0.9rem;
+        transition: 0.2s;
+
+        &:hover {
+          background-color: var(--medium-color);
+        }
+
+        &.active {
+          color: var(--primary-color);
+          background-color: var(--medium-color);
+        }
+      }
+    }
+  }
 }

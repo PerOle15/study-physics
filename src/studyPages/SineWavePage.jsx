@@ -1,5 +1,4 @@
 import React from 'react'
-import p5 from 'p5'
 import WaveSketch from '../sketches/sineWaveSketch'
 
 function SineWavePage() {

@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
-import InclinedPlaneSketch from '../sketches/inclinedPlaneSketch'
+import InclinedPlaneSketch from '../sketches/InclinedPlaneSketch'
 
 export class InclinedPlanePage extends Component {
-  constructor(props) {
-    super(props)
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
+
   render() {
+    document.title = 'Schiefe Ebene - Fysihka'
     return (
-      <div>
-        <div>InclinedPlanePage</div>
-        <InclinedPlaneSketch />
+      <div className='container'>
+        <h1 className='page-title'>Schiefe Ebene</h1>
+        <div className='sketch-container'>
+          <InclinedPlaneSketch />
+        </div>
       </div>
     )
   }
