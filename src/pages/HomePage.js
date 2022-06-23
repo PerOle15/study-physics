@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 function HomePage() {
+  document.title = 'Fysihka - Lerne interaktiv Physik'
   return (
     <div>
       <div className='parallax-img'>

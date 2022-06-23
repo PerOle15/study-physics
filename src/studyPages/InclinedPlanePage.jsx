@@ -7,7 +7,7 @@ export class InclinedPlanePage extends Component {
   // }
 
   render() {
-    document.title = 'Schiefe Ebene - Fysihka'
+    document.title = 'Fysihka - Schiefe Ebene'
     return (
       <div className='container'>
         <h1 className='page-title'>Schiefe Ebene</h1>

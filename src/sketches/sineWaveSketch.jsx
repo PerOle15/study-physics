@@ -3,11 +3,13 @@ import Sketch from 'react-p5'
 function WaveSketch() {
   let wave
   let waveArray = []
-  const frames = 30
+  const frames = 60
   const gridColor = '#707070'
   const waveScale = 90
 
+  let controller
   let controlContainer
+  let pauseBtn
   let frequencyLabel
   let frequencySlider
   let amplitudeLabel
@@ -24,20 +26,34 @@ function WaveSketch() {
   const setup = (p, canvasParentRef) => {
     // use parent to render the canvas in this ref
     // (without that p will render the canvas outside of your component)
-    p.createCanvas(500, 500).parent(canvasParentRef)
+    p.createCanvas(800, 500).parent(canvasParentRef)
     p.frameRate(frames)
     p.background(180)
+
+    controller = new Controller(p)
 
     controlContainer = p
       .createDiv()
       .parent(canvasParentRef)
       .class('sketch-control')
 
-    // Sliders with labels
-    frequencyLabel = p.createDiv().parent(controlContainer)
-    frequencySlider = p
-      .createSlider(minFrequency, maxFrequency, 1, 0)
+    pauseBtn = p
+      .createButton('Stoppen')
       .parent(controlContainer)
+      .class('btn sketch-btn')
+      .mousePressed((e) => {
+        controller.handleLoop()
+      })
+
+    // Sliders with labels
+    const frequencyContainer = p
+      .createDiv()
+      .parent(controlContainer)
+      .class('sketch-input-container')
+    frequencyLabel = p.createDiv().parent(frequencyContainer)
+    frequencySlider = p
+      .createSlider(minFrequency, maxFrequency, 0.5, 0)
+      .parent(frequencyContainer)
       .class('sketch-slider')
       .input(() => {
         frequencyLabel.html(
@@ -46,25 +62,35 @@ function WaveSketch() {
       })
     frequencyLabel.html(`Frequenz: ${frequencySlider.value().toFixed(2)} Hz`)
 
-    waveLengthLabel = p.createDiv().parent(controlContainer)
-    waveLengthSlider = p
-      .createSlider(minWaveLength, maxWaveLength, 1, 0)
+    const waveLengthContainer = p
+      .createDiv()
       .parent(controlContainer)
+      .class('sketch-input-container')
+    waveLengthLabel = p.createDiv().parent(waveLengthContainer)
+    waveLengthSlider = p
+      .createSlider(minWaveLength, maxWaveLength, 1.5, 0)
+      .parent(waveLengthContainer)
       .class('sketch-slider')
       .input(() => {
         waveLengthLabel.html(
           `Wellenlänge: ${waveLengthSlider.value().toFixed(2)}`
         )
+        controller.display(true)
       })
     waveLengthLabel.html(`Wellenlänge: ${waveLengthSlider.value().toFixed(2)}`)
 
-    amplitudeLabel = p.createDiv().parent(controlContainer)
+    const amplitudeContainer = p
+      .createDiv()
+      .parent(controlContainer)
+      .class('sketch-input-container')
+    amplitudeLabel = p.createDiv().parent(amplitudeContainer)
     amplitudeSlider = p
       .createSlider(minAmplitude, maxAmplitude, 1, 0)
-      .parent(controlContainer)
+      .parent(amplitudeContainer)
       .class('sketch-slider')
       .input(() => {
         amplitudeLabel.html(`Amplitude: ${amplitudeSlider.value().toFixed(2)}`)
+        controller.display(true)
       })
     amplitudeLabel.html(`Amplitude: ${amplitudeSlider.value().toFixed(2)}`)
 
@@ -85,41 +111,74 @@ function WaveSketch() {
   }
 
   const draw = (p) => {
-    p.fill(180)
-    p.rect(0, 0, p.width, p.height)
-    p.translate(0, p.height / 2)
+    controller.display()
+  }
 
-    // Raster zeichnen
-    p.drawingContext.setLineDash([5, 10])
-    p.noStroke()
-    p.fill(gridColor)
-    p.text(0, p.width - 3, 0)
-    p.textAlign(p.RIGHT, p.CENTER)
-    p.stroke(gridColor)
-    p.line(0, 0, p.width - 20, 0)
-    for (let i = 0; i < p.height / 2 / waveScale; i++) {
-      p.stroke(gridColor)
-      p.line(0, (i + 1) * waveScale, p.width - 20, (i + 1) * waveScale)
-      p.line(0, -(i + 1) * waveScale, p.width - 20, -(i + 1) * waveScale)
-      p.noStroke()
-      p.text(i + 1, p.width - 3, -(i + 1) * waveScale)
-      p.text(-(i + 1), p.width - 3, (i + 1) * waveScale)
+  // control class to control
+  class Controller {
+    constructor(p) {
+      this.p = p
     }
-    p.drawingContext.setLineDash([0, 0])
-
-    wave.update()
-    waveArray.forEach((wavePoint, i) => {
-      if (i === 1) {
-        wavePoint.display('blue')
+    display(sliderChanged = false) {
+      this.p.fill(180)
+      // Hintergrund grau machen je nachdem ob der Ursprung schon veschoben wurde oder nicht
+      if (sliderChanged) {
+        this.p.rect(0, -this.p.height / 2, this.p.width, this.p.height)
       } else {
-        wavePoint.display('#f08d54')
+        this.p.rect(0, 0, this.p.width, this.p.height)
       }
-    })
 
-    // if (!p5.focused) {
-    //   pauseBtn.innerText = 'Fortfahren'
-    //   p5.noLoop()
-    // }
+      // Nur wenn die Funktion nicht von einem Slider aufgerufen wurde Ursprung verschieben
+      if (!sliderChanged) {
+        this.p.translate(0, this.p.height / 2)
+      }
+
+      // Raster zeichnen
+      this.p.drawingContext.setLineDash([5, 10])
+      this.p.noStroke()
+      this.p.fill(gridColor)
+      this.p.text(0, this.p.width - 3, 0)
+      this.p.textAlign(this.p.RIGHT, this.p.CENTER)
+      this.p.stroke(gridColor)
+      this.p.line(0, 0, this.p.width - 20, 0)
+      for (let i = 0; i < this.p.height / 2 / waveScale; i++) {
+        this.p.stroke(gridColor)
+        this.p.line(
+          0,
+          (i + 1) * waveScale,
+          this.p.width - 20,
+          (i + 1) * waveScale
+        )
+        this.p.line(
+          0,
+          -(i + 1) * waveScale,
+          this.p.width - 20,
+          -(i + 1) * waveScale
+        )
+        this.p.noStroke()
+        this.p.text(i + 1, this.p.width - 3, -(i + 1) * waveScale)
+        this.p.text(-(i + 1), this.p.width - 3, (i + 1) * waveScale)
+      }
+      this.p.drawingContext.setLineDash([0, 0])
+
+      wave.update()
+      waveArray.forEach((wavePoint, i) => {
+        if (i === 1) {
+          wavePoint.display('blue')
+        } else {
+          wavePoint.display('#f08d54')
+        }
+      })
+    }
+    handleLoop() {
+      if (this.p.isLooping()) {
+        this.p.noLoop()
+        pauseBtn.html('Fortfahren')
+      } else {
+        this.p.loop()
+        pauseBtn.html('Stoppen')
+      }
+    }
   }
 
   class Wave {
@@ -148,7 +207,10 @@ function WaveSketch() {
     }
 
     update() {
-      this.offset -= (Math.PI * 2 * wave.frequency) / frames
+      // Verschiebung der Welle nur wenn die Animation läuft
+      if (this.p.isLooping()) {
+        this.offset -= (Math.PI * 2 * wave.frequency) / frames
+      }
       this.y =
         wave.amplitude *
         Math.sin(((Math.PI * 2) / wave.waveLength) * this.x + this.offset)

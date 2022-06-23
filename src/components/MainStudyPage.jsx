@@ -53,6 +53,12 @@ function MainStudyPage() {
           </div>
           <h4 className='card-title'>Sinuswellen</h4>
         </Link>
+        <Link to='pendulum' className='card'>
+          <div className='card-icon'>
+            <GiSpring />
+          </div>
+          <h4 className='card-title'>Pendel</h4>
+        </Link>
       </div>
     </div>
   )

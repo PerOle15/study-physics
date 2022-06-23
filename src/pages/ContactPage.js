@@ -1,6 +1,7 @@
 import React from 'react'
 
 export default function ContactPage() {
+  document.title = 'Fysihka - Kontakt'
   return (
     <div id='contact-page'>
       <div className='container'>
