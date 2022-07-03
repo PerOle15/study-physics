@@ -1,6 +1,6 @@
 import Sketch from 'react-p5'
 
-function WaveSketch() {
+function SineWaveSketch() {
   let wave
   let waveArray = []
   const frames = 60
@@ -231,4 +231,4 @@ function WaveSketch() {
   )
 }
 
-export default WaveSketch
+export default SineWaveSketch

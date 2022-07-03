@@ -1,5 +1,5 @@
 import React from 'react'
-import WaveSketch from '../sketches/sineWaveSketch'
+import WaveSketch from '../sketches/SineWaveSketch'
 
 function SineWavePage() {
   document.title = 'Fysihka - Sinuswellen'

@@ -22,6 +22,7 @@ function InclinedPlaneSketch(props) {
   const maxSlidingFriction = 0.9
   const maxStaticFriction = 0.9
 
+  // eslint-disable-next-line no-unused-vars
   let resetBtn
   let pauseBtn
   let controlContainer
