@@ -173,11 +173,6 @@ function PlaneSketch(props) {
 
   const draw = (p) => {
     controller.display(p)
-
-    // if (!focused) {
-    //   pauseBtn.innerText = 'Fortfahren'
-    //   noLoop()
-    // }
   }
 
   class Controller {
@@ -298,6 +293,7 @@ function PlaneSketch(props) {
           this.velocity === 0
             ? this.perpendicularLength * plane.staticFriction
             : this.perpendicularLength * plane.slidingFriction
+
         this.resultingLength =
           Math.sqrt(
             Math.pow(this.gravitationalForce.x + this.perpendicularForce.x, 2) +

@@ -1,9 +1,10 @@
 :root {
   --btn-border-size: 2px;
   --dark-orange: #f25c05;
+  --header-height: 15vh;
 }
 
-:root[data-theme='theme-dark'] {
+:root/* [data-theme='theme-dark'] */ {
   --primary-text-color: #f2f2f2;
   --secondary-text-color: #000;
   --primary-background-color: #083540;
@@ -17,7 +18,7 @@
   --light-color: #cabdb6;
   --medium-color: #333;
 }
-:root[data-theme='theme-light'] {
+/* :root[data-theme='theme-light'] {
   --primary-text-color: #000;
   --secondary-text-color: #f7f7f7;
   --primary-background-color: #d9e8f5;
@@ -33,7 +34,7 @@
   --light-color: #083540;
   --light-color: #304269;
   --medium-color: #cecece;
-}
+} */
 
 * {
   margin: 0;
@@ -196,8 +197,8 @@ header.main-header {
   left: 0;
   background: var(--secondary-background-color);
   width: 100%;
-  height: 15vh;
-  min-height: 15vh;
+  height: var(--header-height);
+  min-height: var(--header-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -215,31 +216,39 @@ header.main-header {
     margin: 0;
   }
 
-  nav.main-nav ul {
-    display: flex;
+  nav.main-nav {
+    .hamburger {
+      position: relative;
+      display: none;
+      z-index: 3;
+    }
 
-    li {
-      margin-left: 2rem;
+    ul {
+      display: flex;
 
-      .change-theme {
-        margin-top: 0.3rem;
-        cursor: pointer;
-      }
+      li {
+        margin-left: 2rem;
 
-      a {
-        font-size: 1.3rem;
-        color: var(--primary-text-color);
-        border-radius: 5px;
-        padding: 0.3rem 0.9rem;
-        transition: 0.2s;
-
-        &:hover {
-          background-color: var(--medium-color);
+        .change-theme {
+          margin-top: 0.3rem;
+          cursor: pointer;
         }
 
-        &.active {
-          color: var(--primary-color);
-          background-color: var(--medium-color);
+        a {
+          font-size: 1.3rem;
+          color: var(--primary-text-color);
+          border-radius: 5px;
+          padding: 0.3rem 0.9rem;
+          transition: 0.2s;
+
+          &:hover {
+            background-color: var(--medium-color);
+          }
+
+          &.active {
+            color: var(--primary-color);
+            background-color: var(--medium-color);
+          }
         }
       }
     }
@@ -426,31 +435,55 @@ Study Page
 
 @media (max-width: 1000px) {
   /* main navigation mobile */
-  nav.main-nav ul {
-    flex-direction: column;
+  nav.main-nav {
+    .hamburger {
+      display: inline-block !important;
+    }
 
-    li {
-      margin-left: 2rem;
+    ul {
+      height: 100vh;
+      flex-direction: column;
+      background-color: var(--secondary-background-color);
+      position: absolute;
+      right: 0;
+      top: 0;
+      margin: 0;
+      padding: 2.5rem;
+      padding-top: var(--header-height);
+      align-items: center;
+      justify-content: space-between;
 
-      .change-theme {
-        margin-top: 0.3rem;
-        cursor: pointer;
+      clip-path: circle(10% at 100% 0%);
+      transition: clip-path 0.5s;
+      box-shadow: 3px 0 10px #555;
+
+      &.is-active {
+        clip-path: circle(150% at 100% 0);
       }
 
-      a {
-        font-size: 1.3rem;
-        color: var(--primary-text-color);
-        border-radius: 5px;
-        padding: 0.3rem 0.9rem;
-        transition: 0.2s;
+      li {
+        margin: 0 !important;
 
-        &:hover {
-          background-color: var(--medium-color);
+        .change-theme {
+          margin-top: 0.3rem;
+          cursor: pointer;
         }
 
-        &.active {
-          color: var(--primary-color);
-          background-color: var(--medium-color);
+        a {
+          font-size: 1.3rem;
+          color: var(--primary-text-color);
+          border-radius: 5px;
+          padding: 0.3rem 0.9rem;
+          transition: 0.2s;
+
+          &:hover {
+            background-color: var(--medium-color);
+          }
+
+          &.active {
+            color: var(--primary-color);
+            background-color: var(--medium-color);
+          }
         }
       }
     }

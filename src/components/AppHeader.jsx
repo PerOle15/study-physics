@@ -1,24 +1,33 @@
-import { NavLink } from 'react-router-dom'
-import { FaYinYang } from 'react-icons/fa'
+import { Link, NavLink } from 'react-router-dom'
+import { useState } from 'react'
+import ThemeChangeButton from './ThemeChangeButton'
 
 function AppHeader() {
-  const html = document.querySelector('html')
-  const isOsDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-  html.dataset.theme = isOsDark ? 'theme-dark' : 'theme-light'
-  function switchTheme(theme) {
-    if (html.dataset.theme === `theme-dark`) {
-      html.dataset.theme = `theme-light`
-    } else {
-      html.dataset.theme = `theme-dark`
-    }
+  const [mobileIsActive, setMobileIsActive] = useState(false)
+
+  function handleHamburgerToggle() {
+    setMobileIsActive(!mobileIsActive)
   }
 
   return (
     <header className='main-header'>
       <div className='container'>
-        <h1 className='logo'>Fysihka</h1>
+        <Link to='/'>
+          <h1 className='logo'>Fysihka</h1>
+        </Link>
         <nav className='main-nav'>
-          <ul>
+          <button
+            className={`hamburger hamburger--slider-r ${
+              mobileIsActive ? 'is-active' : null
+            }`}
+            type='button'
+            onClick={handleHamburgerToggle}
+          >
+            <span className='hamburger-box'>
+              <span className='hamburger-inner'></span>
+            </span>
+          </button>
+          <ul className={mobileIsActive ? 'is-active' : null}>
             <li className='nav-item'>
               <NavLink
                 to='/'
@@ -59,14 +68,7 @@ function AppHeader() {
                 Kontakt
               </NavLink>
             </li>
-            <li>
-              <FaYinYang
-                className='change-theme'
-                onClick={() => {
-                  switchTheme()
-                }}
-              />
-            </li>
+            {/* <ThemeChangeButton /> */}
           </ul>
         </nav>
       </div>

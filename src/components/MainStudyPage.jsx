@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { FaChevronRight } from 'react-icons/fa'
-import { GiWeight, GiStrikingBalls, GiSpring } from 'react-icons/gi'
+import { GiWeight, GiStrikingBalls, GiSpring, GiWindSlap } from 'react-icons/gi'
 import { AiOutlineArrowsAlt, AiOutlineDotChart } from 'react-icons/ai'
 
 function MainStudyPage() {
@@ -58,6 +58,12 @@ function MainStudyPage() {
             <GiSpring />
           </div>
           <h4 className='card-title'>Pendel</h4>
+        </Link>
+        <Link to='acceleration' className='card'>
+          <div className='card-icon'>
+            <GiWindSlap />
+          </div>
+          <h4 className='card-title'>Beschleunigung</h4>
         </Link>
       </div>
     </div>
