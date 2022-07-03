@@ -1,6 +1,6 @@
 import Sketch from 'react-p5'
 
-function PlaneSketch(props) {
+function InclinedPlaneSketch(props) {
   let controller
   let plane
   let block
@@ -356,4 +356,4 @@ function PlaneSketch(props) {
   return <Sketch setup={setup} draw={draw} />
 }
 
-export default PlaneSketch
+export default InclinedPlaneSketch
