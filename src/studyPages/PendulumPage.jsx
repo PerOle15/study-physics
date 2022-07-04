@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PendulumSketch from '../sketches/PendulumSketch'
 
-export class PendulumPage extends Component {
+class PendulumPage extends Component {
   render() {
     return (
       <div className='container'>
