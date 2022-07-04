@@ -1,4 +1,4 @@
-import InclinedPlaneSketch from '../sketches/InclinedPlaneSketch.jsx'
+import InclinedPlaneSketch from '../sketches/InclinedPlaneSketch'
 
 function InclinedPlanePage() {
   document.title = 'Fysihka - Schiefe Ebene'
