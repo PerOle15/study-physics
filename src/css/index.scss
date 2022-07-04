@@ -1,14 +1,20 @@
 :root {
   --btn-border-size: 2px;
+  --very-light-orange: #facbaf;
+  --light-orange: #f7ac7f;
+  --medium-orange: #f08d54;
   --dark-orange: #f25c05;
+  --very-dark-orange: #f25c05;
+  --medium-blue: #395d66;
   --header-height: 15vh;
+  --max-width: 1150px;
 }
 
 :root/* [data-theme='theme-dark'] */ {
   --primary-text-color: #f2f2f2;
   --secondary-text-color: #000;
   --primary-background-color: #083540;
-  --secondary-background-color: #131626;
+  --secondary-background-color: #031519;
   --primary-accent-color: #f25c05;
   --secondary-accent-color: #f08d54;
   --primary-color: #f25c05;
@@ -68,11 +74,36 @@ body {
 a {
   text-decoration: none;
   color: var(--primary-color);
-  font-size: 1.1rem;
 
   &:hover {
     color: var(--secondary-color);
   }
+}
+
+.section-heading {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--primary-text-color);
+}
+
+.page-heading {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary-text-color);
+}
+
+.card-heading {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--primary-text-color);
+}
+
+.secondary {
+  color: var(--secondary-text-color);
+}
+
+.max-width {
+  max-width: var(--max-width);
 }
 
 input {
@@ -90,7 +121,7 @@ Utils
 **/
 
 .container {
-  max-width: 1150px;
+  max-width: var(--max-width);
   padding: 0 2rem;
   margin: 0 auto;
 }
@@ -103,12 +134,20 @@ Utils
   color: var(--primary-text-color);
   margin: 0;
   padding: 0.5rem 1rem;
-  border-radius: 7px;
-  font-size: 1.1rem;
+  border-radius: 10rem;
   transition: 0.2s;
 
   &:hover {
     color: var(--primary-text-color);
+  }
+
+  &.btn-light {
+    background: var(--light-orange);
+    color: var(--secondary-text-color);
+
+    &:hover {
+      background: var(--medium-orange);
+    }
   }
 
   &.btn-inverse {
@@ -118,6 +157,7 @@ Utils
 
   &.btn-block {
     display: block;
+    width: 100%;
   }
 
   &.btn-border-pop {
@@ -168,10 +208,6 @@ Utils
 #page-content {
   p {
     margin-bottom: 1rem;
-  }
-
-  a {
-    font-size: 1.2rem;
   }
 
   h1,
@@ -255,7 +291,10 @@ header.main-header {
   }
 }
 
-/* Homepage */
+/* Homepage 
+
+
+*/
 .parallax-img {
   background: url('../img/blackboard.jpg') no-repeat center/cover fixed;
   height: 85vh;
@@ -273,19 +312,52 @@ header.main-header {
     background-color: var(--secondary-text-color);
     opacity: 0.3;
   }
-}
 
-.parallax-img .parallax-container {
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  .parallax-container {
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 
-  p {
-    max-width: 50%;
+    p {
+      max-width: 50%;
+    }
   }
 }
+
+.new-topics-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--medium-blue);
+  padding: 2rem;
+  padding-top: 1rem;
+
+  .quick-links {
+    display: flex;
+    justify-content: space-around;
+
+    .new-topic {
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+      padding: 1rem;
+
+      &:nth-child(odd) {
+        background: var(--medium-orange);
+      }
+
+      &:nth-child(even) {
+        background: var(--light-orange);
+      }
+    }
+  }
+}
+
+/* Footer
+
+*/
 
 .main-footer {
   background: var(--secondary-background-color);
@@ -305,10 +377,6 @@ Study Page
 .study-container {
   padding-top: 1.5rem;
 
-  .topic-title {
-    z-index: 1;
-  }
-
   .card-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -317,12 +385,12 @@ Study Page
   }
 
   .card {
-    background: var(--secondary-accent-color);
+    background: var(--medium-orange);
     color: var(--secondary-text-color);
     padding: 1rem;
     height: 17rem;
     border-radius: 15px;
-    box-shadow: 0px 0px 5px var(--primary-accent-color);
+    box-shadow: 3px 5px 10px #262626;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -339,7 +407,7 @@ Study Page
       justify-content: center;
     }
 
-    h4.card-title {
+    p.card-heading {
       margin: 0 !important;
       text-align: center;
       a {
@@ -450,6 +518,7 @@ Study Page
       margin: 0;
       padding: 2.5rem;
       padding-top: var(--header-height);
+      padding-bottom: var(--header-height);
       align-items: center;
       justify-content: space-between;
 
@@ -488,6 +557,12 @@ Study Page
       }
     }
   }
+
+  .study-container {
+    .card-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 }
 
 @media (max-width: 900px) {
@@ -499,6 +574,20 @@ Study Page
     .sketch-control {
       flex-direction: row;
       flex-wrap: wrap;
+    }
+  }
+
+  .new-topics-section {
+    .quick-links {
+      flex-direction: column;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .study-container {
+    .card-grid {
+      grid-template-columns: 1fr;
     }
   }
 }

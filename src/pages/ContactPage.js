@@ -29,7 +29,11 @@ export default function ContactPage() {
             className='contact-input'
             placeholder='Nachricht...'
           ></textarea>
-          <input type='submit' value='Nachricht Senden' />
+          <input
+            className='btn btn-light btn-block'
+            type='submit'
+            value='Nachricht Senden'
+          />
         </form>
       </div>
     </div>
