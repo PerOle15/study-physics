@@ -25,7 +25,6 @@ function InclinedPlaneSketch() {
   // eslint-disable-next-line no-unused-vars
   let resetBtn
   let pauseBtn
-  let controlContainer
   let degreeSlider = document.getElementById('degree-input')
   let degreeLabel
   let radianSlider = document.getElementById('radian-input')
@@ -48,7 +47,7 @@ function InclinedPlaneSketch() {
     // slidingFrictionSlider.value = startingSlidingFriction
     // staticFrictionSlider.value = startingStaticFriction
 
-    controlContainer = p
+    const controlContainer = p
       .createDiv()
       .parent(canvasParentRef)
       .class('sketch-control')

@@ -5,6 +5,20 @@ function BuoyancySketch() {
   const cubeScale = 200
   const localGravity = 9.81
 
+  let volumeSlider
+  let densitySlider
+  let liquidDensitySlider
+
+  const minVolume = 0.001
+  const maxVolume = 0.1
+  const startingVolume = 0.05
+  const minDensity = 400
+  const maxDensity = 2000
+  const startingDensity = 1500
+  const minLiquidDensity = 400
+  const maxLiquidDensity = 2000
+  const startingLiquidDensity = 1000
+
   let cube
   let liquid
 
@@ -15,6 +29,74 @@ function BuoyancySketch() {
 
     cube = new Cube(p)
     liquid = new Liquid(p)
+
+    const controlContainer = p
+      .createDiv()
+      .parent(canvasParentRef)
+      .class('sketch-control')
+
+    const volumeContainer = p
+      .createDiv()
+      .parent(controlContainer)
+      .class('sketch-input-container')
+    const volumeLabel = p.createDiv().parent(volumeContainer)
+    volumeSlider = p
+      .createSlider(minVolume, maxVolume, startingVolume, 0)
+      .parent(volumeContainer)
+      .class('sketch-slider')
+      .input(() => {
+        volumeLabel.html(
+          `Volumen Würfel: ${volumeSlider.value().toFixed(3)} m<sup>3</sup>`
+        )
+      })
+    volumeLabel.html(
+      `Volumen Würfel: ${volumeSlider.value().toFixed(3)} m<sup>3</sup>`
+    )
+
+    const densityContainer = p
+      .createDiv()
+      .parent(controlContainer)
+      .class('sketch-input-container')
+    const densityLabel = p.createDiv().parent(densityContainer)
+    densitySlider = p
+      .createSlider(minDensity, maxDensity, startingDensity, 0)
+      .parent(densityContainer)
+      .class('sketch-slider')
+      .input(() => {
+        densityLabel.html(
+          `Dichte Würfel: ${Math.floor(densitySlider.value())} kg/m<sup>3</sup>`
+        )
+      })
+    densityLabel.html(
+      `Dichte Würfel: ${Math.floor(densitySlider.value())} kg/m<sup>3</sup>`
+    )
+
+    const liquidDensityContainer = p
+      .createDiv()
+      .parent(controlContainer)
+      .class('sketch-input-container')
+    const liquidDensityLabel = p.createDiv().parent(liquidDensityContainer)
+    liquidDensitySlider = p
+      .createSlider(
+        minLiquidDensity,
+        maxLiquidDensity,
+        startingLiquidDensity,
+        0
+      )
+      .parent(liquidDensityContainer)
+      .class('sketch-slider')
+      .input(() => {
+        liquidDensityLabel.html(
+          `Dichte Flüssigkeit: ${Math.floor(
+            liquidDensitySlider.value()
+          )} kg/m<sup>3</sup>`
+        )
+      })
+    liquidDensityLabel.html(
+      `Dichte Flüssigkeit: ${Math.floor(
+        liquidDensitySlider.value()
+      )} kg/m<sup>3</sup>`
+    )
   }
 
   const draw = (p) => {
@@ -93,8 +175,8 @@ function BuoyancySketch() {
 
     update() {
       // Werte von den Slidern an passen
-      // this.density = densitySlider.value()
-      // this.volume = volumeSlider.value()
+      this.density = densitySlider.value()
+      this.volume = volumeSlider.value()
       this.lastDisplayDimensions = this.displayDimensions
       this.dimensions = Math.cbrt(this.volume)
       this.displayDimensions = this.dimensions * cubeScale
@@ -165,7 +247,7 @@ function BuoyancySketch() {
     }
 
     update() {
-      // this.density = liquidDensitySlider.value()
+      this.density = liquidDensitySlider.value()
 
       this.y =
         this.startY -

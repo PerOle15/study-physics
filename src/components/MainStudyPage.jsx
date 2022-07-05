@@ -64,6 +64,12 @@ function MainStudyPage() {
           </div>
           <p className='card-heading secondary'>Beschleunigung</p>
         </Link>
+        <Link to='buoyancy' className='card'>
+          <div className='card-icon'>
+            <GiWindSlap />
+          </div>
+          <p className='card-heading secondary'>Auftrieb</p>
+        </Link>
       </div>
     </div>
   )

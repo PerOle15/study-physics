@@ -558,6 +558,12 @@ Study Page
     }
   }
 
+  .parallax-img .parallax-container {
+    p {
+      max-width: 80%;
+    }
+  }
+
   .study-container {
     .card-grid {
       grid-template-columns: repeat(2, 1fr);
