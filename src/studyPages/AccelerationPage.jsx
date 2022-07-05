@@ -3,7 +3,7 @@ import AccelerationSketch from '../sketches/AccelerationSketch'
 function AccelerationPage() {
   return (
     <div className='container'>
-      <h2>AccelerationPage</h2>
+      <p className='page-heading'>AccelerationPage</p>
       <AccelerationSketch />
     </div>
   )

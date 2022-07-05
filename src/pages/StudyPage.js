@@ -5,16 +5,18 @@ import SineWavePage from '../studyPages/SineWavePage'
 import InclinedPlanePage from '../studyPages/InclinedPlanePage'
 import PendulumPage from '../studyPages/PendulumPage'
 import AccelerationPage from '../studyPages/AccelerationPage'
+import BuoyancyPage from '../studyPages/BuoyancyPage'
 
 function StudyPage() {
   document.title = 'Fysihka - Lerne interaktiv Physik'
   return (
     <Routes>
       <Route path='/' element={<MainStudyPage />} />
-      <Route path='inclined-plane' element={<InclinedPlanePage />} />
-      <Route path='sine-wave' element={<SineWavePage />} />
-      <Route path='pendulum' element={<PendulumPage />} />
-      <Route path='acceleration' element={<AccelerationPage />} />
+      <Route path='/inclined-plane' element={<InclinedPlanePage />} />
+      <Route path='/sine-wave' element={<SineWavePage />} />
+      <Route path='/pendulum' element={<PendulumPage />} />
+      <Route path='/acceleration' element={<AccelerationPage />} />
+      <Route path='/buoyancy' element={<BuoyancyPage />} />
     </Routes>
   )
 }

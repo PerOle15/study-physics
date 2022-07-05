@@ -1,6 +1,6 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useState } from 'react'
-import ThemeChangeButton from './ThemeChangeButton'
+// import ThemeChangeButton from './ThemeChangeButton'
 
 function AppHeader() {
   const [mobileIsActive, setMobileIsActive] = useState(false)
@@ -18,7 +18,7 @@ function AppHeader() {
         <nav className='main-nav'>
           <button
             className={`hamburger hamburger--slider-r ${
-              mobileIsActive ? 'is-active' : null
+              mobileIsActive ? 'is-active' : ''
             }`}
             type='button'
             onClick={handleHamburgerToggle}
@@ -27,7 +27,7 @@ function AppHeader() {
               <span className='hamburger-inner'></span>
             </span>
           </button>
-          <ul className={mobileIsActive ? 'is-active' : null}>
+          <ul className={mobileIsActive ? 'is-active' : ''}>
             <li className='nav-item'>
               <NavLink
                 to='/'

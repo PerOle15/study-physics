@@ -3,7 +3,7 @@ import PendulumSketch from '../sketches/PendulumSketch'
 function PendulumPage() {
   return (
     <div className='container'>
-      <h1>Pendel</h1>
+      <p className='page-heading'>Pendel</p>
       <PendulumSketch />
     </div>
   )

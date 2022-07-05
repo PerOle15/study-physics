@@ -4,7 +4,7 @@ function InclinedPlanePage() {
   document.title = 'Fysihka - Schiefe Ebene'
   return (
     <div className='container'>
-      <h1 className='page-title'>Schiefe Ebene</h1>
+      <p className='page-heading'>Schiefe Ebene</p>
       <InclinedPlaneSketch />
     </div>
   )

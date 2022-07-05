@@ -5,7 +5,7 @@ function SineWavePage() {
   document.title = 'Fysihka - Sinuswellen'
   return (
     <div className='container'>
-      <h1 className='sketch-title'>Sinuswellen</h1>
+      <p className='page-heading'>Sinuswellen</p>
       <WaveSketch />
     </div>
   )

@@ -1,6 +1,6 @@
 import Sketch from 'react-p5'
 
-function InclinedPlaneSketch(props) {
+function InclinedPlaneSketch() {
   let controller
   let plane
   let block
