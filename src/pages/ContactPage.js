@@ -1,7 +1,31 @@
-import React from 'react'
+// import nodemailer from 'nodemailer'
 
 export default function ContactPage() {
   document.title = 'Fysihka - Kontakt'
+  // const transporter = nodemailer.createTransport({
+  //   host: 'smtp.google.com',
+  //   auth: {
+  //     user: process.env.REACT_APP_SMTP_USER,
+  //     pass: process.env.REACT_APP_SMTP_PASSWORD,
+  //   },
+  // })
+
+  // const mailOptions = {
+  //   from: 'fysihkasupp@gmail.com',
+  //   to: 'fysihkasupp@gmail.com',
+  //   subject: 'test',
+  //   text: 'This is a test email from Fysihka',
+  // }
+
+  // const onSubmit = () => {
+  //   transporter.sendMail(mailOptions, (err, succ) => {
+  //     if (err) {
+  //       console.log(err)
+  //     } else {
+  //       console.log('Email sent successfully!')
+  //     }
+  //   })
+  // }
   return (
     <div id='contact-page'>
       <div className='container'>
@@ -33,6 +57,7 @@ export default function ContactPage() {
             className='btn btn-light btn-block'
             type='submit'
             value='Nachricht Senden'
+            // onSubmit={onSubmit}
           />
         </form>
       </div>
