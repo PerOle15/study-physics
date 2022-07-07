@@ -8,11 +8,13 @@ function HomePage() {
         <div className='container parallax-container'>
           <p className='section-heading'>Ergibt die Physik keinen Sinn?</p>
           <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur,
-            voluptatum fugit dolorem eaque saepe recusandae totam magni illo
-            aspernatur et incidunt quasi laboriosam, officiis nihil blanditiis
-            vel itaque, necessitatibus fuga dolores sunt voluptas commodi
-            quibusdam?
+            Unserer Erfahrung nach ist es für viele schwierig, sich unter
+            physikalischen Konzepten etwas konkretes vorzustellen. Oft versteht
+            man nicht genau, um was es sich bei verschieden Themen handelt. Wenn
+            man ein Beispiel zur Verfügung hat und selbst ausprobieren kann, was
+            passiert, wenn man bestimmte Faktoren verändert, kann dies ein Thema
+            viel einfacher verständlich machen. Genau das ist das Ziel dieser
+            Plattform - interaktives Lernen mithilfe von Animationen.
           </p>
           <Link to='/study' className='btn btn-light '>
             Beginne zu lernen

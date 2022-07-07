@@ -77,10 +77,15 @@ function DensitySketch() {
       .parent(massContainer)
       .class('sketch-slider')
       .input(() => {
-        const maxMass = maxVolume * densitySlider.value()
-        if (massSlider.value() > maxMass) {
-          massSlider.value(maxMass)
+        const maxPossibleMass = maxVolume * densitySlider.value()
+        const minPossibleMass = minVolume * densitySlider.value()
+        if (massSlider.value() > maxPossibleMass) {
+          massSlider.value(maxPossibleMass)
         }
+        if (massSlider.value() < minPossibleMass) {
+          massSlider.value(minPossibleMass)
+        }
+
         setMassLabel()
         volumeSlider.value(massSlider.value() / densitySlider.value())
         setVolumeLabel()
