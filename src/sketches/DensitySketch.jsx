@@ -2,7 +2,7 @@ import Sketch from 'react-p5'
 
 function DensitySketch() {
   const frames = 60
-  const scale = 100
+  const scale = 300
 
   const minDensity = 100
   const maxDensity = 5000
@@ -115,6 +115,10 @@ function DensitySketch() {
       this.density = 1000
       this.dim = Math.pow(this.volume, 1 / 3)
       this.displayDim = this.dim * scale
+      this.scalesHeight = 80
+      this.scalesWidth = 600
+      this.scoreboardHeight = 60
+      this.scoreboardWidth = 200
     }
 
     update() {
@@ -129,9 +133,32 @@ function DensitySketch() {
       this.p.fill(0)
       this.p.rect(
         this.p.width / 2 - this.displayDim / 2,
-        this.p.height - this.displayDim,
+        this.p.height - this.displayDim - this.scalesHeight,
         this.displayDim,
         this.displayDim
+      )
+      this.p.fill(120)
+      this.p.rect(
+        this.p.width / 2 - this.scalesWidth / 2,
+        this.p.height - this.scalesHeight,
+        this.scalesWidth,
+        this.scalesHeight
+      )
+      this.p.fill(180)
+      this.p.rect(
+        this.p.width / 2 - this.scoreboardWidth / 2,
+        this.p.height -
+          (this.scalesHeight - (this.scalesHeight - this.scoreboardHeight) / 2),
+        this.scoreboardWidth,
+        this.scoreboardHeight
+      )
+      this.p.textAlign(this.p.CENTER, this.p.CENTER)
+      this.p.fill(0)
+      this.p.textSize(20)
+      this.p.text(
+        `${Math.round(massSlider.value())} kg`,
+        this.p.width / 2,
+        this.p.height - this.scalesHeight / 2
       )
     }
   }
