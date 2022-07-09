@@ -2,7 +2,7 @@ import Sketch from 'react-p5'
 
 function BuoyancySketch() {
   const frames = 60
-  const cubeScale = 200
+  const scale = 200
   const localGravity = 9.81
 
   let volumeSlider
@@ -120,7 +120,7 @@ function BuoyancySketch() {
       this.density = 1500
       this.volume = 0.05
       this.dimensions = Math.cbrt(this.volume)
-      this.displayDimensions = this.dimensions * cubeScale
+      this.displayDimensions = this.dimensions * scale
       this.mass = this.density * this.volume
       this.x = this.p.width / 2 - this.displayDimensions / 2
       this.y = 200
@@ -155,7 +155,7 @@ function BuoyancySketch() {
     }
 
     calcAcceleration() {
-      this.acceleration.y = localGravity / frames
+      this.acceleration.y = (localGravity / frames ** 2) * scale
       if (this.y + this.displayDimensions > liquid.y) {
         if (this.y > liquid.y) {
           this.submergedPart = 1
@@ -167,7 +167,9 @@ function BuoyancySketch() {
           this.submergedVolume = this.volume * this.submergedPart
         }
         const buoyancyForce =
-          (this.submergedVolume * liquid.density * localGravity) / frames
+          ((this.submergedVolume * liquid.density * localGravity) /
+            frames ** 2) *
+          scale
         const buoyancyAcceleration = buoyancyForce / this.mass
         this.acceleration.y -= buoyancyAcceleration
       }
@@ -179,7 +181,7 @@ function BuoyancySketch() {
       this.volume = volumeSlider.value()
       this.lastDisplayDimensions = this.displayDimensions
       this.dimensions = Math.cbrt(this.volume)
-      this.displayDimensions = this.dimensions * cubeScale
+      this.displayDimensions = this.dimensions * scale
       this.x =
         this.x + (this.lastDisplayDimensions - this.displayDimensions) / 2
       this.mass = this.density * this.volume

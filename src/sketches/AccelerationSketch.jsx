@@ -29,7 +29,7 @@ function AccelerationSketch() {
       this.dim = Math.pow(this.mass, 1 / 3)
       this.displayDim = this.dim * scale
 
-      this.acc = localGravity / frames
+      this.acc = (localGravity / frames ** 2) * scale
       this.vel = 0
       this.x = this.p.width / 2 - this.displayDim / 2
       this.y = 0

@@ -2,7 +2,7 @@ import Sketch from 'react-p5'
 import React from 'react'
 
 function PendulumSketch() {
-  const frames = 30
+  const frames = 60
   const scale = 100
   const localGravity = 9.81
 
@@ -45,7 +45,7 @@ function PendulumSketch() {
       this.gravitationalForce = localGravity * this.mass
       this.resultingForce = -(Math.sin(this.angle) * this.gravitationalForce)
       this.angleAcceleration =
-        Math.atan(this.resultingForce / this.length) / this.mass / frames
+        Math.atan(this.resultingForce / this.length) / this.mass / frames ** 2
       this.angleVelocity += this.angleAcceleration
       this.angle += this.angleVelocity
 

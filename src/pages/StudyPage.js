@@ -7,6 +7,7 @@ import InclinedPlanePage from '../studyPages/InclinedPlanePage'
 import PendulumPage from '../studyPages/PendulumPage'
 import AccelerationPage from '../studyPages/AccelerationPage'
 import BuoyancyPage from '../studyPages/BuoyancyPage'
+import PotentialEnergyPage from '../studyPages/PotentialEnergyPage'
 
 function StudyPage() {
   document.title = 'Fysihka - Lerne interaktiv Physik'
@@ -19,6 +20,7 @@ function StudyPage() {
       <Route path='/pendulum' element={<PendulumPage />} />
       <Route path='/acceleration' element={<AccelerationPage />} />
       <Route path='/buoyancy' element={<BuoyancyPage />} />
+      <Route path='/potential-energy' element={<PotentialEnergyPage />} />
     </Routes>
   )
 }

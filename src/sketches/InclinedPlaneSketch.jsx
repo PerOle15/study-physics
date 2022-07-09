@@ -4,7 +4,7 @@ function InclinedPlaneSketch() {
   let controller
   let plane
   let block
-  const blockScale = 75
+  const scale = 75
   const frames = 40
   const localGravity = 9.81
 
@@ -241,7 +241,7 @@ function InclinedPlaneSketch() {
       this.p = p
       this.mass = 2
       this.dimensions = Math.cbrt(this.mass)
-      this.displayDimensions = this.dimensions * blockScale
+      this.displayDimensions = this.dimensions * scale
       this.x1 = 20
       // this.displayDimensions / cos(plane.angle) ergibt den Abstand von der Ebene zur
       this.calcPosition()
@@ -316,7 +316,8 @@ function InclinedPlaneSketch() {
           }
         }
 
-        this.acceleration = this.resultingForce.x / this.mass / frames
+        this.acceleration =
+          (this.resultingForce.x / this.mass / frames ** 2) * scale
         this.velocity += this.acceleration
 
         if (this.velocity < 0) {
