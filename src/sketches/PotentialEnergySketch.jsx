@@ -1,4 +1,3 @@
-import { toHaveAccessibleDescription } from '@testing-library/jest-dom/dist/matchers'
 import Sketch from 'react-p5'
 
 function PotentialEnergySketch() {
@@ -29,8 +28,8 @@ function PotentialEnergySketch() {
       .parent(canvasParentRef)
       .class('sketch-control')
 
-    const fallButton = p
-      .createButton('Würfel fallen lassen')
+    // Fall Button
+    p.createButton('Würfel fallen lassen')
       .parent(controlContainer)
       .class('btn')
       .mousePressed(() => {
@@ -40,14 +39,16 @@ function PotentialEnergySketch() {
         }, 500)
       })
 
-    const resetBtn = p
-      .createButton('Zurücksetzen')
+    // Reset Button
+    p.createButton('Zurücksetzen')
       .parent(controlContainer)
       .class('btn')
       .mousePressed(() => {
         block.falling = false
         block.onGround = false
         block.y = p.height - platformHeight - block.displayDim
+        block.calcRealHeight()
+        block.calcPot()
       })
 
     const massContainer = p
@@ -68,6 +69,7 @@ function PotentialEnergySketch() {
         block.displayDim = block.dim * scale
         block.lastDim = Math.pow(block.lastMass, 1 / 3)
         block.y = block.y - (block.displayDim - block.lastDim * scale)
+        block.calcPot()
       })
     massLabel.html(`Masse: ${massSlider.value().toFixed(2)} kg`)
   }
@@ -100,14 +102,23 @@ function PotentialEnergySketch() {
       this.mass = 1
       this.dim = Math.pow(this.mass, 1 / 3)
       this.displayDim = this.dim * scale
-      this.pot = this.mass * platformHeight - groundHeight
       this.falling = false
       this.onGround = false
       this.velocity = 0
       this.acceleration = (localGravity / frames ** 2) * scale
       this.y = this.p.height - platformHeight - this.displayDim
 
-      this.realHeight = (platformHeight - groundHeight) / scale
+      this.calcRealHeight()
+      this.calcPot()
+    }
+    calcRealHeight() {
+      this.realHeight = Math.abs(
+        (this.p.height - groundHeight - this.y - this.displayDim) / scale
+      )
+    }
+
+    calcPot() {
+      this.pot = this.mass * localGravity * this.realHeight
     }
 
     update() {
@@ -121,9 +132,8 @@ function PotentialEnergySketch() {
         this.velocity = 0
         this.onGround = true
       }
-      this.realHeight =
-        (this.p.height - groundHeight - this.y - this.displayDim) / scale
-      console.log(this.y)
+      this.calcRealHeight()
+      this.calcPot()
     }
 
     display() {
@@ -131,8 +141,10 @@ function PotentialEnergySketch() {
         this.update()
       }
       this.p.fill(0)
-      this.p.text(this.realHeight.toFixed(2) + ' m', 100, 100)
-      this.p.stroke(0)
+      this.p.textSize(20)
+      this.p.textAlign(this.p.LEFT, this.p.TOP)
+      this.p.text(`Fallhöhe: ${this.realHeight.toFixed(2)} m`, 10, 10)
+      this.p.text(`Potentielle Energie: ${this.pot.toFixed(2)} J`, 10, 35)
       this.p.fill(120)
       this.p.rect(
         this.p.width / 2 - this.displayDim / 2,
