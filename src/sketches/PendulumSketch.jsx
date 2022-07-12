@@ -6,6 +6,20 @@ function PendulumSketch() {
   const scale = 100
   const localGravity = 9.81
 
+  const minLength = 0.5
+  const maxLength = 3
+  const startingLength = 1
+  const minMass = 0.5
+  const maxMass = 5
+  const startingMass = 1
+  const minAngle = 5
+  const maxAngle = 80
+  const startingAngle = 50
+
+  let lengthSlider
+  let massSlider
+  let angleSlider
+
   let pendulum
 
   const setup = (p, canvasParentRef) => {
@@ -14,7 +28,74 @@ function PendulumSketch() {
     p.background(180)
 
     pendulum = new Pendulum(p)
-    pendulum.display()
+
+    const controlContainer = p
+      .createDiv()
+      .parent(canvasParentRef)
+      .class('sketch-control')
+
+    const pauseBtn = p
+      .createButton('Stoppen')
+      .parent(controlContainer)
+      .class('btn sketch-btn')
+      .mousePressed(() => {
+        pauseBtn.html(p.isLooping() ? 'Fortfahren' : 'Stoppen')
+
+        if (p.isLooping()) {
+          p.noLoop()
+        } else {
+          p.loop()
+        }
+      })
+
+    const angleContainer = p
+      .createDiv()
+      .parent(controlContainer)
+      .class('sketch-input-container')
+    const angleLabel = p.createDiv().parent(angleContainer)
+    angleSlider = p
+      .createSlider(minAngle, maxAngle, startingAngle, 0)
+      .parent(angleContainer)
+      .class('sketch-slider')
+      .input(() => {
+        angleLabel.html(`Anfangswinkel: ${angleSlider.value().toFixed(1)} °`)
+        setAngle()
+      })
+    angleLabel.html(`Anfangswinkel: ${angleSlider.value().toFixed(1)} °`)
+
+    const lengthContainer = p
+      .createDiv()
+      .parent(controlContainer)
+      .class('sketch-input-container')
+    const lengthLabel = p.createDiv().parent(lengthContainer)
+    lengthSlider = p
+      .createSlider(minLength, maxLength, startingLength, 0)
+      .parent(lengthContainer)
+      .class('sketch-slider')
+      .input(() => {
+        lengthLabel.html(`Pendellänge: ${lengthSlider.value().toFixed(2)} m`)
+        pendulum.length = lengthSlider.value()
+        pendulum.displayLength = pendulum.length * scale
+        setAngle()
+      })
+    lengthLabel.html(`Pendellänge: ${lengthSlider.value().toFixed(2)} m`)
+
+    const massContainer = p
+      .createDiv()
+      .parent(controlContainer)
+      .class('sketch-input-container')
+    const massLabel = p.createDiv().parent(massContainer)
+    massSlider = p
+      .createSlider(minMass, maxMass, startingMass, 0)
+      .parent(massContainer)
+      .class('sketch-slider')
+      .input(() => {
+        massLabel.html(`Pendelmasse: ${massSlider.value().toFixed(2)} kg`)
+        pendulum.mass = massSlider.value()
+        pendulum.radius =
+          (Math.pow((pendulum.mass * 3) / 4 / Math.PI, 1 / 3) / 3) * scale
+      })
+    massLabel.html(`Pendelmasse: ${massSlider.value().toFixed(2)} kg`)
   }
 
   const draw = (p) => {
@@ -23,11 +104,17 @@ function PendulumSketch() {
     pendulum.display()
   }
 
+  function setAngle() {
+    pendulum.angle = (angleSlider.value() / 360) * 2 * Math.PI
+    pendulum.angleAcceleration = 0
+    pendulum.angleVelocity = 0
+  }
+
   class Pendulum {
     constructor(p) {
       this.p = p
       this.mass = 1
-      this.length = 2
+      this.length = startingLength
       this.displayLength = this.length * scale
       this.radius = (Math.pow((this.mass * 3) / 4 / Math.PI, 1 / 3) / 3) * scale
       this.angle = Math.PI / 3
@@ -42,10 +129,8 @@ function PendulumSketch() {
     }
 
     update() {
-      this.gravitationalForce = localGravity * this.mass
-      this.resultingForce = -(Math.sin(this.angle) * this.gravitationalForce)
-      this.angleAcceleration =
-        Math.atan(this.resultingForce / this.length) / this.mass / frames ** 2
+      this.resultingForce = Math.sin(this.angle) * localGravity
+      this.angleAcceleration = -this.resultingForce / this.length / frames ** 2
       this.angleVelocity += this.angleAcceleration
       this.angle += this.angleVelocity
 

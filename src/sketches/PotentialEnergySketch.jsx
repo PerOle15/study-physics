@@ -5,14 +5,17 @@ function PotentialEnergySketch() {
   const scale = 75
   const localGravity = 9.81
   const groundHeight = 30
-  const platformHeight = 300 + groundHeight
   const gap = 300
 
   const minMass = 0.1
   const maxMass = 5
   const startingMass = 1
+  const minHeight = 1 * scale + groundHeight
+  const maxHeight = 4 * scale + groundHeight
+  const startingHeight = maxHeight
 
   let massSlider
+  let heightSlider
 
   let block
 
@@ -46,7 +49,7 @@ function PotentialEnergySketch() {
       .mousePressed(() => {
         block.falling = false
         block.onGround = false
-        block.y = p.height - platformHeight - block.displayDim
+        block.y = p.height - heightSlider.value() - block.displayDim
         block.calcRealHeight()
         block.calcPot()
       })
@@ -72,6 +75,34 @@ function PotentialEnergySketch() {
         block.calcPot()
       })
     massLabel.html(`Masse: ${massSlider.value().toFixed(2)} kg`)
+
+    const heightContainer = p
+      .createDiv()
+      .parent(controlContainer)
+      .class('sketch-input-container')
+    const heightLabel = p.createDiv().parent(heightContainer)
+    heightSlider = p
+      .createSlider(minHeight, maxHeight, startingHeight, 0)
+      .parent(heightContainer)
+      .class('sketch-slider')
+      .input(() => {
+        heightLabel.html(
+          `Fallhöhe: ${((heightSlider.value() - groundHeight) / scale).toFixed(
+            2
+          )} m`
+        )
+        block.platformHeight = heightSlider.value()
+        if (!block.falling) {
+          block.y = p.height - block.platformHeight - block.displayDim
+          block.realHeight = (heightSlider.value() - groundHeight) / scale
+        }
+        block.calcPot()
+      })
+    heightLabel.html(
+      `Fallhöhe: ${((heightSlider.value() - groundHeight) / scale).toFixed(
+        2
+      )} m`
+    )
   }
   const draw = (p) => {
     p.fill(180)
@@ -80,12 +111,12 @@ function PotentialEnergySketch() {
     block.display()
 
     // Plattform und Boden
-    const platformY = p.height - platformHeight
+    const platformY = p.height - heightSlider.value()
     const groundY = p.height - groundHeight
     p.fill(80)
     p.stroke(0)
     p.beginShape()
-    p.vertex(0, p.height - platformHeight)
+    p.vertex(0, p.height - heightSlider.value())
     p.vertex((p.width - gap) / 2, platformY)
     p.vertex((p.width - gap) / 2, groundY)
     p.vertex(p.width - (p.width - gap) / 2, groundY)
@@ -106,11 +137,13 @@ function PotentialEnergySketch() {
       this.onGround = false
       this.velocity = 0
       this.acceleration = (localGravity / frames ** 2) * scale
-      this.y = this.p.height - platformHeight - this.displayDim
+      this.platformHeight = maxHeight
+      this.y = this.p.height - this.platformHeight - this.displayDim
 
       this.calcRealHeight()
       this.calcPot()
     }
+
     calcRealHeight() {
       this.realHeight = Math.abs(
         (this.p.height - groundHeight - this.y - this.displayDim) / scale
@@ -158,9 +191,9 @@ function PotentialEnergySketch() {
         this.p.stroke('red')
         this.p.line(
           0,
-          this.p.height - platformHeight,
+          this.p.height - this.platformHeight,
           this.p.width,
-          this.p.height - platformHeight
+          this.p.height - this.platformHeight
         )
       }
     }

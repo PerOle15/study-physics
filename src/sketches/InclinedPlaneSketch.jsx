@@ -23,11 +23,10 @@ function InclinedPlaneSketch() {
   const maxStaticFriction = 0.9
 
   // eslint-disable-next-line no-unused-vars
-  let resetBtn
   let pauseBtn
-  let degreeSlider = document.getElementById('degree-input')
+  let degreeSlider
   let degreeLabel
-  let radianSlider = document.getElementById('radian-input')
+  let radianSlider
   let radianLabel
   let staticFrictionSlider
   let staticFrictionLabel
@@ -60,8 +59,8 @@ function InclinedPlaneSketch() {
         controller.handleLoop()
       })
 
-    resetBtn = p
-      .createButton('Zurücksetzen')
+    //Reset button
+    p.createButton('Zurücksetzen')
       .parent(controlContainer)
       .class('btn sketch-btn')
       .mousePressed((e) => {
