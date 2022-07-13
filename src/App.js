@@ -28,10 +28,7 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/study/*' element={<StudyPage />} />
-          {/* <Route path='sine-wave' element={<SineWavePage />} />
-          </Route> */}
-
-          <Route path='/membership' element={<>Membership</>} />
+          {/* <Route path='/membership' element={<>Membership</>} /> */}
           <Route path='/about' element={<AboutPage />} />
           <Route path='/contact' element={<ContactPage />} />
         </Routes>

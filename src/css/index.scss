@@ -297,10 +297,12 @@ header.main-header {
 */
 .parallax-img {
   background: url('../img/blackboard.jpg') no-repeat center/cover fixed;
-  height: 85vh;
+  min-height: 85vh;
   display: flex;
   align-items: center;
   position: relative;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 
   &::before {
     content: '';

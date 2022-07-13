@@ -9,6 +9,10 @@ function AppHeader() {
     setMobileIsActive(!mobileIsActive)
   }
 
+  const onClick = (e) => {
+    setMobileIsActive(false)
+  }
+
   return (
     <header className='main-header'>
       <div className='container'>
@@ -17,8 +21,8 @@ function AppHeader() {
         </Link>
         <nav className='main-nav'>
           <button
-            className={`hamburger hamburger--slider-r ${
-              mobileIsActive ? 'is-active' : ''
+            className={`hamburger hamburger--slider-r${
+              mobileIsActive ? ' is-active' : ''
             }`}
             type='button'
             onClick={handleHamburgerToggle}
@@ -27,9 +31,10 @@ function AppHeader() {
               <span className='hamburger-inner'></span>
             </span>
           </button>
-          <ul className={mobileIsActive ? 'is-active' : ''}>
+          <ul id='nav-links' className={mobileIsActive ? 'is-active' : ''}>
             <li className='nav-item'>
               <NavLink
+                onClick={onClick}
                 to='/'
                 className={({ isActive }) => (isActive ? ' active' : '')}
               >
@@ -38,22 +43,25 @@ function AppHeader() {
             </li>
             <li className='nav-item'>
               <NavLink
+                onClick={onClick}
                 to='/study'
                 className={({ isActive }) => (isActive ? ' active' : '')}
               >
                 Lernen
               </NavLink>
             </li>
-            <li className='nav-item'>
+            {/* <li className='nav-item'>
               <NavLink
+                onClick={onClick}
                 to='/membership'
                 className={({ isActive }) => (isActive ? ' active' : '')}
               >
                 Mitgliedschaft
               </NavLink>
-            </li>
+            </li> */}
             <li className='nav-item'>
               <NavLink
+                onClick={onClick}
                 to='/about'
                 className={({ isActive }) => (isActive ? ' active' : '')}
               >
@@ -62,6 +70,7 @@ function AppHeader() {
             </li>
             <li className='nav-item'>
               <NavLink
+                onClick={onClick}
                 to='/contact'
                 className={({ isActive }) => (isActive ? ' active' : '')}
               >
