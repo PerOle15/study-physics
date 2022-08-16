@@ -24,21 +24,24 @@ function PendulumPage() {
             Die wichtigsten Formeln auf einen Blick:
           </p>
           <p>
-            Pendelschwingungsdauer: <Latex>{oscillationPeriod}</Latex>
+            Schwingungsdauer: <Latex>{oscillationPeriod}</Latex>
           </p>
         </div>
         <br />
         <div className='long-description'>
           <p>
-            Mit einer schiefen Ebene kann man keine Energie einsparen. Was an
-            Kraft gespart wird, muss in Form des Weges ergänzt werden («Goldene
-            Regel der Mechanik»). Ein Körper, der auf einer schiefen Ebene
-            steht, wird durch seine Gewichtskraft bergab beschleunigt. Die
-            Gewichtskraft wird in zwei Teile zerlegt: die Kraft senkrecht zur
-            schiefen Ebene (Normalkraft) und die Kraft parallel zur schiefen
-            Ebene (Hangabtriebskraft). Wenn die Hangabtriebskraft (FH) größer
-            ist als die Reibungskraft zwischen dem Körper und der schiefen
-            Ebene, rutscht der Körper.
+            In der Animation oben wird das Pendel vereinfacht dargestellt. Es
+            handelt sich dabei um ein völlig starres Pendel, das ohne
+            Luftwiderstand schwingt.
+            <br />
+            Wenn man von diesen Bedingungen ausgeht, lässt sich die
+            Schwingungsdauer mit einer einfachen Formel berechnen. Als
+            Schwingungsdauer wird die Zeit bezeichnet, in der das Pendel eine
+            gesamte Schwingung, also einmal hin und her, durchläuft. In der
+            Formel steht <span className='math'>T</span> für die
+            Schwingungsdauer, <span className='math'>l</span> für die Länge des
+            Pendels und <span className='math'>g</span> für den Ortsfaktor, also
+            die Gravitation.
           </p>
         </div>
       </section>
