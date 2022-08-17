@@ -6,6 +6,7 @@
   --dark-orange: #f25c05;
   --very-dark-orange: #f25c05;
   --medium-blue: #395d66;
+  --light-blue: #607d84;
   --header-height: 15vh;
   --max-width: 1150px;
 }
@@ -78,6 +79,15 @@ a {
   &:hover {
     color: var(--secondary-color);
   }
+}
+
+.bolder {
+  font-weight: bolder;
+}
+
+.small-heading {
+  font-size: 1.4rem;
+  font-weight: bold;
 }
 
 .section-heading {
@@ -506,6 +516,14 @@ Study Page
       margin-bottom: 1rem;
     }
   }
+}
+
+.important-formulas {
+  background-color: var(--medium-blue);
+  padding: 1rem;
+  border: 2px solid var(--light-blue);
+  border-radius: 10px;
+  display: inline-block;
 }
 
 @media (max-width: 1000px) {

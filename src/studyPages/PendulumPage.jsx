@@ -1,8 +1,16 @@
 import PendulumSketch from '../sketches/PendulumSketch'
-import Latex from 'react-latex'
+import ImportantFormulas from '../components/ImportantFormulas'
+import M from '../components/Maths'
 
 function PendulumPage() {
-  const oscillationPeriod = '$$T=2\\pi\\sqrt{\\frac{l}{g}} $$'
+  const formulas = []
+  const oscillationPeriod = '$$T=2\\cdot\\pi\\cdot\\sqrt{\\frac{l}{g}}$$'
+  formulas.push({ title: 'Schwingungsdauer', formula: oscillationPeriod })
+  const pendulumLength = '$$l=\\frac{T^2\\cdot g}{4\\cdot\\pi^2}$$'
+  formulas.push({
+    title: 'Pendellänge (gleiche Formel, nur umgeformt)',
+    formula: pendulumLength,
+  })
   return (
     <div className='container'>
       <p className='page-heading'>Pendel</p>
@@ -11,22 +19,16 @@ function PendulumPage() {
         <div className='short-description'>
           <p>
             Ein Pendel ist eines der einfachsten physikalischen Objekte.
-            Grundsätzlich versteht man unter einem Pendel einen Körper, der
-            drehbar aufgehängt ist. Die einfachste Art eines solchen Pendels ist
-            ein Fadenpendel, also ein Körper, der mithilfe eines Fadens
-            aufgehängt ist. Die Einfachheit eines Pendels kommt daher, dass
-            dessen Schwingungsdauer nur von der Länge der Schnur und der
-            Gravitation abhängt.
+            Wahrscheinlich kennst du Pendel bereits aus alten Standuhren, die
+            hin und her Schwingen und so die Zeit angeben. Grundsätzlich
+            versteht man unter einem Pendel einen Körper, der drehbar aufgehängt
+            ist. Die einfachste Art eines solchen Pendels ist ein Fadenpendel,
+            also ein Körper, der mithilfe eines Fadens aufgehängt ist. Die
+            Einfachheit eines Pendels kommt daher, dass dessen Schwingungsdauer
+            nur von der Länge der Schnur und der Gravitation abhängt.
           </p>
         </div>
-        <div className='important-formulas'>
-          <p className='section-title'>
-            Die wichtigsten Formeln auf einen Blick:
-          </p>
-          <p>
-            Schwingungsdauer: <Latex>{oscillationPeriod}</Latex>
-          </p>
-        </div>
+        <ImportantFormulas content={formulas} />
         <br />
         <div className='long-description'>
           <p>
@@ -38,10 +40,14 @@ function PendulumPage() {
             Schwingungsdauer mit einer einfachen Formel berechnen. Als
             Schwingungsdauer wird die Zeit bezeichnet, in der das Pendel eine
             gesamte Schwingung, also einmal hin und her, durchläuft. In der
-            Formel steht <span className='math'>T</span> für die
-            Schwingungsdauer, <span className='math'>l</span> für die Länge des
-            Pendels und <span className='math'>g</span> für den Ortsfaktor, also
-            die Gravitation.
+            Formel steht <M>T</M> für die Schwingungsdauer, <M>l</M> für die
+            Länge des Pendels und <M>g</M> für den Ortsfaktor, also die
+            Gravitation. Um die Länge des Pendels bei gegebener Schwingungsdauer
+            herauszufinden, muss man den Term lediglich nach <M>l</M> auflösen.
+            Wenn wir nun eine Pendeluhr bauen wollen, die jede Sekunde einmal
+            tickt, das heisst für eine Hin- und Herbewegung braucht es 2
+            Sekunden <M>(T=2s)</M>, können wir dafür die benötigte Pendellänge
+            berechnen. Man kommt auf eine Länge von ca. 99.4cm.
           </p>
         </div>
       </section>

@@ -21,6 +21,7 @@
     "react-p5": "^1.3.28",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "react-uuid": "^1.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
