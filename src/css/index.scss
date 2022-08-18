@@ -263,8 +263,17 @@ header.main-header {
   }
 
   .logo {
-    color: var(--primary-accent-color);
-    margin: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    .logo-img {
+      height: 11vh;
+      margin-right: 0.5rem;
+    }
+    h1 {
+      color: var(--primary-accent-color);
+      margin: 0;
+    }
   }
 
   nav.main-nav {

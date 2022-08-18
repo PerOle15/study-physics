@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useState } from 'react'
+import logo from '../img/logo.png'
 // import ThemeChangeButton from './ThemeChangeButton'
 
 function AppHeader() {
@@ -17,7 +18,10 @@ function AppHeader() {
     <header className='main-header'>
       <div className='container'>
         <Link to='/'>
-          <h1 className='logo'>Fysihka</h1>
+          <div className='logo'>
+            <img src={logo} alt='' className='logo-img' />
+            <h1>Fysihka</h1>
+          </div>
         </Link>
         <nav className='main-nav'>
           <button
