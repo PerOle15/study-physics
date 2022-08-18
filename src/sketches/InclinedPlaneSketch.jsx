@@ -14,8 +14,6 @@ function InclinedPlaneSketch() {
 
   const minDegreeAngle = 10
   const maxDegreeAngle = 30
-  const minRadianAngle = (minDegreeAngle / 360) * Math.PI * 2
-  const maxRadianAngle = (maxDegreeAngle / 360) * Math.PI * 2
 
   const minSlidingFriction = 0.1
   const minStaticFriction = 0.1
@@ -26,8 +24,6 @@ function InclinedPlaneSketch() {
   let pauseBtn
   let degreeSlider
   let degreeLabel
-  let radianSlider
-  let radianLabel
   let staticFrictionSlider
   let staticFrictionLabel
   let slidingFrictionSlider
@@ -41,10 +37,6 @@ function InclinedPlaneSketch() {
     controller = new Controller(p)
     plane = new Plane(p)
     block = new Block(p)
-
-    // degreeSlider.value = (startingAngle / (Math.PI * 2)) * 360
-    // slidingFrictionSlider.value = startingSlidingFriction
-    // staticFrictionSlider.value = startingStaticFriction
 
     const controlContainer = p
       .createDiv()
@@ -67,28 +59,6 @@ function InclinedPlaneSketch() {
         controller.resetCanvas()
       })
 
-    const radianContainer = p
-      .createDiv()
-      .parent(controlContainer)
-      .class('sketch-input-container')
-    radianLabel = p.createDiv().parent(radianContainer)
-    radianSlider = p
-      .createSlider(minRadianAngle, maxRadianAngle, startingAngle, 0)
-      .parent(radianContainer)
-      .class('sketch-slider')
-      .input(() => {
-        if (!p.isLooping()) {
-          controller.display()
-        }
-        radianLabel.html(
-          `Winkel in Radianten: ${radianSlider.value().toFixed(2)}`
-        )
-        // set degreeslider and degreelabel to change value
-        degreeSlider.value((radianSlider.value() / (Math.PI * 2)) * 360)
-        degreeLabel.html(`Winkel in °: ${degreeSlider.value().toFixed(2)}`)
-      })
-    radianLabel.html(`Winkel in Radianten: ${radianSlider.value().toFixed(2)}`)
-
     const degreeContainer = p
       .createDiv()
       .parent(controlContainer)
@@ -108,14 +78,10 @@ function InclinedPlaneSketch() {
           controller.display()
         }
         // set degreelabel value
-        degreeLabel.html(`Winkel in °: ${degreeSlider.value().toFixed(2)}`)
-        // set radianslider and radianlabel to change value
-        radianSlider.value((degreeSlider.value() / 360) * Math.PI * 2)
-        radianLabel.html(
-          `Winkel in Radianten: ${radianSlider.value().toFixed(2)}`
-        )
+        degreeLabel.html(`Winkel: ${degreeSlider.value().toFixed(2)}°`)
+        plane.angle = (degreeSlider.value() / 360) * 2 * Math.PI
       })
-    degreeLabel.html(`Winkel in °: ${degreeSlider.value().toFixed(2)}`)
+    degreeLabel.html(`Winkel: ${degreeSlider.value().toFixed(2)}°`)
 
     const staticFrictionContainer = p
       .createDiv()
@@ -216,7 +182,6 @@ function InclinedPlaneSketch() {
     }
 
     update() {
-      this.angle = radianSlider.value()
       this.staticFriction = staticFrictionSlider.value()
       this.slidingFriction = slidingFrictionSlider.value()
       this.distance = this.p.width / Math.cos(this.angle)
