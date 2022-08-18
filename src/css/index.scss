@@ -5,6 +5,7 @@
   --medium-orange: #f08d54;
   --dark-orange: #f25c05;
   --very-dark-orange: #f25c05;
+  --dark-blue: #083540;
   --medium-blue: #395d66;
   --light-blue: #607d84;
   --header-height: 15vh;
@@ -513,16 +514,131 @@ Study Page
     flex-direction: column;
     align-items: center;
     border-radius: 10px;
-    border: 1px solid #f3f3f3;
+    background: var(--medium-blue);
+    border: 2px solid var(--light-blue);
+
     padding: 1rem;
     margin-left: 1rem;
+    & > * {
+      margin: 0.5rem;
+    }
 
     button {
-      margin-bottom: 1rem;
+      background: var(--dark-blue);
+      font-size: 1.1rem;
+      border-radius: 5px;
+      border: 1.5px solid var(--dark-blue);
+
+      &:hover {
+        background: var(--light-blue);
+      }
     }
 
     .sketch-input-container {
       margin-bottom: 1rem;
+
+      input[type='range'] {
+        -webkit-appearance: none;
+        width: 100%;
+        background: transparent;
+
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+        }
+
+        &:focus {
+          outline: none;
+        }
+
+        &::-ms-track {
+          width: 100%;
+          cursor: pointer;
+
+          /* Hides the slider so custom styles can be added */
+          background: transparent;
+          border-color: transparent;
+          color: transparent;
+        }
+
+        &::-webkit-slider-thumb {
+          margin-top: -7px;
+          box-shadow: 1px 1px 3px #000000;
+          border: 1px solid #000000;
+          height: 20px;
+          width: 10px;
+          border-radius: 2rem;
+          background: #ffffff;
+          cursor: pointer;
+        }
+
+        &::-moz-range-thumb {
+          box-shadow: 1px 1px 1px #000000;
+          border: 1px solid #000000;
+          height: 20px;
+          width: 10px;
+          border-radius: 2rem;
+          background: #ffffff;
+          cursor: pointer;
+        }
+
+        &::-ms-thumb {
+          box-shadow: 1px 1px 1px #000000;
+          border: 1px solid #000000;
+          height: 20px;
+          width: 10px;
+          border-radius: 2rem;
+          background: #ffffff;
+          cursor: pointer;
+        }
+
+        &::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 8.4px;
+          cursor: pointer;
+          background: var(--light-orange);
+          border-radius: 2rem;
+          border: 1px solid #010101;
+        }
+
+        &:focus::-webkit-slider-runnable-track {
+          background: var(--medium-orange);
+        }
+
+        &::-moz-range-track {
+          width: 100%;
+          height: 8.4px;
+          cursor: pointer;
+          background: var(--light-orange);
+          border-radius: 2rem;
+          border: 1px solid #010101;
+        }
+
+        &::-ms-track {
+          width: 100%;
+          height: 8.4px;
+          cursor: pointer;
+          background: transparent;
+          border-color: transparent;
+          border-width: 16px 0;
+          color: transparent;
+        }
+        &::-ms-fill-lower {
+          background: var(--very-light-orange);
+          border: 1px solid #010101;
+          border-radius: 2rem;
+        }
+        &:focus::-ms-fill-lower {
+          background: var(--light-orange);
+        }
+        &::-ms-fill-upper {
+          background: var(--light-orange);
+          border: 1px solid #010101;
+          border-radius: 2rem;
+        }
+        &:focus::-ms-fill-upper {
+          background: var(--medium-orange);
+        }
+      }
     }
   }
 }
@@ -614,6 +730,11 @@ Study Page
     .sketch-control {
       flex-direction: row;
       flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-left: 0;
+      margin-block: 1rem;
     }
   }
 
