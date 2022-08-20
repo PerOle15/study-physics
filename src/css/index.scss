@@ -264,6 +264,7 @@ header.main-header {
   }
 
   .logo {
+    position: relative;
     height: 100%;
     display: flex;
     align-items: center;
@@ -756,5 +757,15 @@ Study Page
     p {
       max-width: 100%;
     }
+  }
+}
+
+@media (max-height: 500px) {
+  :root {
+    --header-height: 18vh;
+  }
+
+  .logo .logo-img {
+    height: 14vh !important;
   }
 }
