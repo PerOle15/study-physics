@@ -10,7 +10,7 @@ function ImportantFormulas({ content }) {
     </p>
   ))
   return (
-    <div className='important-formulas'>
+    <div className='important-formulas highlight-box'>
       <p className='small-heading'>Die wichtigsten Formeln auf einen Blick:</p>
       {formulas}
     </div>

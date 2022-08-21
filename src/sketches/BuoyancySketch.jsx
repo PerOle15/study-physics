@@ -33,7 +33,7 @@ function BuoyancySketch() {
     const controlContainer = p
       .createDiv()
       .parent(canvasParentRef)
-      .class('sketch-control')
+      .class('sketch-control highlight-box')
 
     const volumeContainer = p
       .createDiv()

@@ -35,7 +35,7 @@ function SineWaveSketch() {
     controlContainer = p
       .createDiv()
       .parent(canvasParentRef)
-      .class('sketch-control')
+      .class('sketch-control highlight-box')
 
     pauseBtn = p
       .createButton('Stoppen')

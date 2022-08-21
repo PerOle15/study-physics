@@ -215,6 +215,14 @@ Utils
     opacity: 1;
   }
 }
+
+.highlight-box {
+  background: var(--medium-blue);
+  border: 2px solid var(--light-blue);
+  padding: 1rem;
+  border-radius: 10px;
+  display: inline-block;
+}
 /* Utils end
 *
 *
@@ -515,10 +523,7 @@ Study Page
     flex-direction: column;
     align-items: center;
     border-radius: 10px;
-    background: var(--medium-blue);
-    border: 2px solid var(--light-blue);
 
-    padding: 1rem;
     margin-left: 1rem;
     & > * {
       margin: 0.5rem;
@@ -642,14 +647,6 @@ Study Page
       }
     }
   }
-}
-
-.important-formulas {
-  background-color: var(--medium-blue);
-  padding: 1rem;
-  border: 2px solid var(--light-blue);
-  border-radius: 10px;
-  display: inline-block;
 }
 
 @media (max-width: 1000px) {

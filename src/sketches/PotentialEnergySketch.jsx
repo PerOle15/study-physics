@@ -29,7 +29,7 @@ function PotentialEnergySketch() {
     const controlContainer = p
       .createDiv()
       .parent(canvasParentRef)
-      .class('sketch-control')
+      .class('sketch-control highlight-box')
 
     // Fall Button
     p.createButton('Würfel fallen lassen')

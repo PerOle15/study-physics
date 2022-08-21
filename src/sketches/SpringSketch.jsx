@@ -25,7 +25,7 @@ function DensitySketch() {
     const controlContainer = p
       .createDiv()
       .parent(canvasParentRef)
-      .class('sketch-control')
+      .class('sketch-control highlight-box')
 
     const springConstContainer = p
       .createDiv()
