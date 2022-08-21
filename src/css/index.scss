@@ -222,6 +222,7 @@ Utils
   padding: 1rem;
   border-radius: 10px;
   display: inline-block;
+  margin-bottom: 1rem;
 }
 /* Utils end
 *
@@ -514,6 +515,7 @@ Study Page
   canvas {
     width: 70% !important;
     height: 100% !important;
+    margin-bottom: 1rem;
   }
 
   .sketch-control {
@@ -732,7 +734,6 @@ Study Page
       justify-content: space-between;
 
       margin-left: 0;
-      margin-block: 1rem;
     }
   }
 

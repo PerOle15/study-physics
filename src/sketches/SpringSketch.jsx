@@ -6,12 +6,12 @@ function DensitySketch() {
   const scale = 60
   const frames = 60
 
-  const minSpringConst = 10
+  const minSpringConst = 20
   const maxSpringConst = 100
   const startingSpringConst = 40
   const minMass = 0.5
   const maxMass = 10
-  const startingMass = 3
+  const startingMass = 5
 
   let springConstSlider
   let massSlider
@@ -58,6 +58,7 @@ function DensitySketch() {
       .input(() => {
         massLabel.html(`Masse: ${massSlider.value().toFixed(1)} kg`)
         block.mass = massSlider.value()
+        block.dimensions = Math.pow(block.mass, 1 / 3) * scale
       })
     massLabel.html(`Masse: ${massSlider.value().toFixed(1)} kg`)
 
@@ -86,7 +87,7 @@ function DensitySketch() {
       this.waveLength = this.length / this.waveCount
       this.amplitude = 30
       this.offset = 0
-      this.springConstant = 10
+      this.springConstant = startingSpringConst
       this.springAcceleration = 0
       this.gravityAcceleration = 0
       this.acceleration = 0
@@ -103,7 +104,7 @@ function DensitySketch() {
       }
       this.velocity += this.springAcceleration + this.gravityAcceleration
 
-      this.velocity *= 0.96
+      this.velocity *= 0.98
       this.springLength += this.velocity * scale
       if (this.springLength <= 0) {
         this.springLength = 0
@@ -113,8 +114,6 @@ function DensitySketch() {
         this.velocity *= -1
       }
       this.extension = (this.springLength - this.originalLength) / scale
-      console.log(this.springConstant)
-      console.log(this.springLength)
       this.waveLength = this.springLength / this.waveCount
     }
 
@@ -140,13 +139,11 @@ function DensitySketch() {
   class Block {
     constructor(p) {
       this.p = p
-      this.mass = 2
+      this.mass = startingMass
       this.dimensions = Math.pow(this.mass, 1 / 3) * scale
       this.y = spring.springLength
     }
     update() {
-      // this.mass = Number(massSlider.value)
-      // this.dimensions = Math.pow(this.mass, 1 / 3) * scale
       this.y = spring.springLength
     }
     display() {
