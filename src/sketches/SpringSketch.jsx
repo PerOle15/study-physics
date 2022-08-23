@@ -1,6 +1,6 @@
 import Sketch from 'react-p5'
 
-function DensitySketch() {
+function SpringSketch() {
   let spring
   let block
   const scale = 60
@@ -104,7 +104,7 @@ function DensitySketch() {
       }
       this.velocity += this.springAcceleration + this.gravityAcceleration
 
-      this.velocity *= 0.98
+      this.velocity *= 0.96
       this.springLength += this.velocity * scale
       if (this.springLength <= 0) {
         this.springLength = 0
@@ -161,7 +161,7 @@ function DensitySketch() {
   return <Sketch setup={setup} draw={draw} />
 }
 
-export default DensitySketch
+export default SpringSketch
 
 /* 
 let spring

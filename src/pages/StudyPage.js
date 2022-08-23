@@ -9,6 +9,7 @@ import AccelerationPage from '../studyPages/AccelerationPage'
 import BuoyancyPage from '../studyPages/BuoyancyPage'
 import PotentialEnergyPage from '../studyPages/PotentialEnergyPage'
 import SpringPage from '../studyPages/SpringPage'
+import ForcesPage from '../studyPages/ForcesPage'
 
 function StudyPage() {
   document.title = 'Fysihka - Lerne interaktiv Physik'
@@ -23,6 +24,7 @@ function StudyPage() {
       <Route path='/buoyancy' element={<BuoyancyPage />} />
       <Route path='/potential-energy' element={<PotentialEnergyPage />} />
       <Route path='/springs' element={<SpringPage />} />
+      <Route path='/forces' element={<ForcesPage />} />
     </Routes>
   )
 }
