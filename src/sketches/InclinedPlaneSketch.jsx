@@ -1,10 +1,12 @@
 import Sketch from 'react-p5'
+import Vector from '../utils/Vector'
 
 function InclinedPlaneSketch() {
   let controller
   let plane
   let block
   const scale = 75
+  const vectorScale = 2.5
   const frames = 40
   const localGravity = 9.81
 
@@ -28,6 +30,10 @@ function InclinedPlaneSketch() {
   let staticFrictionLabel
   let slidingFrictionSlider
   let slidingFrictionLabel
+
+  let gravityVector
+  let frictionVector
+  let normalVector
 
   const setup = (p, canvasParentRef) => {
     p.createCanvas(800, 500).parent(canvasParentRef)
@@ -80,6 +86,10 @@ function InclinedPlaneSketch() {
         // set degreelabel value
         degreeLabel.html(`Winkel: ${degreeSlider.value().toFixed(2)}°`)
         plane.angle = (degreeSlider.value() / 360) * 2 * Math.PI
+        normalVector.angle = -plane.angle
+        normalVector.length = block.perpLength * vectorScale
+        console.log(normalVector.length)
+        frictionVector.angle = -plane.angle - Math.PI / 2
       })
     degreeLabel.html(`Winkel: ${degreeSlider.value().toFixed(2)}°`)
 
@@ -146,10 +156,14 @@ function InclinedPlaneSketch() {
     }
     display() {
       this.p.fill(180)
+      this.p.noStroke()
       this.p.rect(0, 0, this.p.width, this.p.height)
 
       plane.display()
       block.display()
+      gravityVector.display()
+      normalVector.display()
+      frictionVector.display()
     }
     resetCanvas() {
       block.velocity = 0
@@ -193,6 +207,7 @@ function InclinedPlaneSketch() {
 
     display() {
       this.update()
+      this.p.strokeWeight(1)
       this.p.stroke(80)
       this.p.line(this.x1, this.y1, this.x2, this.y2)
       this.p.fill(120)
@@ -205,83 +220,105 @@ function InclinedPlaneSketch() {
       this.p = p
       this.mass = 2
       this.dimensions = Math.cbrt(this.mass)
-      this.displayDimensions = this.dimensions * scale
+      this.dispDim = this.dimensions * scale
       this.x1 = 20
-      // this.displayDimensions / cos(plane.angle) ergibt den Abstand von der Ebene zur
-      this.calcPosition()
+      // this.dispDim / cos(plane.angle) ergibt den Abstand von der Ebene zur
 
       this.acceleration = 0
       this.velocity = 0
+
+      this.calcCenterOfBlock()
+      gravityVector = new Vector(
+        p,
+        this.xCenter,
+        this.yCenter,
+        0,
+        localGravity * this.mass * vectorScale
+      )
+      this.calcVelocity()
+      normalVector = new Vector(
+        p,
+        (this.x4 + this.x3) / 2,
+        (this.y4 + this.y3) / 2,
+        -plane.angle,
+        this.perpLength * vectorScale
+      )
+      frictionVector = new Vector(
+        p,
+        this.x4,
+        this.y4,
+        -plane.angle - Math.PI / 2,
+        this.frictionLength * vectorScale
+      )
+    }
+    calcCenterOfBlock() {
+      this.xCenter =
+        this.x1 +
+        ((Math.pow(2, 1 / 2) * this.dispDim) / 2) *
+          Math.cos(plane.angle + Math.PI / 4)
+      this.yCenter =
+        this.y1 +
+        ((Math.pow(2, 1 / 2) * this.dispDim) / 2) *
+          Math.sin(plane.angle + Math.PI / 4)
     }
     calcPosition() {
       this.y1 =
         plane.y1 +
         Math.sin(plane.angle) * (this.x1 / Math.cos(plane.angle)) -
-        this.displayDimensions / Math.cos(plane.angle)
+        this.dispDim / Math.cos(plane.angle)
       if (this.y1 < 0) {
         this.x1 =
-          this.displayDimensions /
-            Math.cos(plane.angle) /
-            Math.tan(plane.angle) -
+          this.dispDim / Math.cos(plane.angle) / Math.tan(plane.angle) -
           plane.y1 / Math.tan(plane.angle)
         this.y1 =
           plane.y1 +
           Math.sin(plane.angle) * (this.x1 / Math.cos(plane.angle)) -
-          this.displayDimensions / Math.cos(plane.angle)
+          this.dispDim / Math.cos(plane.angle)
       }
-      this.x2 = this.x1 + Math.cos(plane.angle) * this.displayDimensions
-      this.y2 = this.y1 + Math.sin(plane.angle) * this.displayDimensions
-      this.x3 =
-        this.x2 + Math.cos(plane.angle + Math.PI / 2) * this.displayDimensions
-      this.y3 =
-        this.y2 + Math.sin(plane.angle + Math.PI / 2) * this.displayDimensions
-      this.x4 =
-        this.x1 + Math.cos(plane.angle + Math.PI / 2) * this.displayDimensions
-      this.y4 =
-        this.y1 + Math.sin(plane.angle + Math.PI / 2) * this.displayDimensions
+      this.x2 = this.x1 + Math.cos(plane.angle) * this.dispDim
+      this.y2 = this.y1 + Math.sin(plane.angle) * this.dispDim
+      this.x3 = this.x2 + Math.cos(plane.angle + Math.PI / 2) * this.dispDim
+      this.y3 = this.y2 + Math.sin(plane.angle + Math.PI / 2) * this.dispDim
+      this.x4 = this.x1 + Math.cos(plane.angle + Math.PI / 2) * this.dispDim
+      this.y4 = this.y1 + Math.sin(plane.angle + Math.PI / 2) * this.dispDim
     }
-    update() {
+
+    calcVelocity() {
       if (this.p.isLooping()) {
-        this.gravitationalForce = this.p.createVector(
-          0,
-          this.mass * localGravity
-        )
-        this.perpendicularLength =
-          this.gravitationalForce.mag() * Math.cos(plane.angle)
-        this.perpendicularForce = this.p.createVector(
-          this.perpendicularLength * Math.sin(plane.angle),
-          -this.perpendicularLength * Math.cos(plane.angle)
+        this.gravForce = this.p.createVector(0, this.mass * localGravity)
+        this.perpLength = this.gravForce.mag() * Math.cos(plane.angle)
+        this.perpForce = this.p.createVector(
+          this.perpLength * Math.sin(plane.angle),
+          -this.perpLength * Math.cos(plane.angle)
         )
         // Choose static or sliding friction
         this.frictionLength =
-          this.velocity === 0
-            ? this.perpendicularLength * plane.staticFriction
-            : this.perpendicularLength * plane.slidingFriction
+          (this.velocity === 0 ? plane.staticFriction : plane.slidingFriction) *
+          this.perpLength
 
-        this.resultingLength =
+        this.resLength =
           Math.sqrt(
-            Math.pow(this.gravitationalForce.x + this.perpendicularForce.x, 2) +
-              Math.pow(this.gravitationalForce.y + this.perpendicularForce.y, 2)
+            Math.pow(this.gravForce.x + this.perpForce.x, 2) +
+              Math.pow(this.gravForce.y + this.perpForce.y, 2)
           ) - this.frictionLength
 
-        if (this.resultingLength > 0) {
-          this.resultingForce = this.p.createVector(
-            this.resultingLength * Math.cos(plane.angle),
-            this.resultingLength * Math.sin(plane.angle)
+        if (this.resLength > 0) {
+          this.resForce = this.p.createVector(
+            this.resLength * Math.cos(plane.angle),
+            this.resLength * Math.sin(plane.angle)
           )
         } else {
           if (this.velocity > 0) {
-            this.resultingForce = this.p.createVector(
-              this.resultingLength * Math.cos(plane.angle),
-              this.resultingLength * Math.sin(plane.angle)
+            this.resForce = this.p.createVector(
+              this.resLength * Math.cos(plane.angle),
+              this.resLength * Math.sin(plane.angle)
             )
           } else {
-            this.resultingForce = this.p.createVector(0, 0)
+            this.resForce = this.p.createVector(0, 0)
           }
         }
 
-        this.acceleration =
-          (this.resultingForce.x / this.mass / frames ** 2) * scale
+        this.acceleration = (this.resForce.x / this.mass / frames ** 2) * scale
         this.velocity += this.acceleration
 
         if (this.velocity < 0) {
@@ -289,15 +326,25 @@ function InclinedPlaneSketch() {
         }
 
         this.x1 += this.velocity
-        if (
-          this.x1 + Math.cos(plane.angle) * this.displayDimensions >
-          this.p.width
-        ) {
-          this.x1 =
-            this.p.width - Math.cos(plane.angle) * this.displayDimensions
+        if (this.x2 + this.velocity >= this.p.width) {
+          this.x1 = this.p.width - Math.cos(plane.angle) * this.dispDim
+          this.acceleration = 0
+          this.velocity = 0
         }
       }
+    }
+    update() {
+      this.calcVelocity()
       this.calcPosition()
+      this.calcCenterOfBlock()
+      gravityVector.x1 = this.xCenter
+      gravityVector.y1 = this.yCenter
+      normalVector.x1 = (this.x4 + this.x3) / 2
+      normalVector.y1 = (this.y4 + this.y3) / 2
+      frictionVector.x1 = this.x4
+      frictionVector.y1 = this.y4
+      frictionVector.length = this.frictionLength * vectorScale
+      console.log(this.velocity)
     }
 
     display() {

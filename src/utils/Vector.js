@@ -38,7 +38,8 @@ class Arrow {
   }
   display() {
     this.update()
-    this.p.strokeWeight(3)
+    this.p.stroke('black')
+    this.p.strokeWeight(2)
     this.p.line(this.x1, this.y1, this.x2, this.y2)
     this.p.line(this.x2, this.y2, this.x3, this.y3)
     this.p.line(this.x2, this.y2, this.x4, this.y4)
