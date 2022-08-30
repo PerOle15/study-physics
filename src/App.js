@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage'
 import StudyPage from './pages/StudyPage'
 import ContactPage from './pages/ContactPage'
 import AboutPage from './pages/AboutPage'
+import ScrollToTop from './components/ScrollToTop'
 // import axios from 'axios'
 
 function App() {
@@ -25,13 +26,15 @@ function App() {
     <Router className='app'>
       <AppHeader />
       <div id='page-content'>
-        <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/study/*' element={<StudyPage />} />
-          {/* <Route path='/membership' element={<>Membership</>} /> */}
-          <Route path='/about' element={<AboutPage />} />
-          <Route path='/contact' element={<ContactPage />} />
-        </Routes>
+        <ScrollToTop>
+          <Routes>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/study/*' element={<StudyPage />} />
+            {/* <Route path='/membership' element={<>Membership</>} /> */}
+            <Route path='/about' element={<AboutPage />} />
+            <Route path='/contact' element={<ContactPage />} />
+          </Routes>
+        </ScrollToTop>
       </div>
       {/* <div>{reqData}</div> */}
       <AppFooter />
