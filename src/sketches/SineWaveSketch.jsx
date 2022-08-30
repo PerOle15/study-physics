@@ -4,7 +4,7 @@ function SineWaveSketch() {
   let wave
   let waveArray = []
   const frames = 60
-  const gridColor = '#707070'
+  const gridColor = 155
   const waveScale = 90
 
   let controller
@@ -18,11 +18,11 @@ function SineWaveSketch() {
   let waveLengthSlider
 
   const minFrequency = -2
-  const maxFrequency = 2
-  const minWaveLength = -3
-  const maxWaveLength = 3
+  const maxFrequency = -minFrequency
+  const minWaveLength = -4
+  const maxWaveLength = -minWaveLength
   const minAmplitude = -2.5
-  const maxAmplitude = 2.5
+  const maxAmplitude = -minAmplitude
   const setup = (p, canvasParentRef) => {
     // use parent to render the canvas in this ref
     // (without that p will render the canvas outside of your component)
@@ -59,6 +59,7 @@ function SineWaveSketch() {
         frequencyLabel.html(
           `Frequenz: ${frequencySlider.value().toFixed(2)} Hz`
         )
+        wave.frequency = frequencySlider.value()
       })
     frequencyLabel.html(`Frequenz: ${frequencySlider.value().toFixed(2)} Hz`)
 
@@ -75,6 +76,7 @@ function SineWaveSketch() {
         waveLengthLabel.html(
           `Wellenlänge: ${waveLengthSlider.value().toFixed(2)}`
         )
+        wave.waveLength = waveLengthSlider.value() * waveScale
         controller.display(true)
       })
     waveLengthLabel.html(`Wellenlänge: ${waveLengthSlider.value().toFixed(2)}`)
@@ -90,6 +92,7 @@ function SineWaveSketch() {
       .class('sketch-slider')
       .input(() => {
         amplitudeLabel.html(`Amplitude: ${amplitudeSlider.value().toFixed(2)}`)
+        wave.amplitude = amplitudeSlider.value() * waveScale
         controller.display(true)
       })
     amplitudeLabel.html(`Amplitude: ${amplitudeSlider.value().toFixed(2)}`)
@@ -137,10 +140,11 @@ function SineWaveSketch() {
       this.p.drawingContext.setLineDash([5, 10])
       this.p.noStroke()
       this.p.fill(gridColor)
-      this.p.text(0, this.p.width - 3, 0)
       this.p.textAlign(this.p.RIGHT, this.p.CENTER)
+      this.p.text(0, this.p.width - 3, 0)
       this.p.stroke(gridColor)
       this.p.line(0, 0, this.p.width - 20, 0)
+      // Horizontal
       for (let i = 0; i < this.p.height / 2 / waveScale; i++) {
         this.p.stroke(gridColor)
         this.p.line(
@@ -158,6 +162,20 @@ function SineWaveSketch() {
         this.p.noStroke()
         this.p.text(i + 1, this.p.width - 3, -(i + 1) * waveScale)
         this.p.text(-(i + 1), this.p.width - 3, (i + 1) * waveScale)
+      }
+      // Vertikal
+      this.p.textAlign(this.p.CENTER, this.p.BOTTOM)
+      for (let i = 0; i < this.p.width / waveScale; i++) {
+        const x = i + 1
+        this.p.stroke(gridColor)
+        this.p.line(
+          x * waveScale,
+          this.p.height / 2 - 20,
+          x * waveScale,
+          -this.p.height / 2
+        )
+        this.p.noStroke()
+        this.p.text(i + 1, x * waveScale, this.p.height / 2 - 3)
       }
       this.p.drawingContext.setLineDash([0, 0])
 
@@ -190,11 +208,7 @@ function SineWaveSketch() {
       this.waveLength = waveLengthSlider.value() * waveScale
       this.amplitude = amplitudeSlider.value() * waveScale
     }
-    update() {
-      this.frequency = frequencySlider.value()
-      this.waveLength = waveLengthSlider.value() * waveScale
-      this.amplitude = amplitudeSlider.value() * waveScale
-    }
+    update() {}
   }
 
   class WavePoint {
@@ -224,11 +238,7 @@ function SineWaveSketch() {
     }
   }
 
-  return (
-    <>
-      <Sketch setup={setup} draw={draw} />
-    </>
-  )
+  return <Sketch setup={setup} draw={draw} />
 }
 
 export default SineWaveSketch

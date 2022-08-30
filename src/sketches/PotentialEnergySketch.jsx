@@ -16,6 +16,9 @@ function PotentialEnergySketch() {
 
   let massSlider
   let heightSlider
+  let pauseBtn
+
+  let controller
 
   let block
 
@@ -26,10 +29,20 @@ function PotentialEnergySketch() {
 
     block = new Block(p)
 
+    controller = new Controller(p)
+
     const controlContainer = p
       .createDiv()
       .parent(canvasParentRef)
       .class('sketch-control highlight-box')
+
+    pauseBtn = p
+      .createButton('Stoppen')
+      .parent(controlContainer)
+      .class('btn')
+      .mousePressed(() => {
+        controller.handleLoop()
+      })
 
     // Fall Button
     p.createButton('Würfel fallen lassen')
@@ -127,6 +140,21 @@ function PotentialEnergySketch() {
     p.endShape(p.CLOSE)
   }
 
+  class Controller {
+    constructor(p) {
+      this.p = p
+    }
+    handleLoop() {
+      if (this.p.isLooping()) {
+        this.p.noLoop()
+        pauseBtn.html('Fortfahren')
+      } else {
+        this.p.loop()
+        pauseBtn.html('Stoppen')
+      }
+    }
+  }
+
   class Block {
     constructor(p) {
       this.p = p
@@ -179,6 +207,7 @@ function PotentialEnergySketch() {
       this.p.text(`Fallhöhe: ${this.realHeight.toFixed(2)} m`, 10, 10)
       this.p.text(`Potentielle Energie: ${this.pot.toFixed(2)} J`, 10, 35)
       this.p.fill(120)
+      this.p.noStroke()
       this.p.rect(
         this.p.width / 2 - this.displayDim / 2,
         this.y,
@@ -188,7 +217,7 @@ function PotentialEnergySketch() {
 
       // Falls Block nicht fällt, Linie zeichnen
       if (!this.falling) {
-        this.p.stroke('red')
+        this.p.stroke('#f25c05')
         this.p.line(
           0,
           this.p.height - this.platformHeight,
