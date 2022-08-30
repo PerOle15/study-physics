@@ -88,7 +88,6 @@ function InclinedPlaneSketch() {
         plane.angle = (degreeSlider.value() / 360) * 2 * Math.PI
         normalVector.angle = -plane.angle
         normalVector.length = block.perpLength * vectorScale
-        console.log(normalVector.length)
         frictionVector.angle = -plane.angle - Math.PI / 2
       })
     degreeLabel.html(`Winkel: ${degreeSlider.value().toFixed(2)}°`)
@@ -344,7 +343,6 @@ function InclinedPlaneSketch() {
       frictionVector.x1 = this.x4
       frictionVector.y1 = this.y4
       frictionVector.length = this.frictionLength * vectorScale
-      console.log(this.velocity)
     }
 
     display() {

@@ -7,8 +7,8 @@ function PendulumSketch() {
   const localGravity = 9.81
 
   const minLength = 0.5
-  const maxLength = 3
-  const startingLength = 1
+  const maxLength = 3.5
+  const startingLength = 2
   const minMass = 0.5
   const maxMass = 5
   const startingMass = 1
