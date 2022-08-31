@@ -442,6 +442,10 @@ Study Page
       display: flex;
       align-items: center;
       justify-content: center;
+
+      img {
+        width: 55px;
+      }
     }
 
     p.card-heading {

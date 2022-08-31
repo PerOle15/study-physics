@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { GiWeight, GiStrikingBalls, GiSpring, GiWindSlap } from 'react-icons/gi'
 import { AiOutlineArrowsAlt, AiOutlineDotChart } from 'react-icons/ai'
+import pendulum from '../svg/pendulum.svg'
 
 function MainStudyPage() {
   return (
@@ -54,7 +55,7 @@ function MainStudyPage() {
         </Link>
         <Link to='pendulum' className='card'>
           <div className='card-icon'>
-            <GiSpring />
+            <img src={pendulum} alt='' />
           </div>
           <p className='card-heading secondary'>Pendel</p>
         </Link>

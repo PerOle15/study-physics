@@ -53,6 +53,9 @@ function SineWaveSketch() {
       .class('btn')
       .mousePressed(() => {
         controller.handleStyle()
+        if (!p.isLooping()) {
+          controller.display(true)
+        }
       })
 
     // Sliders with labels
