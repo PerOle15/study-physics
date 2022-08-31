@@ -10,6 +10,7 @@ function SineWaveSketch() {
   let controller
   let controlContainer
   let pauseBtn
+  let styleChangeBtn
   let frequencyLabel
   let frequencySlider
   let amplitudeLabel
@@ -40,9 +41,18 @@ function SineWaveSketch() {
     pauseBtn = p
       .createButton('Stoppen')
       .parent(controlContainer)
-      .class('btn sketch-btn')
-      .mousePressed((e) => {
+      .class('btn')
+      .mousePressed(() => {
         controller.handleLoop()
+      })
+
+    // change style
+    styleChangeBtn = p
+      .createButton(controller.dots ? 'Linie' : 'Punkte')
+      .parent(controlContainer)
+      .class('btn')
+      .mousePressed(() => {
+        controller.handleStyle()
       })
 
     // Sliders with labels
@@ -121,6 +131,8 @@ function SineWaveSketch() {
   class Controller {
     constructor(p) {
       this.p = p
+      // true = dots, false = line
+      this.dots = false
     }
     display(sliderChanged = false) {
       this.p.fill(180)
@@ -180,13 +192,27 @@ function SineWaveSketch() {
       this.p.drawingContext.setLineDash([0, 0])
 
       wave.update()
-      waveArray.forEach((wavePoint, i) => {
-        if (i === 1) {
-          wavePoint.display('blue')
-        } else {
-          wavePoint.display('#f08d54')
+      if (this.dots) {
+        waveArray.forEach((wavePoint, i) => {
+          if (i === 1) {
+            wavePoint.display('blue')
+          } else {
+            wavePoint.display('#f08d54')
+          }
+        })
+      } else {
+        this.p.noFill()
+        this.p.stroke(0)
+        this.p.beginShape()
+        for (let i = 0; i < this.p.width; i++) {
+          const x = i + 1
+          const y =
+            wave.amplitude *
+            Math.sin(((Math.PI * 2) / wave.waveLength) * x + wave.offset)
+          this.p.vertex(x, y)
         }
-      })
+        this.p.endShape()
+      }
     }
     handleLoop() {
       if (this.p.isLooping()) {
@@ -195,6 +221,15 @@ function SineWaveSketch() {
       } else {
         this.p.loop()
         pauseBtn.html('Stoppen')
+      }
+    }
+    handleStyle() {
+      if (this.dots) {
+        styleChangeBtn.html('Punkte')
+        this.dots = false
+      } else {
+        styleChangeBtn.html('Linie')
+        this.dots = true
       }
     }
   }
@@ -207,8 +242,14 @@ function SineWaveSketch() {
       this.frequency = frequencySlider.value()
       this.waveLength = waveLengthSlider.value() * waveScale
       this.amplitude = amplitudeSlider.value() * waveScale
+      this.offset = 0
     }
-    update() {}
+    update() {
+      // Verschiebung der Welle nur wenn die Animation läuft
+      if (this.p.isLooping()) {
+        this.offset -= (Math.PI * 2 * wave.frequency) / frames
+      }
+    }
   }
 
   class WavePoint {
@@ -217,17 +258,14 @@ function SineWaveSketch() {
       this.radius = radius
       this.x = x
       this.y = 0
-      this.offset = 0
     }
 
     update() {
       // Verschiebung der Welle nur wenn die Animation läuft
-      if (this.p.isLooping()) {
-        this.offset -= (Math.PI * 2 * wave.frequency) / frames
-      }
+
       this.y =
         wave.amplitude *
-        Math.sin(((Math.PI * 2) / wave.waveLength) * this.x + this.offset)
+        Math.sin(((Math.PI * 2) / wave.waveLength) * this.x + wave.offset)
     }
 
     display(color) {

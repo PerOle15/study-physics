@@ -50,9 +50,6 @@ function PotentialEnergySketch() {
       .class('btn')
       .mousePressed(() => {
         block.falling = true
-        setTimeout(() => {
-          console.log(block.velocity)
-        }, 500)
       })
 
     // Reset Button
