@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { GiWeight, GiStrikingBalls, GiSpring, GiWindSlap } from 'react-icons/gi'
 import { AiOutlineArrowsAlt, AiOutlineDotChart } from 'react-icons/ai'
 import pendulum from '../svg/pendulum.svg'
+import wave from '../svg/wave.svg'
 
 function MainStudyPage() {
   return (
@@ -49,7 +50,7 @@ function MainStudyPage() {
         </Link>
         <Link to='sine-wave' className='card'>
           <div className='card-icon'>
-            <GiSpring />
+            <img src={wave} alt='' />
           </div>
           <p className='card-heading secondary'>Sinuswellen</p>
         </Link>

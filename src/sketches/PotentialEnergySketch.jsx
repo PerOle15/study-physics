@@ -214,12 +214,12 @@ function PotentialEnergySketch() {
 
       // Falls Block nicht fällt, Linie zeichnen
       if (!this.falling) {
-        this.p.stroke('#f25c05')
-        this.p.line(
-          0,
+        this.p.fill('#6c3803')
+        this.p.rect(
+          this.p.width / 2 - gap / 2,
           this.p.height - this.platformHeight,
-          this.p.width,
-          this.p.height - this.platformHeight
+          gap,
+          10
         )
       }
     }
