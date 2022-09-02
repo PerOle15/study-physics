@@ -3,6 +3,7 @@ import { GiWeight, GiStrikingBalls, GiSpring, GiWindSlap } from 'react-icons/gi'
 import { AiOutlineArrowsAlt, AiOutlineDotChart } from 'react-icons/ai'
 import pendulum from '../svg/pendulum.svg'
 import wave from '../svg/wave.svg'
+import inclinedPlane from '../svg/inclined-plane.svg'
 
 function MainStudyPage() {
   return (
@@ -15,7 +16,7 @@ function MainStudyPage() {
           </div>
           <p className='card-heading secondary'>Dichte</p>
         </Link>
-        <Link to='mass-and-weight-force' className='card'>
+        <Link to='mass' className='card'>
           <div className='card-icon'>
             <GiWeight />
           </div>
@@ -44,7 +45,7 @@ function MainStudyPage() {
         </Link>
         <Link to='inclined-plane' className='card'>
           <div className='card-icon'>
-            <GiSpring />
+            <img src={inclinedPlane} alt='' />
           </div>
           <p className='card-heading secondary'>Schiefe Ebene</p>
         </Link>
