@@ -7,21 +7,10 @@ import StudyPage from './pages/StudyPage'
 import ContactPage from './pages/ContactPage'
 import AboutPage from './pages/AboutPage'
 import ScrollToTop from './components/ScrollToTop'
-// import axios from 'axios'
+
+import NotFoundPage from './pages/NotFoundPage'
 
 function App() {
-  // const [reqData, setReqData] = useState('')
-
-  // let isMounted = true
-  // const API_URI = 'http://localhost:5000/'
-  // useEffect(() => {
-  //   axios(API_URI).then((response) => {
-  //     if (isMounted) {
-  //       setReqData(response.data.data)
-  //     }
-  //   })
-  // })
-
   return (
     <Router className='app'>
       <AppHeader />
@@ -30,9 +19,11 @@ function App() {
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/study/*' element={<StudyPage />} />
-            {/* <Route path='/membership' element={<>Membership</>} /> */}
             <Route path='/about' element={<AboutPage />} />
             <Route path='/contact' element={<ContactPage />} />
+
+            {/* If no page is found, show error */}
+            <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </ScrollToTop>
       </div>

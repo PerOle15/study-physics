@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { GiWeight, GiStrikingBalls, GiSpring, GiWindSlap } from 'react-icons/gi'
-import { AiOutlineArrowsAlt, AiOutlineDotChart } from 'react-icons/ai'
+import { AiOutlineDotChart } from 'react-icons/ai'
 import pendulum from '../svg/pendulum.svg'
 import wave from '../svg/wave.svg'
 import inclinedPlane from '../svg/inclined-plane.svg'
@@ -25,12 +25,6 @@ function MainStudyPage() {
       </div>
       <p className='section-heading'>Kräfte und Energie</p>
       <div className='card-grid'>
-        <Link to='forces' className='card'>
-          <div className='card-icon'>
-            <AiOutlineArrowsAlt />
-          </div>
-          <p className='card-heading secondary'>Kräfte</p>
-        </Link>
         <Link to='potential-energy' className='card'>
           <div className='card-icon'>
             <GiStrikingBalls />

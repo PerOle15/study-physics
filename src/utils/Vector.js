@@ -5,17 +5,19 @@
  * @param {number} y y-coordinate of starting point
  * @param {number} angle angle of the vector relative to y-axis
  * @param {number} length length of the vector arrow
+ * @param {string} [color='black'] color of the arrow
  * @return {object} new vector arrow object
  *
  **/
 
 class Arrow {
-  constructor(p, x, y, angle, length) {
+  constructor(p, x, y, angle, length, color = 0) {
     this.p = p
     this.x1 = x
     this.y1 = y
     this.angle = angle
     this.length = length
+    this.color = color
     this.pointLength = 20
     this.pointAngle = Math.PI / 6
   }
@@ -38,11 +40,12 @@ class Arrow {
   }
   display() {
     this.update()
-    this.p.stroke('black')
+    this.p.stroke(this.color)
     this.p.strokeWeight(2)
     this.p.line(this.x1, this.y1, this.x2, this.y2)
     this.p.line(this.x2, this.y2, this.x3, this.y3)
     this.p.line(this.x2, this.y2, this.x4, this.y4)
+    this.p.noStroke()
   }
 }
 

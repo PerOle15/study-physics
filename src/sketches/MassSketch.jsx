@@ -1,4 +1,5 @@
 import Sketch from 'react-p5'
+import Vector from '../utils/Vector'
 
 function MassSketch() {
   const frames = 60
@@ -9,6 +10,7 @@ function MassSketch() {
 
   let cube
   let dyn
+  let force
 
   let gravitySlider
   let massSlider
@@ -29,6 +31,14 @@ function MassSketch() {
 
     dyn = new Dynamometer(p)
     cube = new Cube(p)
+    force = new Vector(
+      p,
+      p.width / 2,
+      cube.y + cube.dim / 2,
+      0,
+      cube.force * scale,
+      '#f25c05'
+    )
 
     controlContainer = p
       .createDiv()
@@ -89,6 +99,7 @@ function MassSketch() {
     }
     update() {}
     display() {
+      this.p.noStroke()
       this.p.fill(180)
       this.p.rect(0, 0, this.p.width, this.p.height)
 
@@ -104,6 +115,7 @@ function MassSketch() {
 
       dyn.display()
       cube.display()
+      force.display()
     }
   }
 
@@ -119,10 +131,14 @@ function MassSketch() {
     update() {
       this.force = this.mass * controller.gravity
       this.y = dyn.entLength + this.hookRadius
+
+      force.length = this.force / 1000
+      force.y1 = this.y + this.dim / 2
     }
     display() {
+      this.update()
       this.p.strokeWeight(3)
-      this.p.stroke(100)
+      this.p.stroke(80)
       this.p.line(
         this.p.width / 2,
         dyn.entLength - this.hookRadius,
@@ -131,7 +147,6 @@ function MassSketch() {
       )
 
       this.p.strokeWeight(1)
-      this.update()
       this.p.fill(0)
       this.p.rect(this.p.width / 2 - this.dim / 2, this.y, this.dim, this.dim)
     }
@@ -141,7 +156,7 @@ function MassSketch() {
     constructor(p) {
       this.p = p
       this.w = 20
-      this.h = 100
+      this.h = 80
       this.ext = 0
       //extension width
       this.extw = this.w - 2
