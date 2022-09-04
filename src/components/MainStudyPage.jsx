@@ -4,6 +4,7 @@ import { AiOutlineDotChart } from 'react-icons/ai'
 import pendulum from '../svg/pendulum.svg'
 import wave from '../svg/wave.svg'
 import inclinedPlane from '../svg/inclined-plane.svg'
+import potentialEnergy from '../svg/potential-energy.svg'
 
 function MainStudyPage() {
   return (
@@ -27,7 +28,7 @@ function MainStudyPage() {
       <div className='card-grid'>
         <Link to='potential-energy' className='card'>
           <div className='card-icon'>
-            <GiStrikingBalls />
+            <img src={potentialEnergy} alt='' />
           </div>
           <p className='card-heading secondary'>Potentielle Energie</p>
         </Link>
