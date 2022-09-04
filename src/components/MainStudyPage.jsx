@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { GiWeight, GiStrikingBalls, GiSpring, GiWindSlap } from 'react-icons/gi'
+import { GiWeight, GiSpring, GiWindSlap } from 'react-icons/gi'
 import { AiOutlineDotChart } from 'react-icons/ai'
 import pendulum from '../svg/pendulum.svg'
 import wave from '../svg/wave.svg'

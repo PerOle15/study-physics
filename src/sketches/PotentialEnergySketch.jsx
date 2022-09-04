@@ -62,6 +62,7 @@ function PotentialEnergySketch() {
         block.y = p.height - heightSlider.value() - block.displayDim
         block.calcRealHeight()
         block.calcPot()
+        display(p)
       })
 
     const massContainer = p
@@ -115,6 +116,10 @@ function PotentialEnergySketch() {
     )
   }
   const draw = (p) => {
+    display(p)
+  }
+
+  function display(p) {
     p.fill(180)
     p.rect(0, 0, p.width, p.height)
 
@@ -204,7 +209,7 @@ function PotentialEnergySketch() {
       this.p.text(`Fallhöhe: ${this.realHeight.toFixed(2)} m`, 10, 10)
       this.p.text(`Potentielle Energie: ${this.pot.toFixed(2)} J`, 10, 35)
       this.p.fill(120)
-      this.p.noStroke()
+      this.p.stroke(0)
       this.p.rect(
         this.p.width / 2 - this.displayDim / 2,
         this.y,
@@ -212,7 +217,7 @@ function PotentialEnergySketch() {
         this.displayDim
       )
 
-      // Falls Block nicht fällt, Linie zeichnen
+      // Falls Block nicht fällt, Brett zeichnen
       if (!this.falling) {
         this.p.fill('#6c3803')
         this.p.rect(
