@@ -7,29 +7,35 @@ import StudyPage from './pages/StudyPage'
 import ContactPage from './pages/ContactPage'
 import AboutPage from './pages/AboutPage'
 import ScrollToTop from './components/ScrollToTop'
-
 import NotFoundPage from './pages/NotFoundPage'
+
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
   return (
-    <Router className='app'>
-      <AppHeader />
-      <div id='page-content'>
-        <ScrollToTop>
-          <Routes>
-            <Route path='/' element={<HomePage />} />
-            <Route path='/study/*' element={<StudyPage />} />
-            <Route path='/about' element={<AboutPage />} />
-            <Route path='/contact' element={<ContactPage />} />
+    <>
+      <Router className='app'>
+        <AppHeader />
+        <div id='page-content'>
+          <ScrollToTop>
+            <Routes>
+              <Route path='/' element={<HomePage />} />
+              <Route path='/study/*' element={<StudyPage />} />
+              <Route path='/about' element={<AboutPage />} />
+              <Route path='/contact' element={<ContactPage />} />
 
-            {/* If no page is found, show error */}
-            <Route path='*' element={<NotFoundPage />} />
-          </Routes>
-        </ScrollToTop>
-      </div>
-      {/* <div>{reqData}</div> */}
-      <AppFooter />
-    </Router>
+              {/* If no page is found, show error */}
+              <Route path='*' element={<NotFoundPage />} />
+            </Routes>
+          </ScrollToTop>
+        </div>
+        {/* <div>{reqData}</div> */}
+        <AppFooter />
+      </Router>
+
+      <ToastContainer autoClose={3000} theme='dark' />
+    </>
   )
 }
 

@@ -8,6 +8,7 @@
   --dark-blue: #083540;
   --medium-blue: #395d66;
   --light-blue: #607d84;
+  --very-light-blue: #cfd8da;
   --header-height: 15vh;
   --max-width: 1150px;
 }
@@ -127,6 +128,7 @@ input {
 }
 
 textarea {
+  font-family: 'Open Sans', sans-serif;
   font-size: 1.1rem;
   resize: none;
 }
@@ -150,7 +152,7 @@ Utils
   color: var(--primary-text-color);
   margin: 0;
   padding: 0.5rem 1rem;
-  border-radius: 10rem;
+  border-radius: 5px;
   transition: 0.2s;
 
   &:hover {
@@ -496,16 +498,18 @@ Study Page
       width: 100%;
       max-width: 600px;
       margin-bottom: 1rem;
-      border: 1px solid var(--secondary-accent-color);
+      border: 1.5px solid var(--light-blue);
       border-radius: 3px;
+      padding: 0.5rem;
+      background: var(--very-light-blue);
 
       &:focus {
-        outline: 2px solid var(--secondary-accent-color);
+        outline: 2px solid var(--light-blue);
       }
     }
 
-    input[type='submit'] {
-      padding: 0.7rem 1rem;
+    button {
+      font-size: 1.1rem;
     }
   }
 }
