@@ -167,7 +167,8 @@ function InclinedPlaneSketch() {
     resetCanvas() {
       block.velocity = 0
       block.acceleration = 0
-      block.x1 = 20
+      block.x1 = 15
+      block.calcPosition()
       this.display()
     }
     handleLoop() {
@@ -220,7 +221,7 @@ function InclinedPlaneSketch() {
       this.mass = 2
       this.dimensions = Math.cbrt(this.mass)
       this.dispDim = this.dimensions * scale
-      this.x1 = 20
+      this.x1 = 15
       // this.dispDim / cos(plane.angle) ergibt den Abstand von der Ebene zur
 
       this.acceleration = 0
@@ -280,6 +281,11 @@ function InclinedPlaneSketch() {
       this.y3 = this.y2 + Math.sin(plane.angle + Math.PI / 2) * this.dispDim
       this.x4 = this.x1 + Math.cos(plane.angle + Math.PI / 2) * this.dispDim
       this.y4 = this.y1 + Math.sin(plane.angle + Math.PI / 2) * this.dispDim
+
+      if (this.x4 < 0) {
+        this.x1 = Math.sin(plane.angle) * this.dispDim
+        this.calcPosition()
+      }
     }
 
     calcVelocity() {
@@ -300,6 +306,25 @@ function InclinedPlaneSketch() {
             Math.pow(this.gravForce.x + this.perpForce.x, 2) +
               Math.pow(this.gravForce.y + this.perpForce.y, 2)
           ) - this.frictionLength
+
+        // Stop bug, where block slides because static friction is smaller than sliding friction
+        if (
+          this.velocity === 0 &&
+          plane.slidingFriction * this.perpLength >
+            Math.sqrt(
+              Math.pow(this.gravForce.x + this.perpForce.x, 2) +
+                Math.pow(this.gravForce.y + this.perpForce.y, 2)
+            ) -
+              plane.slidingFriction * this.perpLength
+        ) {
+          this.frictionLength = plane.slidingFriction * this.perpLength
+
+          this.resLength =
+            Math.sqrt(
+              Math.pow(this.gravForce.x + this.perpForce.x, 2) +
+                Math.pow(this.gravForce.y + this.perpForce.y, 2)
+            ) - this.frictionLength
+        }
 
         if (this.resLength > 0) {
           this.resForce = this.p.createVector(

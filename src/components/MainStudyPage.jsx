@@ -9,7 +9,7 @@ import potentialEnergy from '../svg/potential-energy.svg'
 function MainStudyPage() {
   return (
     <div className='container study-container'>
-      <p className='section-heading'>Grundlagen</p>
+      <p className='page-heading'>Lernen</p>
       <div className='card-grid'>
         <Link to='density' className='card'>
           <div className='card-icon'>
@@ -23,9 +23,6 @@ function MainStudyPage() {
           </div>
           <p className='card-heading secondary'>Masse und Gewichtskraft</p>
         </Link>
-      </div>
-      <p className='section-heading'>Kräfte und Energie</p>
-      <div className='card-grid'>
         <Link to='potential-energy' className='card'>
           <div className='card-icon'>
             <img src={potentialEnergy} alt='' />
