@@ -290,7 +290,7 @@ header.main-header {
   }
 
   nav.main-nav {
-    .hamburger {
+    .hamburger-react {
       position: relative;
       display: none;
       z-index: 3;
@@ -662,7 +662,7 @@ Study Page
 @media (max-width: 1000px) {
   /* main navigation mobile */
   nav.main-nav {
-    .hamburger {
+    .hamburger-react {
       display: inline-block !important;
     }
 

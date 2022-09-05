@@ -1,17 +1,19 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import logo from '../img/logo.png'
+import { Spin as Hamburger } from 'hamburger-react'
 // import ThemeChangeButton from './ThemeChangeButton'
 
 function AppHeader() {
-  const [mobileIsActive, setMobileIsActive] = useState(false)
+  // const [mobileIsActive, setMobileIsActive] = useState(false)
+  const [isOpen, setOpen] = useState(false)
 
-  function handleHamburgerToggle() {
-    setMobileIsActive(!mobileIsActive)
-  }
+  // function handleHamburgerToggle() {
+  //   setOpen(!isOpen)
+  // }
 
   const onClick = (e) => {
-    setMobileIsActive(false)
+    setOpen(false)
   }
 
   return (
@@ -24,18 +26,19 @@ function AppHeader() {
           </div>
         </Link>
         <nav className='main-nav'>
-          <button
+          {/* <button
             className={`hamburger hamburger--slider-r${
               mobileIsActive ? ' is-active' : ''
             }`}
             type='button'
             onClick={handleHamburgerToggle}
-          >
-            <span className='hamburger-box'>
-              <span className='hamburger-inner'></span>
-            </span>
-          </button>
-          <ul id='nav-links' className={mobileIsActive ? 'is-active' : ''}>
+          > */}
+          <Hamburger toggled={isOpen} toggle={setOpen} />
+          {/* //   <span className='hamburger-box'>
+          //     <span className='hamburger-inner'></span>
+          //   </span>
+          // </button> */}
+          <ul id='nav-links' className={isOpen ? 'is-active' : ''}>
             <li className='nav-item'>
               <NavLink
                 onClick={onClick}
