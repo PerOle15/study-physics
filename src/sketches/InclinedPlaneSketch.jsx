@@ -342,6 +342,11 @@ function InclinedPlaneSketch() {
           }
         }
 
+        const maxFrictionLength = this.gravForce.mag() * Math.sin(plane.angle)
+        if (this.frictionLength > maxFrictionLength) {
+          this.frictionLength = maxFrictionLength
+        }
+
         this.acceleration = (this.resForce.x / this.mass / frames ** 2) * scale
         this.velocity += this.acceleration
 

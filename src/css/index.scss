@@ -102,6 +102,7 @@ a {
   font-size: 2rem;
   font-weight: 600;
   color: var(--primary-text-color);
+  margin-top: 1.5rem;
 }
 
 .card-heading {
@@ -414,8 +415,6 @@ Study Page
 */
 
 .study-container {
-  padding-top: 1.5rem;
-
   .card-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

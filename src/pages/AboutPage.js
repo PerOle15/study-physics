@@ -45,8 +45,8 @@ export class AboutPage extends Component {
           Animationen sind leicht zu bedienen und können sowohl von Lehrpersonen
           als auch von Schüler*innen ohne den Aufwand für den Aufbau eines
           Experiments genutzt werden. Wenn Schüler*innen die Dinge selbst
-          ausprobieren können, ist es zudem viel einfacher, zu verstehen, was
-          wirklich bei einem Experiment vor sich geht.
+          ausprobieren können, ist es für sie zudem viel einfacher, zu
+          verstehen, was wirklich bei einem Experiment vor sich geht.
         </p>
       </div>
     )

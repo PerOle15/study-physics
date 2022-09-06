@@ -1,8 +1,20 @@
 import InclinedPlaneSketch from '../sketches/InclinedPlaneSketch'
-import Latex from 'react-latex'
+import ImportantFormulas from '../components/ImportantFormulas'
 
 function InclinedPlanePage() {
   document.title = 'Fysihka - Schiefe Ebene'
+
+  const formulas = []
+  const frictionFomula = '$$F_{R}=sin(\\alpha) \\cdot F_{G}$$'
+  formulas.push({
+    title: 'Reibungskraft bei stehendem Körper',
+    formula: frictionFomula,
+  })
+  const resForceFormula = '$$F_{res}=sin(\\alpha )\\cdot F_{G}-F_{R}$$'
+  formulas.push({
+    title: 'Resultierende Kraft bei bewegendem Körper',
+    formula: resForceFormula,
+  })
   return (
     <div className='container'>
       <p className='page-heading'>Schiefe Ebene</p>
@@ -22,7 +34,7 @@ function InclinedPlanePage() {
           <p className='section-title'>
             Die wichtigsten Formeln auf einen Blick:
           </p>
-          <Latex>$3\times 4$</Latex>
+          <ImportantFormulas content={formulas} />
         </div>
         <br />
         <div className='long-description'>

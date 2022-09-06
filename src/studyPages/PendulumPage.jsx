@@ -3,6 +3,7 @@ import ImportantFormulas from '../components/ImportantFormulas'
 import M from '../components/Maths'
 
 function PendulumPage() {
+  document.title = 'Fysihka - Pendel'
   const formulas = []
   const oscillationPeriod = '$$T=2\\cdot\\pi\\cdot\\sqrt{\\frac{l}{g}}$$'
   formulas.push({ title: 'Schwingungsdauer', formula: oscillationPeriod })

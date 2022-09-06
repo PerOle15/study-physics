@@ -1,6 +1,5 @@
 import DensitySketch from '../sketches/DensitySketch'
 import ImportantFormulas from '../components/ImportantFormulas'
-import M from '../components/Maths'
 
 function DensityPage() {
   document.title = 'Fysihka - Dichte'
