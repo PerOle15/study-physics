@@ -9,7 +9,7 @@ function SpringSketch() {
   const minSpringConst = 20
   const maxSpringConst = 100
   const startingSpringConst = 40
-  const minMass = 0.5
+  const minMass = 0
   const maxMass = 10
   const startingMass = 5
 
@@ -57,6 +57,7 @@ function SpringSketch() {
       .class('sketch-slider')
       .input(() => {
         massLabel.html(`Masse: ${massSlider.value().toFixed(1)} kg`)
+        block.velocity = 0
         block.mass = massSlider.value()
         block.dimensions = Math.pow(block.mass, 1 / 3) * scale
       })

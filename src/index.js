@@ -24,6 +24,7 @@ import BuoyancyPage from './studyPages/BuoyancyPage'
 import PotentialEnergyPage from './studyPages/PotentialEnergyPage'
 import SpringPage from './studyPages/SpringPage'
 import MassPage from './studyPages/MassPage'
+import ThrowPage from './studyPages/ThrowPage'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -51,6 +52,7 @@ ReactDOM.render(
                 />
                 <Route path='springs' element={<SpringPage />} />
                 <Route path='mass' element={<MassPage />} />
+                <Route path='throw' element={<ThrowPage />} />
                 <Route path='*' element={<NotFoundPage />} />
               </Route>
               {/* If no page is found, show error */}

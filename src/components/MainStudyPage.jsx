@@ -65,6 +65,12 @@ function MainStudyPage() {
           </div>
           <p className='card-heading secondary'>Auftrieb</p>
         </Link>
+        <Link to='throw' className='card'>
+          <div className='card-icon'>
+            <GiWindSlap />
+          </div>
+          <p className='card-heading secondary'>Schiefer Wurf</p>
+        </Link>
       </div>
     </div>
   )
