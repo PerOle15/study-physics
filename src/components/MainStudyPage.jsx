@@ -71,6 +71,12 @@ function MainStudyPage() {
           </div>
           <p className='card-heading secondary'>Schiefer Wurf</p>
         </Link>
+        <Link to='wave-addition' className='card'>
+          <div className='card-icon'>
+            <GiWindSlap />
+          </div>
+          <p className='card-heading secondary'>Addition von Sinuswellen</p>
+        </Link>
       </div>
     </div>
   )

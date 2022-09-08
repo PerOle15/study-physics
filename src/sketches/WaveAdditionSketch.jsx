@@ -1,8 +1,8 @@
 import Sketch from 'react-p5'
 
-function SineWaveSketch() {
-  let wave
-  let waveArray = []
+function WaveAdditionSketch() {
+  let wave1
+  let wave2
   const frames = 60
   const gridColor = 155
   const waveScale = 90
@@ -10,7 +10,6 @@ function SineWaveSketch() {
   let controller
   let controlContainer
   let pauseBtn
-  let styleChangeBtn
   let frequencyLabel
   let frequencySlider
   let amplitudeLabel
@@ -46,18 +45,6 @@ function SineWaveSketch() {
         controller.handleLoop()
       })
 
-    // change style
-    styleChangeBtn = p
-      .createButton(controller.dots ? 'Linie' : 'Punkte')
-      .parent(controlContainer)
-      .class('btn')
-      .mousePressed(() => {
-        controller.handleStyle()
-        if (!p.isLooping()) {
-          controller.display(true)
-        }
-      })
-
     // Sliders with labels
     const frequencyContainer = p
       .createDiv()
@@ -72,7 +59,7 @@ function SineWaveSketch() {
         frequencyLabel.html(
           `Frequenz: ${frequencySlider.value().toFixed(2)} Hz`
         )
-        wave.frequency = frequencySlider.value()
+        wave1.frequency = frequencySlider.value()
       })
     frequencyLabel.html(`Frequenz: ${frequencySlider.value().toFixed(2)} Hz`)
 
@@ -89,7 +76,7 @@ function SineWaveSketch() {
         waveLengthLabel.html(
           `Wellenlänge: ${waveLengthSlider.value().toFixed(2)}`
         )
-        wave.waveLength = waveLengthSlider.value() * waveScale
+        wave1.waveLength = waveLengthSlider.value() * waveScale
         controller.display(true)
       })
     waveLengthLabel.html(`Wellenlänge: ${waveLengthSlider.value().toFixed(2)}`)
@@ -105,7 +92,7 @@ function SineWaveSketch() {
       .class('sketch-slider')
       .input(() => {
         amplitudeLabel.html(`Amplitude: ${amplitudeSlider.value().toFixed(2)}`)
-        wave.amplitude = amplitudeSlider.value() * waveScale
+        wave1.amplitude = amplitudeSlider.value() * waveScale
         controller.display(true)
       })
     amplitudeLabel.html(`Amplitude: ${amplitudeSlider.value().toFixed(2)}`)
@@ -114,16 +101,7 @@ function SineWaveSketch() {
     // waveLengthInput.value = waveLengthSlider.value
     // amplitudeInput.value = amplitudeSlider.value
 
-    wave = new Wave(p)
-    for (let i = 0; i < wave.circleCount; i++) {
-      waveArray.push(
-        new WavePoint(
-          p,
-          wave.radius,
-          i * (p.width / wave.circleCount) + wave.radius
-        )
-      )
-    }
+    wave1 = new Wave(p)
   }
 
   const draw = (p) => {
@@ -134,8 +112,6 @@ function SineWaveSketch() {
   class Controller {
     constructor(p) {
       this.p = p
-      // true = dots, false = line
-      this.dots = false
     }
     display(sliderChanged = false) {
       this.p.fill(180)
@@ -194,28 +170,19 @@ function SineWaveSketch() {
       }
       this.p.drawingContext.setLineDash([0, 0])
 
-      wave.update()
-      if (this.dots) {
-        waveArray.forEach((wavePoint, i) => {
-          if (i === 1) {
-            wavePoint.display('blue')
-          } else {
-            wavePoint.display('#f08d54')
-          }
-        })
-      } else {
-        this.p.noFill()
-        this.p.stroke(0)
-        this.p.beginShape()
-        for (let i = 0; i < this.p.width; i++) {
-          const x = i + 1
-          const y =
-            wave.amplitude *
-            Math.sin(((Math.PI * 2) / wave.waveLength) * x + wave.offset)
-          this.p.vertex(x, y)
-        }
-        this.p.endShape()
+      wave1.update()
+
+      this.p.noFill()
+      this.p.stroke(0)
+      this.p.beginShape()
+      for (let i = 0; i < this.p.width; i++) {
+        const x = i + 1
+        const y =
+          wave1.amplitude *
+          Math.sin(((Math.PI * 2) / wave1.waveLength) * x + wave1.offset)
+        this.p.vertex(x, y)
       }
+      this.p.endShape()
     }
     handleLoop() {
       if (this.p.isLooping()) {
@@ -224,15 +191,6 @@ function SineWaveSketch() {
       } else {
         this.p.loop()
         pauseBtn.html('Stoppen')
-      }
-    }
-    handleStyle() {
-      if (this.dots) {
-        styleChangeBtn.html('Punkte')
-        this.dots = false
-      } else {
-        styleChangeBtn.html('Linie')
-        this.dots = true
       }
     }
   }
@@ -250,36 +208,12 @@ function SineWaveSketch() {
     update() {
       // Verschiebung der Welle nur wenn die Animation läuft
       if (this.p.isLooping()) {
-        this.offset -= (Math.PI * 2 * wave.frequency) / frames
+        this.offset -= (Math.PI * 2 * wave1.frequency) / frames
       }
-    }
-  }
-
-  class WavePoint {
-    constructor(p, radius, x) {
-      this.p = p
-      this.radius = radius
-      this.x = x
-      this.y = 0
-    }
-
-    update() {
-      // Verschiebung der Welle nur wenn die Animation läuft
-
-      this.y =
-        wave.amplitude *
-        Math.sin(((Math.PI * 2) / wave.waveLength) * this.x + wave.offset)
-    }
-
-    display(color) {
-      this.update()
-      this.p.fill(color)
-      this.p.noStroke()
-      this.p.circle(this.x, this.y, this.radius * 2)
     }
   }
 
   return <Sketch setup={setup} draw={draw} />
 }
 
-export default SineWaveSketch
+export default WaveAdditionSketch
