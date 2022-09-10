@@ -77,6 +77,12 @@ function MainStudyPage() {
           </div>
           <p className='card-heading secondary'>Addition von Sinuswellen</p>
         </Link>
+        <Link to='collision' className='card'>
+          <div className='card-icon'>
+            <GiWindSlap />
+          </div>
+          <p className='card-heading secondary'>Kollision</p>
+        </Link>
       </div>
     </div>
   )

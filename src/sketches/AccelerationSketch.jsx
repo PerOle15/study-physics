@@ -106,7 +106,7 @@ function AccelerationSketch() {
     display() {
       this.update()
 
-      this.p.fill('salmon')
+      this.p.fill('#f08d54')
       this.p.rect(this.x, this.y, this.l, this.h)
       this.p.circle(
         this.x + this.wheelRadius,

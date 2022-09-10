@@ -1,9 +1,9 @@
-import { TIS620 } from 'mysql/lib/protocol/constants/charsets'
 import Sketch from 'react-p5'
 
 function ThrowSketch() {
   const frames = 60
-  const scale = 10
+  const scale = 15
+  const g = 9.81
 
   let clearAll
 
@@ -16,8 +16,7 @@ function ThrowSketch() {
     balls.push(new Ball(p))
   }
   const draw = (p) => {
-    p.fill(180)
-    p.rect(0, 0, p.width, p.height)
+    p.background(180)
 
     balls.forEach((ball) => {
       ball.display()
@@ -33,20 +32,25 @@ function ThrowSketch() {
       this.x = this.radius
       this.y = this.p.height - this.radius - this.offsetY
       this.aiming = true
-      this.angle = Math.PI / 2
-      this.force = 100
+      this.angle = Math.PI / 3
 
-      this.vx = 0
-      this.vy = 0
-      this.ax = 0
-      this.ay = 0
+      this.startv = 20
+
+      this.vx = ((Math.cos(this.angle) * this.startv) / frames) * scale
+      this.vy = ((Math.sin(this.angle) * this.startv) / frames) * scale
+      this.ay = (g / frames ** 2) * scale
+      console.log(this.vx, this.vy)
     }
 
     update() {
-      this.a = this.force / this.mass
+      this.x += this.vx
+      this.y -= this.vy
+
+      this.vy -= this.ay
     }
 
     display() {
+      this.update()
       this.p.fill('#f25c05')
       this.p.circle(this.x, this.y, this.radius * 2)
     }

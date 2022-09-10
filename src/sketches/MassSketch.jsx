@@ -59,6 +59,7 @@ function MassSketch() {
         massLabel.html(`Masse: ${Math.round(massSlider.value())} kg`)
         cube.mass = massSlider.value()
         cube.dim = cube.mass ** (1 / 3) * scale
+        cube.force = cube.mass * controller.gravity
         controller.display()
       })
     massLabel.html(`Masse: ${Math.round(massSlider.value())} kg`)
