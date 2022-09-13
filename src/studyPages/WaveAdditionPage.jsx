@@ -3,7 +3,7 @@ import ImportantFormulas from '../components/ImportantFormulas'
 import M from '../components/Maths'
 
 function WaveAdditionPage() {
-  document.title = 'Fysihka - Dichte'
+  document.title = 'Fysihka - Addition von Sinuswellen'
 
   const formulas = []
   const force = '$$F_{G}=m\\cdot g$$'

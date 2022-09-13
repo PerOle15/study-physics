@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
-import { GiWeight, GiSpring, GiWindSlap } from 'react-icons/gi'
+import { GiWeight, GiSpring, GiWindSlap, GiThrowingBall } from 'react-icons/gi'
 import { AiOutlineDotChart } from 'react-icons/ai'
+import { BsArrowsAngleContract } from 'react-icons/bs'
 import pendulum from '../svg/pendulum.svg'
 import wave from '../svg/wave.svg'
 import inclinedPlane from '../svg/inclined-plane.svg'
@@ -67,7 +68,7 @@ function MainStudyPage() {
         </Link>
         <Link to='throw' className='card'>
           <div className='card-icon'>
-            <GiWindSlap />
+            <GiThrowingBall />
           </div>
           <p className='card-heading secondary'>Schiefer Wurf</p>
         </Link>
@@ -79,7 +80,7 @@ function MainStudyPage() {
         </Link>
         <Link to='collision' className='card'>
           <div className='card-icon'>
-            <GiWindSlap />
+            <BsArrowsAngleContract />
           </div>
           <p className='card-heading secondary'>Kollision</p>
         </Link>

@@ -1,17 +1,19 @@
 import Sketch from 'react-p5'
+import Arrow from '../utils/Vector'
 
-function PotentialEnergySketch() {
+export default function PotentialEnergySketch() {
   const frames = 60
   const scale = 75
-  const localGravity = 9.81
+  const g = 9.81
   const groundHeight = 30
   const gap = 300
 
   const minMass = 0.1
-  const maxMass = 5
-  const startingMass = 1
+  const maxMass = 4
+  const startingMass = 2
   const minHeight = 1 * scale + groundHeight
-  const maxHeight = 4 * scale + groundHeight
+  const realMaxHeight = 4
+  const maxHeight = realMaxHeight * scale + groundHeight
   const startingHeight = maxHeight
 
   let massSlider
@@ -21,6 +23,7 @@ function PotentialEnergySketch() {
   let controller
 
   let block
+  let diagram
 
   const setup = (p, canvasParentRef) => {
     p.createCanvas(800, 500).parent(canvasParentRef)
@@ -28,6 +31,7 @@ function PotentialEnergySketch() {
     p.background(180)
 
     block = new Block(p)
+    diagram = new Diagram(p)
 
     controller = new Controller(p)
 
@@ -60,8 +64,9 @@ function PotentialEnergySketch() {
         block.falling = false
         block.onGround = false
         block.y = p.height - heightSlider.value() - block.displayDim
+        block.velocity = 0
         block.calcRealHeight()
-        block.calcPot()
+        block.calcEnergy()
         display(p)
       })
 
@@ -124,20 +129,22 @@ function PotentialEnergySketch() {
     p.rect(0, 0, p.width, p.height)
 
     block.display()
+    diagram.display()
 
     // Plattform und Boden
     const platformY = p.height - heightSlider.value()
     const groundY = p.height - groundHeight
+    const platformWidth = p.width / 2
     p.fill(80)
     p.stroke(0)
     p.beginShape()
     p.vertex(0, p.height - heightSlider.value())
-    p.vertex((p.width - gap) / 2, platformY)
-    p.vertex((p.width - gap) / 2, groundY)
-    p.vertex(p.width - (p.width - gap) / 2, groundY)
-    p.vertex(p.width - (p.width - gap) / 2, platformY)
-    p.vertex(p.width, platformY)
-    p.vertex(p.width, p.height)
+    p.vertex((platformWidth - gap) / 2, platformY)
+    p.vertex((platformWidth - gap) / 2, groundY)
+    p.vertex(platformWidth - (platformWidth - gap) / 2, groundY)
+    p.vertex(platformWidth - (platformWidth - gap) / 2, platformY)
+    p.vertex(platformWidth, platformY)
+    p.vertex(platformWidth, p.height)
     p.vertex(0, p.height)
     p.endShape(p.CLOSE)
   }
@@ -160,18 +167,19 @@ function PotentialEnergySketch() {
   class Block {
     constructor(p) {
       this.p = p
-      this.mass = 1
+      this.mass = startingMass
       this.dim = Math.pow(this.mass, 1 / 3)
       this.displayDim = this.dim * scale
       this.falling = false
       this.onGround = false
       this.velocity = 0
-      this.acceleration = (localGravity / frames ** 2) * scale
+      this.acceleration = g / frames
       this.platformHeight = maxHeight
+      this.platformWidth = this.p.width / 2
       this.y = this.p.height - this.platformHeight - this.displayDim
 
       this.calcRealHeight()
-      this.calcPot()
+      this.calcEnergy()
     }
 
     calcRealHeight() {
@@ -181,14 +189,24 @@ function PotentialEnergySketch() {
     }
 
     calcPot() {
-      this.pot = this.mass * localGravity * this.realHeight
+      this.pot = this.mass * g * this.realHeight
+    }
+
+    calcEnergy() {
+      this.calcPot()
+      this.kin = (this.mass * this.velocity ** 2) / 2
+      this.heat = this.onGround
+        ? (this.mass * g * (this.platformHeight - groundHeight)) / scale
+        : 0
     }
 
     update() {
       this.velocity += this.acceleration
-      this.y += this.velocity
+      console.log(this.velocity)
+      this.scaledVelocity = (this.velocity * scale) / frames
+      this.y += this.scaledVelocity
       if (
-        this.y + this.displayDim + this.velocity >
+        this.y + this.displayDim + this.scaledVelocity >
         this.p.height - groundHeight
       ) {
         this.y = this.p.height - groundHeight - this.displayDim
@@ -196,7 +214,7 @@ function PotentialEnergySketch() {
         this.onGround = true
       }
       this.calcRealHeight()
-      this.calcPot()
+      this.calcEnergy()
     }
 
     display() {
@@ -211,7 +229,7 @@ function PotentialEnergySketch() {
       this.p.fill(120)
       this.p.stroke(0)
       this.p.rect(
-        this.p.width / 2 - this.displayDim / 2,
+        this.platformWidth / 2 - this.displayDim / 2,
         this.y,
         this.displayDim,
         this.displayDim
@@ -221,7 +239,7 @@ function PotentialEnergySketch() {
       if (!this.falling) {
         this.p.fill('#6c3803')
         this.p.rect(
-          this.p.width / 2 - gap / 2,
+          this.platformWidth / 2 - gap / 2,
           this.p.height - this.platformHeight,
           gap,
           10
@@ -230,7 +248,81 @@ function PotentialEnergySketch() {
     }
   }
 
+  class Diagram {
+    constructor(p) {
+      this.p = p
+      this.gap = 20
+      this.x = this.p.width / 2 + this.gap
+      this.y = this.p.height - this.gap
+      this.h = maxHeight
+      this.w = this.p.width / 2 - this.gap * 2
+      this.xAxis = new Arrow(this.p, this.x, this.y, Math.PI / 2, this.w)
+      this.yAxis = new Arrow(this.p, this.x, this.y, Math.PI, this.h)
+
+      this.maxEnergy = realMaxHeight * maxMass * g
+
+      this.scale = this.h / this.maxEnergy
+
+      this.potArray = []
+      this.kinArray = []
+      this.heatArray = []
+      this.totArray = []
+      this.potColor = 'blue'
+      this.kinColor = 'orange'
+      this.heatColor = 'green'
+      this.totColor = 'purple'
+      for (let i = 0; i < this.w; i++) {
+        this.potArray.push(block.pot * this.scale)
+        this.kinArray.push(block.kin * this.scale)
+        this.heatArray.push(block.heat * this.scale)
+        this.totArray.push(
+          ((block.platformHeight - groundHeight) / scale) *
+            block.mass *
+            g *
+            this.scale
+        )
+      }
+    }
+
+    drawGraph(array, color) {
+      this.p.stroke(color)
+      this.p.beginShape()
+      array.forEach((y, i) => {
+        this.p.vertex(i + this.x + 1, this.y - y - 1)
+      })
+      this.p.endShape()
+    }
+
+    update() {
+      this.potArray.push(block.pot * this.scale)
+      this.potArray.shift()
+      this.kinArray.push(block.kin * this.scale)
+      this.kinArray.shift()
+      this.heatArray.push(block.heat * this.scale)
+      this.heatArray.shift()
+      this.totArray.push(
+        ((block.platformHeight - groundHeight) / scale) *
+          block.mass *
+          g *
+          this.scale
+      )
+      this.totArray.shift()
+    }
+
+    display() {
+      this.update()
+      this.xAxis.display()
+      this.yAxis.display()
+      // Potentielle Energie
+      this.p.strokeWeight(2)
+      this.p.noFill()
+      this.drawGraph(this.potArray, this.potColor)
+      this.drawGraph(this.kinArray, this.kinColor)
+      this.drawGraph(this.heatArray, this.heatColor)
+      this.drawGraph(this.totArray, this.totColor)
+      this.p.strokeWeight(1)
+    }
+  }
+
   return <Sketch setup={setup} draw={draw} />
 }
-
-export default PotentialEnergySketch
