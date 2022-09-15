@@ -67,6 +67,7 @@ export default function PotentialEnergySketch() {
         block.velocity = 0
         block.calcRealHeight()
         block.calcEnergy()
+        block.maxEnergy = block.realHeight * block.mass * g
         display(p)
       })
 
@@ -89,6 +90,9 @@ export default function PotentialEnergySketch() {
         block.lastDim = Math.pow(block.lastMass, 1 / 3)
         block.y = block.y - (block.displayDim - block.lastDim * scale)
         block.calcPot()
+        if (!block.falling && !block.onGround) {
+          block.maxEnergy = block.realHeight * block.mass * g
+        }
       })
     massLabel.html(`Masse: ${massSlider.value().toFixed(2)} kg`)
 
@@ -111,6 +115,10 @@ export default function PotentialEnergySketch() {
         if (!block.falling) {
           block.y = p.height - block.platformHeight - block.displayDim
           block.realHeight = (heightSlider.value() - groundHeight) / scale
+
+          if (!block.onGround) {
+            block.maxEnergy = block.realHeight * block.mass * g
+          }
         }
         block.calcPot()
       })
@@ -179,6 +187,7 @@ export default function PotentialEnergySketch() {
       this.y = this.p.height - this.platformHeight - this.displayDim
 
       this.calcRealHeight()
+      this.maxEnergy = this.realHeight * this.mass * g
       this.calcEnergy()
     }
 
@@ -195,9 +204,7 @@ export default function PotentialEnergySketch() {
     calcEnergy() {
       this.calcPot()
       this.kin = (this.mass * this.velocity ** 2) / 2
-      this.heat = this.onGround
-        ? (this.mass * g * (this.platformHeight - groundHeight)) / scale
-        : 0
+      this.heat = this.onGround ? this.maxEnergy : 0
     }
 
     update() {
@@ -221,11 +228,6 @@ export default function PotentialEnergySketch() {
       if (this.falling && !this.onGround) {
         this.update()
       }
-      this.p.fill(0)
-      this.p.textSize(20)
-      this.p.textAlign(this.p.LEFT, this.p.TOP)
-      this.p.text(`Fallhöhe: ${this.realHeight.toFixed(2)} m`, 10, 10)
-      this.p.text(`Potentielle Energie: ${this.pot.toFixed(2)} J`, 10, 35)
       this.p.fill(120)
       this.p.stroke(0)
       this.p.rect(
@@ -268,19 +270,16 @@ export default function PotentialEnergySketch() {
       this.heatArray = []
       this.totArray = []
       this.potColor = 'blue'
-      this.kinColor = 'orange'
+      this.kinColor = '#dc143d'
       this.heatColor = 'green'
       this.totColor = 'purple'
+      this.textSize = 16
+      this.textGap = 8
       for (let i = 0; i < this.w; i++) {
         this.potArray.push(block.pot * this.scale)
         this.kinArray.push(block.kin * this.scale)
         this.heatArray.push(block.heat * this.scale)
-        this.totArray.push(
-          ((block.platformHeight - groundHeight) / scale) *
-            block.mass *
-            g *
-            this.scale
-        )
+        this.totArray.push(block.maxEnergy * this.scale)
       }
     }
 
@@ -300,12 +299,7 @@ export default function PotentialEnergySketch() {
       this.kinArray.shift()
       this.heatArray.push(block.heat * this.scale)
       this.heatArray.shift()
-      this.totArray.push(
-        ((block.platformHeight - groundHeight) / scale) *
-          block.mass *
-          g *
-          this.scale
-      )
+      this.totArray.push(block.maxEnergy * this.scale)
       this.totArray.shift()
     }
 
@@ -321,6 +315,37 @@ export default function PotentialEnergySketch() {
       this.drawGraph(this.heatArray, this.heatColor)
       this.drawGraph(this.totArray, this.totColor)
       this.p.strokeWeight(1)
+
+      this.p.textAlign(this.p.RIGHT, this.p.TOP)
+      this.p.textSize(this.textSize)
+      this.p.noStroke()
+      this.p.fill(this.totColor)
+      this.p.text(
+        `Gesamtenergie: ${(
+          this.totArray[this.totArray.length - 1] / this.scale
+        ).toFixed(2)} J`,
+        this.p.width - this.textGap,
+        this.textGap
+      )
+      this.p.fill(this.potColor)
+      this.p.text(
+        `Potentielle Energie: ${block.pot.toFixed(2)} J`,
+        this.p.width - this.textGap,
+        this.textGap * 2 + this.textSize
+      )
+      this.p.fill(this.kinColor)
+      this.p.text(
+        `Kinetische Energie: ${block.kin.toFixed(2)} J`,
+        this.p.width - this.textGap,
+        this.textGap * 3 + this.textSize * 2
+      )
+      this.p.fill(this.heatColor)
+      this.p.text(
+        `Wärmeenergie: ${block.heat.toFixed(2)} J`,
+        this.p.width - this.textGap,
+        this.textGap * 4 + this.textSize * 3
+      )
+      this.p.stroke(0)
     }
   }
 
