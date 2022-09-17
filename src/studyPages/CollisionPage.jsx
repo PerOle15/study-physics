@@ -3,7 +3,7 @@ import ImportantFormulas from '../components/ImportantFormulas'
 import M from '../components/Maths'
 
 function DensityPage() {
-  document.title = 'Fysihka - Kollision'
+  document.title = 'Fysihka - Stösse'
 
   const formulas = []
   const force = '$$F_{G}=m\\cdot g$$'
@@ -11,7 +11,7 @@ function DensityPage() {
 
   return (
     <div className='container'>
-      <p className='page-heading'>Kollision</p>
+      <p className='page-heading'>Stösse</p>
       <CollisionSketch />
       <section className='topic-description'>
         <div className='short-description'>
