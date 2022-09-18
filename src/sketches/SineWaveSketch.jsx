@@ -110,10 +110,6 @@ function SineWaveSketch() {
       })
     amplitudeLabel.html(`Amplitude: ${amplitudeSlider.value().toFixed(2)}`)
 
-    // frequencyInput.value = frequencySlider.value
-    // waveLengthInput.value = waveLengthSlider.value
-    // amplitudeInput.value = amplitudeSlider.value
-
     wave = new Wave(p)
     for (let i = 0; i < wave.circleCount; i++) {
       waveArray.push(
@@ -210,7 +206,7 @@ function SineWaveSketch() {
         for (let i = 0; i < this.p.width; i++) {
           const x = i + 1
           const y =
-            wave.amplitude *
+            -wave.amplitude *
             Math.sin(((Math.PI * 2) / wave.waveLength) * x + wave.offset)
           this.p.vertex(x, y)
         }
@@ -267,7 +263,7 @@ function SineWaveSketch() {
       // Verschiebung der Welle nur wenn die Animation läuft
 
       this.y =
-        wave.amplitude *
+        -wave.amplitude *
         Math.sin(((Math.PI * 2) / wave.waveLength) * this.x + wave.offset)
     }
 

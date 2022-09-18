@@ -4,25 +4,33 @@ function WaveAdditionSketch() {
   let wave1
   let wave2
   const frames = 60
-  const gridColor = 155
+  // const gridColor = 155
   const waveScale = 90
+  const textSize = 16
+  const textGap = 10
 
   let controller
   let controlContainer
   let pauseBtn
-  let frequencyLabel
-  let frequencySlider
-  let amplitudeLabel
-  let amplitudeSlider
-  let waveLengthLabel
-  let waveLengthSlider
+  // Frequency
+  let f1Slider
+  let f2Slider
+  // Amplitude
+  let a1Slider
+  let a2Slider
+  // Wave Length
+  let w1Slider
+  let w2Slider
 
   const minFrequency = 0
   const maxFrequency = 2
-  const minWaveLength = 0
-  const maxWaveLength = 4
+  const startingFrequency = 0.5
+  const minWaveLength = 0.05
+  const maxWaveLength = 2
+  const startingWaveLength = 1
   const minAmplitude = 0
-  const maxAmplitude = 2.5
+  const maxAmplitude = 1.25
+  const startingAmplitude = 1
   const setup = (p, canvasParentRef) => {
     // use parent to render the canvas in this ref
     // (without that p will render the canvas outside of your component)
@@ -46,62 +54,112 @@ function WaveAdditionSketch() {
       })
 
     // Sliders with labels
-    const frequencyContainer = p
+    const f1Container = p
       .createDiv()
       .parent(controlContainer)
       .class('sketch-input-container')
-    frequencyLabel = p.createDiv().parent(frequencyContainer)
-    frequencySlider = p
-      .createSlider(minFrequency, maxFrequency, 0.5, 0)
-      .parent(frequencyContainer)
+    const f1Label = p.createDiv().parent(f1Container)
+    f1Slider = p
+      .createSlider(minFrequency, maxFrequency, startingFrequency, 0)
+      .parent(f1Container)
       .class('sketch-slider')
       .input(() => {
-        frequencyLabel.html(
-          `Frequenz: ${frequencySlider.value().toFixed(2)} Hz`
-        )
-        wave1.frequency = frequencySlider.value()
+        f1Label.html(`Frequenz 1: ${f1Slider.value().toFixed(2)} Hz`)
+        wave1.frequency = f1Slider.value()
       })
-    frequencyLabel.html(`Frequenz: ${frequencySlider.value().toFixed(2)} Hz`)
+    f1Label.html(`Frequenz 1: ${f1Slider.value().toFixed(2)} Hz`)
 
-    const waveLengthContainer = p
+    const f2Container = p
       .createDiv()
       .parent(controlContainer)
       .class('sketch-input-container')
-    waveLengthLabel = p.createDiv().parent(waveLengthContainer)
-    waveLengthSlider = p
-      .createSlider(minWaveLength, maxWaveLength, 1.5, 0)
-      .parent(waveLengthContainer)
+    const f2Label = p.createDiv().parent(f2Container)
+    f2Slider = p
+      .createSlider(minFrequency, maxFrequency, startingFrequency, 0)
+      .parent(f2Container)
       .class('sketch-slider')
       .input(() => {
-        waveLengthLabel.html(
-          `Wellenlänge: ${waveLengthSlider.value().toFixed(2)}`
-        )
-        wave1.waveLength = waveLengthSlider.value() * waveScale
+        f2Label.html(`Frequenz 2: ${f2Slider.value().toFixed(2)} Hz`)
+        wave2.frequency = f2Slider.value()
+      })
+    f2Label.html(`Frequenz 2: ${f2Slider.value().toFixed(2)} Hz`)
+
+    const w1Container = p
+      .createDiv()
+      .parent(controlContainer)
+      .class('sketch-input-container')
+    const w1Label = p.createDiv().parent(w1Container)
+    w1Slider = p
+      .createSlider(minWaveLength, maxWaveLength, startingWaveLength, 0)
+      .parent(w1Container)
+      .class('sketch-slider')
+      .input(() => {
+        w1Label.html(`Wellenlänge 1: ${w1Slider.value().toFixed(2)}`)
+        wave1.waveLength = w1Slider.value() * waveScale
         controller.display(true)
       })
-    waveLengthLabel.html(`Wellenlänge: ${waveLengthSlider.value().toFixed(2)}`)
+    w1Label.html(`Wellenlänge 1: ${w1Slider.value().toFixed(2)}`)
 
-    const amplitudeContainer = p
+    const w2Container = p
       .createDiv()
       .parent(controlContainer)
       .class('sketch-input-container')
-    amplitudeLabel = p.createDiv().parent(amplitudeContainer)
-    amplitudeSlider = p
-      .createSlider(minAmplitude, maxAmplitude, 1, 0)
-      .parent(amplitudeContainer)
+    const w2Label = p.createDiv().parent(w2Container)
+    w2Slider = p
+      .createSlider(minWaveLength, maxWaveLength, startingWaveLength, 0)
+      .parent(w2Container)
       .class('sketch-slider')
       .input(() => {
-        amplitudeLabel.html(`Amplitude: ${amplitudeSlider.value().toFixed(2)}`)
-        wave1.amplitude = amplitudeSlider.value() * waveScale
+        w2Label.html(`Wellenlänge 2: ${w2Slider.value().toFixed(2)}`)
+        wave2.waveLength = w2Slider.value() * waveScale
         controller.display(true)
       })
-    amplitudeLabel.html(`Amplitude: ${amplitudeSlider.value().toFixed(2)}`)
+    w2Label.html(`Wellenlänge 2: ${w2Slider.value().toFixed(2)}`)
 
-    // frequencyInput.value = frequencySlider.value
-    // waveLengthInput.value = waveLengthSlider.value
-    // amplitudeInput.value = amplitudeSlider.value
+    const a1Container = p
+      .createDiv()
+      .parent(controlContainer)
+      .class('sketch-input-container')
+    const a1Label = p.createDiv().parent(a1Container)
+    a1Slider = p
+      .createSlider(minAmplitude, maxAmplitude, startingAmplitude, 0)
+      .parent(a1Container)
+      .class('sketch-slider')
+      .input(() => {
+        a1Label.html(`Amplitude 1: ${a1Slider.value().toFixed(2)}`)
+        wave1.amplitude = a1Slider.value() * waveScale
+        controller.display(true)
+      })
+    a1Label.html(`Amplitude 1: ${a1Slider.value().toFixed(2)}`)
 
-    wave1 = new Wave(p)
+    const a2Container = p
+      .createDiv()
+      .parent(controlContainer)
+      .class('sketch-input-container')
+    const a2Label = p.createDiv().parent(a2Container)
+    a2Slider = p
+      .createSlider(minAmplitude, maxAmplitude, startingAmplitude, 0)
+      .parent(a2Container)
+      .class('sketch-slider')
+      .input(() => {
+        a2Label.html(`Amplitude 2: ${a2Slider.value().toFixed(2)}`)
+        wave2.amplitude = a2Slider.value() * waveScale
+        controller.display(true)
+      })
+    a2Label.html(`Amplitude 2: ${a2Slider.value().toFixed(2)}`)
+
+    wave1 = new Wave(
+      p,
+      f1Slider.value(),
+      w1Slider.value() * waveScale,
+      a1Slider.value() + waveScale
+    )
+    wave2 = new Wave(
+      p,
+      f2Slider.value(),
+      w2Slider.value() * waveScale,
+      a2Slider.value() + waveScale
+    )
   }
 
   const draw = (p) => {
@@ -112,77 +170,60 @@ function WaveAdditionSketch() {
   class Controller {
     constructor(p) {
       this.p = p
+      // Height and width for the different sections for the waves
+      this.wave1H = this.p.height / 2
+      this.wave2H = this.p.height / 2
+      this.addedWaveH = this.p.height
     }
     display(sliderChanged = false) {
-      this.p.fill(180)
-      // Hintergrund grau machen je nachdem ob der Ursprung schon veschoben wurde oder nicht
-      if (sliderChanged) {
-        this.p.rect(0, -this.p.height / 2, this.p.width, this.p.height)
-      } else {
-        this.p.rect(0, 0, this.p.width, this.p.height)
-      }
-
-      // Nur wenn die Funktion nicht von einem Slider aufgerufen wurde Ursprung verschieben
-      if (!sliderChanged) {
-        this.p.translate(0, this.p.height / 2)
-      }
-
-      // Raster zeichnen
-      this.p.drawingContext.setLineDash([5, 10])
-      this.p.noStroke()
-      this.p.fill(gridColor)
-      this.p.textAlign(this.p.RIGHT, this.p.CENTER)
-      this.p.text(0, this.p.width - 3, 0)
-      this.p.stroke(gridColor)
-      this.p.line(0, 0, this.p.width - 20, 0)
-      // Horizontal
-      for (let i = 0; i < this.p.height / 2 / waveScale; i++) {
-        this.p.stroke(gridColor)
-        this.p.line(
-          0,
-          (i + 1) * waveScale,
-          this.p.width - 20,
-          (i + 1) * waveScale
-        )
-        this.p.line(
-          0,
-          -(i + 1) * waveScale,
-          this.p.width - 20,
-          -(i + 1) * waveScale
-        )
-        this.p.noStroke()
-        this.p.text(i + 1, this.p.width - 3, -(i + 1) * waveScale)
-        this.p.text(-(i + 1), this.p.width - 3, (i + 1) * waveScale)
-      }
-      // Vertikal
-      this.p.textAlign(this.p.CENTER, this.p.BOTTOM)
-      for (let i = 0; i < this.p.width / waveScale; i++) {
-        const x = i + 1
-        this.p.stroke(gridColor)
-        this.p.line(
-          x * waveScale,
-          this.p.height / 2 - 20,
-          x * waveScale,
-          -this.p.height / 2
-        )
-        this.p.noStroke()
-        this.p.text(i + 1, x * waveScale, this.p.height / 2 - 3)
-      }
-      this.p.drawingContext.setLineDash([0, 0])
+      this.p.background(180)
 
       wave1.update()
+      wave2.update()
 
       this.p.noFill()
       this.p.stroke(0)
+      this.p.line(this.p.width / 2, 0, this.p.width / 2, this.p.height)
+      this.p.line(0, this.p.height / 2, this.p.width / 2, this.p.height / 2)
+
+      // Wave 1
       this.p.beginShape()
-      for (let i = 0; i < this.p.width; i++) {
-        const x = i + 1
-        const y =
-          wave1.amplitude *
-          Math.sin(((Math.PI * 2) / wave1.waveLength) * x + wave1.offset)
+      for (let i = 0; i < wave1.width; i++) {
+        const x = i
+        const y = wave1.yArray[i] + this.p.height / 4
         this.p.vertex(x, y)
       }
       this.p.endShape()
+
+      // Wave 2
+      this.p.beginShape()
+      for (let i = 0; i < wave2.width; i++) {
+        const x = i
+        const y = wave2.yArray[i] + (this.p.height / 4) * 3
+        this.p.vertex(x, y)
+      }
+      this.p.endShape()
+
+      // Interference Wave
+      this.p.beginShape()
+      for (let i = 0; i < wave1.width; i++) {
+        const x = i + wave1.width + 1
+        const y = wave1.yArray[i] + wave2.yArray[i] + this.p.height / 2
+        this.p.vertex(x, y)
+      }
+      this.p.endShape()
+
+      this.p.noStroke()
+      this.p.fill(0)
+      this.p.textSize(textSize)
+      this.p.textAlign(this.p.LEFT, this.p.TOP)
+      this.p.text('Welle 1', textGap, textGap)
+      this.p.text('Welle 2', textGap, this.p.height / 2 + textGap)
+      this.p.text(
+        'Interferenz von Welle 1 & Welle 2',
+        this.p.width / 2 + textGap,
+        textGap
+      )
     }
     handleLoop() {
       if (this.p.isLooping()) {
@@ -196,19 +237,33 @@ function WaveAdditionSketch() {
   }
 
   class Wave {
-    constructor(p) {
+    constructor(p, frequency, waveLength, amplitude) {
       this.p = p
-      this.radius = 3
-      this.circleCount = this.p.width / (this.radius * 2 + 2)
-      this.frequency = frequencySlider.value()
-      this.waveLength = waveLengthSlider.value() * waveScale
-      this.amplitude = amplitudeSlider.value() * waveScale
+      this.frequency = frequency
+      this.waveLength = waveLength
+      this.amplitude = amplitude
       this.offset = 0
+      this.yArray = []
+      this.width = this.p.width / 2
+      for (let i = 0; i < this.width; i++) {
+        this.yArray.push(
+          -this.amplitude *
+            Math.sin(((Math.PI * 2) / this.waveLength) * (i + 1) + this.offset)
+        )
+      }
     }
     update() {
       // Verschiebung der Welle nur wenn die Animation läuft
       if (this.p.isLooping()) {
-        this.offset -= (Math.PI * 2 * wave1.frequency) / frames
+        this.offset -= (Math.PI * 2 * this.frequency) / frames
+      }
+
+      this.yArray = []
+      for (let i = 0; i < this.width; i++) {
+        this.yArray.push(
+          -this.amplitude *
+            Math.sin(((Math.PI * 2) / this.waveLength) * (i + 1) + this.offset)
+        )
       }
     }
   }

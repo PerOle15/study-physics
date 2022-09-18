@@ -6,6 +6,7 @@ import pendulum from '../svg/pendulum.svg'
 import wave from '../svg/wave.svg'
 import inclinedPlane from '../svg/inclined-plane.svg'
 import potentialEnergy from '../svg/potential-energy.svg'
+import interference from '../svg/interference.png'
 
 function MainStudyPage() {
   return (
@@ -74,9 +75,9 @@ function MainStudyPage() {
         </Link>
         <Link to='wave-addition' className='card'>
           <div className='card-icon'>
-            <GiWindSlap />
+            <img src={interference} alt='' />
           </div>
-          <p className='card-heading secondary'>Addition von Sinuswellen</p>
+          <p className='card-heading secondary'>Interferenz von Sinuswellen</p>
         </Link>
         <Link to='collision' className='card'>
           <div className='card-icon'>
