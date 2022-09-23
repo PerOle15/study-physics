@@ -4,6 +4,7 @@ function BuoyancySketch() {
   const frames = 60
   const scale = 200
   const localGravity = 9.81
+  const flowResistance = 1.1
 
   let volumeSlider
   let densitySlider
@@ -127,7 +128,7 @@ function BuoyancySketch() {
       this.offsetX = 0
       this.offsetY = 0
       this.velocity = this.p.createVector(0, 0)
-      this.acceleration = this.p.createVector(0, 0)
+      this.acc = this.p.createVector(0, 0)
       this.submergedVolume = 0
       this.submergedPart = 0
       this.dragging = false
@@ -145,7 +146,7 @@ function BuoyancySketch() {
         this.dragging = true
         this.offsetX = this.x - px
         this.offsetY = this.y - py
-        this.acceleration.y = 0
+        this.acc.y = 0
         this.velocity.y = 0
       }
     }
@@ -155,7 +156,17 @@ function BuoyancySketch() {
     }
 
     calcAcceleration() {
-      this.acceleration.y = (localGravity / frames ** 2) * scale
+      this.acc.y = (localGravity / frames ** 2) * scale
+      if (this.y + this.displayDimensions) {
+        // Fläche durch 2 Teilen, damit die Abbremsung nicht so gross ist
+        const area = this.dimensions ** 2 / 2
+        // Formel aus: https://www.leifiphysik.de/mechanik/stroemungslehre/grundwissen/stroemungswiderstand-und-crmw-wert
+        const resistanceForce =
+          (1 / 2) * flowResistance * this.density * area * this.velocity.y
+        const resistanceAcc =
+          (resistanceForce / (this.density * this.volume) / frames ** 2) * scale
+        this.acc.y -= resistanceAcc
+      }
       if (this.y + this.displayDimensions > liquid.y) {
         if (this.y > liquid.y) {
           this.submergedPart = 1
@@ -171,7 +182,7 @@ function BuoyancySketch() {
             frames ** 2) *
           scale
         const buoyancyAcceleration = buoyancyForce / this.mass
-        this.acceleration.y -= buoyancyAcceleration
+        this.acc.y -= buoyancyAcceleration
       }
     }
 
@@ -194,9 +205,9 @@ function BuoyancySketch() {
         }
         // Beschleunigung des Würfels berechnen
         this.calcAcceleration()
-        this.velocity.y += this.acceleration.y
+        this.velocity.y += this.acc.y
         // Wasser-/Luftwiderstand (vereinfacht)
-        this.velocity.y *= 0.993
+        // this.velocity.y *= 0.993
         this.y += this.velocity.y
       } else {
         this.velocity.y *= -1

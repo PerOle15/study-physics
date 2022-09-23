@@ -8,7 +8,6 @@ function SineWaveSketch() {
   const waveScale = 90
 
   let controller
-  let controlContainer
   let pauseBtn
   let styleChangeBtn
   let frequencyLabel
@@ -33,7 +32,7 @@ function SineWaveSketch() {
 
     controller = new Controller(p)
 
-    controlContainer = p
+    const controlContainer = p
       .createDiv()
       .parent(canvasParentRef)
       .class('sketch-control highlight-box')
