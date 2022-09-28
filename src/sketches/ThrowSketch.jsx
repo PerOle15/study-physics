@@ -132,8 +132,9 @@ function ThrowSketch() {
     constructor(p) {
       this.p = p
       this.radius = ballRadius
+      this.platformWidth = 50
       this.offsetY = heightSlider.value() * scale
-      this.x = this.radius
+      this.x = this.platformWidth / 2
       this.calcY()
       this.angle = (angleSlider.value() / 360) * Math.PI * 2
       this.shot = false
@@ -201,6 +202,16 @@ function ThrowSketch() {
       }
       this.p.fill('#f25c05')
       this.p.circle(this.x, this.y, this.radius * 2)
+
+      this.p.fill('#888')
+      if (this.offsetY !== 0) {
+        this.p.rect(
+          0,
+          this.p.height - this.offsetY,
+          this.platformWidth,
+          this.offsetY
+        )
+      }
     }
   }
 

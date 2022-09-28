@@ -270,7 +270,7 @@ function BuoyancySketch() {
 
     display() {
       this.update()
-      this.p.fill('#f08d54')
+      this.p.fill('#607d84')
       this.p.rect(0, this.y, this.p.width, this.p.height)
     }
   }
