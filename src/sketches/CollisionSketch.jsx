@@ -4,8 +4,8 @@ export default function CollisionSketch() {
   const frames = 60
   const scale = 25
   const textSize = 16
-  const trainLength = 100
-  let elastic = true
+  const trainLength = 4
+  let elastic = false
 
   let controller
   let trainLeft
@@ -28,8 +28,15 @@ export default function CollisionSketch() {
 
     controller = new Controller(p)
 
-    trainLeft = new Train(p, 0, 0, 10, 1000)
-    trainRight = new Train(p, p.width - trainLength, 0, -10, 10000)
+    trainLeft = new Train(p, 0, 0, 5, 1000, '#f08d54')
+    trainRight = new Train(
+      p,
+      p.width / scale - trainLength,
+      0,
+      -5,
+      10000,
+      '#607d84'
+    )
 
     const controlContainer = p
       .createDiv()
@@ -95,7 +102,7 @@ export default function CollisionSketch() {
     }
     resetCanvas() {
       trainLeft.x = 0
-      trainRight.x = this.p.width - trainLength
+      trainRight.x = this.p.width / scale - trainLength
       controller.display()
     }
     handleLoop() {
@@ -110,19 +117,22 @@ export default function CollisionSketch() {
   }
 
   class Train {
-    constructor(p, x, startingAcc, startingVel, mass) {
+    constructor(p, x, startingAcc, startingVel, mass, color) {
       this.p = p
+      this.width = this.p.width / scale
+      this.height = this.p.height / scale
       this.mass = mass
-      this.h = 50
+      this.color = color
+      this.h = 2
       this.l = trainLength
-      this.wheelRadius = 7
-      this.wheelY = this.p.height - this.wheelRadius
+      this.wheelRadius = 7 / scale
+      this.wheelY = this.height - this.wheelRadius
 
-      this.acc = startingAcc * scale
+      this.acc = startingAcc
       this.vel = startingVel
       this.x = x
       this.right = this.x + this.l
-      this.y = this.p.height - this.h - 2 * this.wheelRadius
+      this.y = this.height - this.h - 2 * this.wheelRadius
       this.momentum = this.mass * this.vel
     }
     checkCollision(other) {
@@ -158,36 +168,44 @@ export default function CollisionSketch() {
     checkHitWall() {}
     update() {
       this.vel += this.acc / frames ** 2
-      this.scaledVel = (this.vel / frames) * scale
-      if (this.x + this.l + this.scaledVel > this.p.width) {
+      if (this.x + this.l + this.vel > this.width) {
         // Teil der Geschwindigkeit bei Aufprall mit der Seite speichern, damit immer die ganze Strecke genutzt wird.
-        const partvel = this.scaledVel - (this.p.width - this.x - this.l)
-        this.x = this.p.width - this.l - partvel
+        const partvel = this.vel - (this.width - this.x - this.l)
+        this.x = this.width - this.l - partvel
         this.vel *= -1
-      } else if (this.x + this.scaledVel < 0) {
-        const partvel = -this.scaledVel - this.x
+      } else if (this.x + this.vel < 0) {
+        const partvel = -this.vel - this.x
         this.x = partvel
         this.vel *= -1
       } else {
-        this.x += this.scaledVel
+        this.x += this.vel
       }
       this.right = this.x + this.l
     }
     display() {
       this.update()
 
-      this.p.fill('#f08d54')
-      this.p.rect(this.x, this.y, this.l, this.h)
-      this.p.circle(
-        this.x + this.wheelRadius,
-        this.wheelY,
-        this.wheelRadius * 2
+      this.p.fill(this.color)
+      this.p.rect(
+        this.x * scale,
+        this.y * scale,
+        this.l * scale,
+        this.h * scale
       )
-      this.p.circle(this.x + this.l / 2, this.wheelY, this.wheelRadius * 2)
       this.p.circle(
-        this.x + this.l - this.wheelRadius,
-        this.wheelY,
-        this.wheelRadius * 2
+        (this.x + this.wheelRadius) * scale,
+        this.wheelY * scale,
+        this.wheelRadius * 2 * scale
+      )
+      this.p.circle(
+        (this.x + this.l / 2) * scale,
+        this.wheelY * scale,
+        this.wheelRadius * 2 * scale
+      )
+      this.p.circle(
+        (this.x + this.l - this.wheelRadius) * scale,
+        this.wheelY * scale,
+        this.wheelRadius * 2 * scale
       )
     }
   }

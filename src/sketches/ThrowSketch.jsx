@@ -107,6 +107,7 @@ function ThrowSketch() {
   const draw = (p) => {
     p.background(180)
 
+    p.fill('#999')
     balls.forEach((ball) => {
       p.circle(ball.x, ball.y, ballRadius * 2)
     })
