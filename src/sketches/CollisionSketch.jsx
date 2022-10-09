@@ -5,7 +5,7 @@ export default function CollisionSketch() {
   const scale = 25
   const textSize = 16
   const trainLength = 4
-  let elastic = false
+  const elastic = true
 
   let controller
   let trainLeft
@@ -59,14 +59,30 @@ export default function CollisionSketch() {
         controller.resetCanvas()
       })
 
-    const degreeContainer = p
+    const elasticContainer = p
       .createDiv()
       .parent(controlContainer)
       .class('sketch-input-container')
-    const m1Label = p.createDiv().parent(degreeContainer)
+    p.createDiv().parent(elasticContainer).html('Elastischer Stoss')
+    // checkbox
+    const checkBox = p
+      .createCheckbox('', elastic)
+      .parent(elasticContainer)
+      .class('switch')
+      .changed(() => {
+        controller.elastic = checkBox.checked()
+      })
+    //Span for checkbox
+    p.createSpan().parent(checkBox).class('slider round')
+
+    const m1Container = p
+      .createDiv()
+      .parent(controlContainer)
+      .class('sketch-input-container')
+    const m1Label = p.createDiv().parent(m1Container)
     m1Slider = p
       .createSlider(minMass, maxMass, (startingMass / (Math.PI * 2)) * 360, 0)
-      .parent(degreeContainer)
+      .parent(m1Container)
       .class('sketch-slider')
       .input(() => {
         if (!p.isLooping()) {
@@ -87,6 +103,7 @@ export default function CollisionSketch() {
   class Controller {
     constructor(p) {
       this.p = p
+      this.elastic = elastic
     }
     display() {
       this.p.background(180)
@@ -146,7 +163,7 @@ export default function CollisionSketch() {
           (this.mass * this.vel + other.mass * other.vel) /
           (this.mass + other.mass)
 
-        if (elastic) {
+        if (controller.elastic) {
           // If elastic collision
           this.vel = 2 * mediumV - this.vel
           other.vel = 2 * mediumV - other.vel
