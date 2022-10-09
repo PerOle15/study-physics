@@ -209,7 +209,6 @@ export default function PotentialEnergySketch() {
 
     update() {
       this.velocity += this.acceleration
-      console.log(this.velocity)
       this.scaledVelocity = (this.velocity * scale) / frames
       this.y += this.scaledVelocity
       if (

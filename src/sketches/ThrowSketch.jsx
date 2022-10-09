@@ -220,3 +220,5 @@ function ThrowSketch() {
 }
 
 export default ThrowSketch
+
+// Vektor zur Anzeige der Geschwindigkeit

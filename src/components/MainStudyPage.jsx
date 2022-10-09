@@ -7,6 +7,7 @@ import wave from '../svg/wave.svg'
 import inclinedPlane from '../svg/inclined-plane.svg'
 import potentialEnergy from '../svg/potential-energy.svg'
 import interference from '../svg/interference.png'
+import acceleration from '../svg/acceleration.png'
 
 function MainStudyPage() {
   return (
@@ -57,7 +58,7 @@ function MainStudyPage() {
         </Link>
         <Link to='acceleration' className='card'>
           <div className='card-icon'>
-            <GiWindSlap />
+            <img src={acceleration} alt='' />
           </div>
           <p className='card-heading secondary'>Beschleunigung</p>
         </Link>

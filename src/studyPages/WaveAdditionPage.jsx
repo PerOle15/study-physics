@@ -3,15 +3,15 @@ import ImportantFormulas from '../components/ImportantFormulas'
 import M from '../components/Maths'
 
 function WaveAdditionPage() {
-  document.title = 'Fysihka - Addition von Sinuswellen'
+  document.title = 'Fysihka - Interferenz von Sinuswellen'
 
   const formulas = []
-  const force = '$$F_{G}=m\\cdot g$$'
-  formulas.push({ title: 'Gewichtskraft', formula: force })
+  const waveSum = '$$f(x)=h(x)+g(x)$$'
+  formulas.push({ title: 'Summe der Wellen', formula: waveSum })
 
   return (
     <div className='container'>
-      <p className='page-heading'>Addition von Sinuswellen</p>
+      <p className='page-heading'>Interferenz von Sinuswellen</p>
       <WaveAdditionSketch />
       <section className='topic-description'>
         <div className='short-description'>
