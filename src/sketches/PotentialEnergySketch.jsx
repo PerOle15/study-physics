@@ -68,7 +68,7 @@ export default function PotentialEnergySketch() {
         block.calcRealHeight()
         block.calcEnergy()
         block.maxEnergy = block.realHeight * block.mass * g
-        display(p)
+        controller.display()
       })
 
     const massContainer = p
@@ -81,6 +81,10 @@ export default function PotentialEnergySketch() {
       .parent(massContainer)
       .class('sketch-slider')
       .input(() => {
+        if (block.falling && !block.onGround) {
+          massSlider.value(block.mass)
+          return
+        }
         massLabel.html(`Masse: ${massSlider.value().toFixed(2)} kg`)
         // Update block
         block.lastMass = block.mass
@@ -92,6 +96,9 @@ export default function PotentialEnergySketch() {
         block.calcPot()
         if (!block.falling && !block.onGround) {
           block.maxEnergy = block.realHeight * block.mass * g
+        }
+        if (!p.isLooping()) {
+          controller.display()
         }
       })
     massLabel.html(`Masse: ${massSlider.value().toFixed(2)} kg`)
@@ -106,6 +113,10 @@ export default function PotentialEnergySketch() {
       .parent(heightContainer)
       .class('sketch-slider')
       .input(() => {
+        if (block.falling && !block.onGround) {
+          heightSlider.value(block.platformHeight)
+          return
+        }
         heightLabel.html(
           `Fallhöhe: ${((heightSlider.value() - groundHeight) / scale).toFixed(
             2
@@ -121,6 +132,9 @@ export default function PotentialEnergySketch() {
           }
         }
         block.calcPot()
+        if (!p.isLooping()) {
+          controller.display()
+        }
       })
     heightLabel.html(
       `Fallhöhe: ${((heightSlider.value() - groundHeight) / scale).toFixed(
@@ -129,32 +143,7 @@ export default function PotentialEnergySketch() {
     )
   }
   const draw = (p) => {
-    display(p)
-  }
-
-  function display(p) {
-    p.fill(180)
-    p.rect(0, 0, p.width, p.height)
-
-    block.display()
-    diagram.display()
-
-    // Plattform und Boden
-    const platformY = p.height - heightSlider.value()
-    const groundY = p.height - groundHeight
-    const platformWidth = p.width / 2
-    p.fill(80)
-    p.stroke(0)
-    p.beginShape()
-    p.vertex(0, p.height - heightSlider.value())
-    p.vertex((platformWidth - gap) / 2, platformY)
-    p.vertex((platformWidth - gap) / 2, groundY)
-    p.vertex(platformWidth - (platformWidth - gap) / 2, groundY)
-    p.vertex(platformWidth - (platformWidth - gap) / 2, platformY)
-    p.vertex(platformWidth, platformY)
-    p.vertex(platformWidth, p.height)
-    p.vertex(0, p.height)
-    p.endShape(p.CLOSE)
+    controller.display()
   }
 
   class Controller {
@@ -169,6 +158,30 @@ export default function PotentialEnergySketch() {
         this.p.loop()
         pauseBtn.html('Stoppen')
       }
+    }
+    display() {
+      this.p.fill(180)
+      this.p.rect(0, 0, this.p.width, this.p.height)
+
+      block.display()
+      diagram.display()
+
+      // Plattform und Boden
+      const platformY = this.p.height - heightSlider.value()
+      const groundY = this.p.height - groundHeight
+      const platformWidth = this.p.width / 2
+      this.p.fill(80)
+      this.p.stroke(0)
+      this.p.beginShape()
+      this.p.vertex(0, this.p.height - heightSlider.value())
+      this.p.vertex((platformWidth - gap) / 2, platformY)
+      this.p.vertex((platformWidth - gap) / 2, groundY)
+      this.p.vertex(platformWidth - (platformWidth - gap) / 2, groundY)
+      this.p.vertex(platformWidth - (platformWidth - gap) / 2, platformY)
+      this.p.vertex(platformWidth, platformY)
+      this.p.vertex(platformWidth, this.p.height)
+      this.p.vertex(0, this.p.height)
+      this.p.endShape(this.p.CLOSE)
     }
   }
 
