@@ -17,9 +17,9 @@ export default function CollisionSketch() {
   let v1Slider
   let v2Slider
 
-  const minMass = 1
-  const maxMass = 10
-  const startingMass = 5
+  const minMass = 1000
+  const maxMass = 10000
+  const startingMass = 5000
 
   const setup = (p, canvasParentRef) => {
     p.createCanvas(800, 500).parent(canvasParentRef)
