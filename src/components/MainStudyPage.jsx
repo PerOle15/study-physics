@@ -36,7 +36,7 @@ function MainStudyPage() {
           <div className='card-icon'>
             <GiSpring />
           </div>
-          <p className='card-heading secondary'>Federn</p>
+          <p className='card-heading secondary'>Elastische Federn</p>
         </Link>
         <Link to='inclined-plane' className='card'>
           <div className='card-icon'>
@@ -84,7 +84,7 @@ function MainStudyPage() {
           <div className='card-icon'>
             <BsArrowsAngleContract />
           </div>
-          <p className='card-heading secondary'>Kollision</p>
+          <p className='card-heading secondary'>Stösse</p>
         </Link>
       </div>
     </div>

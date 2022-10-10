@@ -28,7 +28,7 @@ export default function ContactPage() {
     <div id='contact-page'>
       <div className='container'>
         <div id='contact-form-info'>
-          <p className='page-heading'>Kontaktiere Uns</p>
+          <p className='page-heading'>Kontakt</p>
           <p>
             Falls du ein Thema nicht verstehst, Verbesserungsvorschläge hast, du
             andere Fragen hast oder dich sonst melden willst, bist du hier genau

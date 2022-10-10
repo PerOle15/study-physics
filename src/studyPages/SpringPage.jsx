@@ -3,7 +3,7 @@ import ImportantFormulas from '../components/ImportantFormulas'
 import M from '../components/Maths'
 
 function DensityPage() {
-  document.title = 'Fysihka - Federn'
+  document.title = 'Fysihka - Elastische Federn'
 
   const formulas = []
   const force = 'F_{F}'
@@ -13,7 +13,7 @@ function DensityPage() {
 
   return (
     <div className='container'>
-      <p className='page-heading'>Federn</p>
+      <p className='page-heading'>Elastische Federn</p>
       <SpringSketch />
       <section className='topic-description'>
         <div className='short-description'>

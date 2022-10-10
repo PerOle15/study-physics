@@ -15,7 +15,8 @@ export class AboutPage extends Component {
           Leidenschaften. Dafür ist Programmieren die perfekte Beschäftigung.
           Mit genügend Wissen kann man unendlich viele verschiedene Dinge
           erschaffen, egal ob man eine Webseite zum Physik lernen, ein
-          Computerspiel oder eine Plattform wie Facebook machen möchte.
+          Computerspiel oder eine riesige Plattform wie Facebook kreieren
+          möchte.
         </p>
         <p className='section-heading'>Wieso gibt es diese Webseite?</p>
         <p>
