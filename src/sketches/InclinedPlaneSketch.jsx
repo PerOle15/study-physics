@@ -5,7 +5,7 @@ function InclinedPlaneSketch() {
   let controller
   let plane
   let block
-  const scale = 75
+  const scale = 20
   const vectorScale = 2.5
   const frames = 40
   const localGravity = 9.81
@@ -30,10 +30,6 @@ function InclinedPlaneSketch() {
   let staticFrictionLabel
   let slidingFrictionSlider
   let slidingFrictionLabel
-
-  let gravityVector
-  let frictionVector
-  let normalVector
 
   const setup = (p, canvasParentRef) => {
     p.createCanvas(800, 500).parent(canvasParentRef)
@@ -86,9 +82,10 @@ function InclinedPlaneSketch() {
         // set degreelabel value
         degreeLabel.html(`Winkel: ${degreeSlider.value().toFixed(2)}°`)
         plane.angle = (degreeSlider.value() / 360) * 2 * Math.PI
-        normalVector.angle = -plane.angle + Math.PI
-        normalVector.length = block.perpLength * vectorScale
-        frictionVector.angle = -plane.angle - Math.PI / 2
+        block.normalVector.angle = -plane.angle + Math.PI
+        block.normalVector.length = block.perpLength * vectorScale
+        block.frictionVector.angle = -plane.angle - Math.PI / 2
+        block.resVector.angle = -plane.angle - Math.PI / 2
       })
     degreeLabel.html(`Winkel: ${degreeSlider.value().toFixed(2)}°`)
 
@@ -178,9 +175,6 @@ function InclinedPlaneSketch() {
 
       plane.display()
       block.display()
-      gravityVector.display()
-      normalVector.display()
-      frictionVector.display()
     }
     resetCanvas() {
       block.velocity = 0
@@ -243,7 +237,7 @@ function InclinedPlaneSketch() {
     constructor(p) {
       this.p = p
       this.mass = 2
-      this.dimensions = Math.cbrt(this.mass)
+      this.dimensions = 100 / scale
       this.x1 = Math.sin(plane.angle) * this.dimensions
       this.height = this.p.height / scale
       this.width = this.p.width / scale
@@ -253,7 +247,7 @@ function InclinedPlaneSketch() {
       this.velocity = 0
 
       this.calcCenterOfBlock()
-      gravityVector = new Vector(
+      this.gravityVector = new Vector(
         p,
         this.xCenter,
         this.yCenter,
@@ -261,19 +255,26 @@ function InclinedPlaneSketch() {
         localGravity * this.mass * vectorScale
       )
       this.calcVelocity()
-      normalVector = new Vector(
+      this.normalVector = new Vector(
         p,
         (this.x4 + this.x3) / 2,
         (this.y4 + this.y3) / 2,
         -plane.angle + Math.PI,
         this.perpLength * vectorScale
       )
-      frictionVector = new Vector(
+      this.frictionVector = new Vector(
         p,
         this.x4,
         this.y4,
         -plane.angle - Math.PI / 2,
         this.frictionLength * vectorScale
+      )
+      this.resVector = new Vector(
+        this.p,
+        (this.x4 + this.x3) / 2,
+        (this.y4 + this.y3) / 2,
+        -Math.PI / 2 - plane.angle,
+        this.resLength * vectorScale
       )
     }
     calcCenterOfBlock() {
@@ -372,7 +373,7 @@ function InclinedPlaneSketch() {
           this.frictionLength = maxFrictionLength
         }
 
-        this.acceleration = this.resForce.x / this.mass / frames ** 2
+        this.acceleration = this.resForce.x / this.mass / frames
         this.velocity += this.acceleration
 
         if (this.velocity < 0) {
@@ -391,13 +392,16 @@ function InclinedPlaneSketch() {
       this.calcVelocity()
       this.calcPosition()
       this.calcCenterOfBlock()
-      gravityVector.x1 = this.xCenter * scale
-      gravityVector.y1 = this.yCenter * scale
-      normalVector.x1 = ((this.x4 + this.x3) / 2) * scale
-      normalVector.y1 = ((this.y4 + this.y3) / 2) * scale
-      frictionVector.x1 = this.x4 * scale
-      frictionVector.y1 = this.y4 * scale
-      frictionVector.length = this.frictionLength * vectorScale
+      this.gravityVector.x1 = this.xCenter * scale
+      this.gravityVector.y1 = this.yCenter * scale
+      this.normalVector.x1 = ((this.x4 + this.x3) / 2) * scale
+      this.normalVector.y1 = ((this.y4 + this.y3) / 2) * scale
+      this.frictionVector.x1 = this.x4 * scale
+      this.frictionVector.y1 = this.y4 * scale
+      this.frictionVector.length = this.frictionLength * vectorScale
+      this.resVector.x1 = this.xCenter * scale
+      this.resVector.y1 = this.yCenter * scale
+      this.resVector.length = this.resLength * vectorScale
     }
 
     display() {
@@ -415,6 +419,11 @@ function InclinedPlaneSketch() {
         this.x4 * scale,
         this.y4 * scale
       )
+
+      // this.gravityVector.display()
+      // this.normalVector.display()
+      // this.frictionVector.display()
+      // this.resVector.display()
     }
   }
 
