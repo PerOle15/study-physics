@@ -182,6 +182,23 @@ function WaveAdditionSketch() {
       wave2.update()
 
       this.p.noFill()
+      this.p.stroke('#aaa')
+      this.p.strokeWeight(2)
+      this.p.line(0, this.p.height / 4, this.p.width / 2, this.p.height / 4)
+      this.p.line(
+        0,
+        (this.p.height / 4) * 3,
+        this.p.width / 2,
+        (this.p.height / 4) * 3
+      )
+      this.p.line(
+        this.p.width / 2,
+        this.p.height / 2,
+        this.p.width,
+        this.p.height / 2
+      )
+      this.p.strokeWeight(1)
+
       this.p.stroke(0)
       this.p.line(this.p.width / 2, 0, this.p.width / 2, this.p.height)
       this.p.line(0, this.p.height / 2, this.p.width / 2, this.p.height / 2)

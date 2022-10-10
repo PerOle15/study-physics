@@ -19,7 +19,7 @@ function SineWaveSketch() {
 
   const minFrequency = 0
   const maxFrequency = 2
-  const minWaveLength = 0
+  const minWaveLength = 0.05
   const maxWaveLength = 4
   const minAmplitude = 0
   const maxAmplitude = 2.5
