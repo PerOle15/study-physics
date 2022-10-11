@@ -59,7 +59,7 @@ function SpringSketch() {
         massLabel.html(`Masse: ${massSlider.value().toFixed(1)} kg`)
         block.velocity = 0
         block.mass = massSlider.value()
-        block.dimensions = Math.pow(block.mass, 1 / 3) * scale
+        block.dim = Math.pow(block.mass, 1 / 3)
       })
     massLabel.html(`Masse: ${massSlider.value().toFixed(1)} kg`)
 
@@ -78,16 +78,16 @@ function SpringSketch() {
   class Spring {
     constructor(p) {
       this.p = p
+      this.height = this.p.height / scale
       this.strokeWidth = 2
-      this.waveCount = 15
-      this.frequency = 0
-      this.springLength = 1 * scale
-      this.originalLength = this.springLength
+      this.mass = 0.05
+      this.waveCount = 10
+      this.originalLength = 1
       this.lastLength = this.originalLength
       this.extension = 0
-      this.waveLength = this.length / this.waveCount
+      this.springLength = this.originalLength + this.extension
+      this.waveLength = (this.springLength * scale) / this.waveCount
       this.amplitude = 30
-      this.offset = 0
       this.springConstant = startingSpringConst
       this.springAcceleration = 0
       this.gravityAcceleration = 0
@@ -96,26 +96,27 @@ function SpringSketch() {
     }
 
     update() {
-      // this.originalLength = Number(springLengthSlider.value) * scale
-
-      if (block.mass !== 0) {
-        this.springForce = -this.springConstant * this.extension
-        this.springAcceleration = this.springForce / block.mass / frames ** 2
-        this.gravityAcceleration = g / frames ** 2
-      }
+      this.springForce = -this.springConstant * this.extension
+      // Kann nicht durch Masse = 0 teilen
+      this.springAcceleration =
+        this.springForce / (block.mass + this.mass) / frames
+      this.gravityAcceleration = g / frames
       this.velocity += this.springAcceleration + this.gravityAcceleration
 
-      this.velocity *= 0.96
-      this.springLength += this.velocity * scale
+      this.velocity *= block.mass === 0 ? 0.9 : 0.97
+      this.springLength += this.velocity / frames
       if (this.springLength <= 0) {
         this.springLength = 0
         this.velocity *= -1
-      } else if (this.springLength + block.dimensions >= this.p.height - 1) {
-        this.springLength = this.p.height - block.dimensions - 1
+      } else if (
+        this.springLength + block.dim + this.velocity / frames >=
+        this.height
+      ) {
+        this.springLength = this.height - block.dim
         this.velocity *= -1
       }
-      this.extension = (this.springLength - this.originalLength) / scale
-      this.waveLength = this.springLength / this.waveCount
+      this.extension = this.springLength - this.originalLength
+      this.waveLength = (this.springLength * scale) / this.waveCount
     }
 
     display() {
@@ -124,12 +125,10 @@ function SpringSketch() {
       this.p.stroke('black')
       this.p.noFill()
       this.p.beginShape()
-      for (let i = 0; i < this.springLength; i++) {
+      for (let i = 0; i < this.springLength * scale; i++) {
         this.p.vertex(
           this.amplitude *
-            this.p.sin(
-              ((Math.PI * 2) / this.waveLength) * (i + 1) + this.offset
-            ),
+            this.p.sin(((Math.PI * 2) / this.waveLength) * (i + 1)),
           i + 1
         )
       }
@@ -141,7 +140,7 @@ function SpringSketch() {
     constructor(p) {
       this.p = p
       this.mass = startingMass
-      this.dimensions = Math.pow(this.mass, 1 / 3) * scale
+      this.dim = Math.pow(this.mass, 1 / 3)
       this.y = spring.springLength
     }
     update() {
@@ -150,11 +149,10 @@ function SpringSketch() {
     display() {
       this.update()
       this.p.fill('#f08d54')
-      this.p.rect(
-        -this.dimensions / 2,
-        this.y + 1,
-        this.dimensions,
-        this.dimensions
+      this.p.square(
+        (-this.dim / 2) * scale,
+        this.y * scale + 1,
+        this.dim * scale
       )
     }
   }
