@@ -1,4 +1,4 @@
-import PotentialEnergySketch from '../sketches/PotentialEnergyCopy'
+import PotentialEnergySketch from '../sketches/PotentialEnergySketch'
 import ImportantFormulas from '../components/ImportantFormulas'
 
 function DensityPage() {
