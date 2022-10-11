@@ -8,7 +8,7 @@ export default function PotentialEnergySketch() {
   const groundHeight = 30 / scale
   const gap = 300 / scale
 
-  const minMass = 0.1
+  const minMass = 1
   const maxMass = 4
   const startingMass = 2
   const minHeight = 1
