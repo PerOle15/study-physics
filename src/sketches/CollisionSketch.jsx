@@ -138,6 +138,7 @@ export default function CollisionSketch() {
         v1Label.html(`Startgeschwindigkeit 1: ${newVel.toFixed(2)} m/s`)
         trainLeft.vel = newVel
         trainLeft.vpf = newVel / frames
+        controller.resetCanvas()
       })
     v1Label.html(`Startgeschwindigkeit 1: ${v1Slider.value().toFixed(2)} m/s`)
 
@@ -156,6 +157,7 @@ export default function CollisionSketch() {
         v2Label.html(`Startgeschwindigkeit 2: ${newVel.toFixed(2)} m/s`)
         trainRight.vel = newVel
         trainRight.vpf = newVel / frames
+        controller.resetCanvas()
       })
     v2Label.html(`Startgeschwindigkeit 2: ${v2Slider.value().toFixed(2)} m/s`)
   }
@@ -170,14 +172,15 @@ export default function CollisionSketch() {
       this.elastic = elastic
       this.collided = false
     }
-    display() {
+    display(displayOnly = false) {
       this.p.background(180)
 
       this.collision()
-
-      trainLeft.checkCollision(trainRight)
-      trainLeft.checkHitWall(trainRight)
-      trainRight.checkHitWall(trainLeft)
+      if (!displayOnly) {
+        trainLeft.checkCollision(trainRight)
+        trainLeft.checkHitWall(trainRight)
+        trainRight.checkHitWall(trainLeft)
+      }
       trainLeft.display()
       trainRight.display()
       diagram.display()
@@ -194,7 +197,7 @@ export default function CollisionSketch() {
       trainRight.x = this.p.width / scale - trainLength
       trainLeft.vel = v1Slider.value()
       trainRight.vel = v2Slider.value()
-      controller.display()
+      controller.display(true)
     }
     handleLoop() {
       if (this.p.isLooping()) {
@@ -263,8 +266,9 @@ export default function CollisionSketch() {
       if (this.x + this.l + this.vpf > this.width) {
         console.log('collided right')
         // Teil der Geschwindigkeit bei Aufprall mit der Seite speichern, damit immer die ganze Strecke genutzt wird.
-        const partvpf = this.vpf - (this.width - this.x - this.l)
-        this.x = this.width - this.l - partvpf
+        // const partvpf = this.vpf - (this.width - this.x - this.l)
+        // this.x = this.width - this.l - partvpf
+        this.x = this.width - this.l
         this.vpf *= -1
         if (controller.collided) {
           other.x = this.x - other.l
@@ -272,8 +276,9 @@ export default function CollisionSketch() {
         }
       } else if (this.x + this.vpf < 0) {
         console.log('collided left')
-        const partvpf = -this.vpf - this.x
-        this.x = partvpf
+        // const partvpf = -this.vpf - this.x
+        // this.x = partvpf
+        this.x = 0
         if (controller.collided) {
           other.x = this.x + this.l
           other.vpf *= -1
