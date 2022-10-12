@@ -731,6 +731,41 @@ Study Page
 }
 
 @media (max-width: 1000px) {
+  .parallax-img .parallax-container {
+    p {
+      max-width: 80%;
+    }
+  }
+
+  .study-container {
+    .card-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .react-p5 {
+    flex-direction: column;
+    canvas {
+      width: 100% !important;
+    }
+    .sketch-control {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-left: 0;
+    }
+  }
+
+  .new-topics-section {
+    .quick-links {
+      flex-direction: column;
+    }
+  }
+
   /* main navigation mobile */
   nav.main-nav {
     .hamburger-react {
@@ -784,41 +819,6 @@ Study Page
           }
         }
       }
-    }
-  }
-
-  .parallax-img .parallax-container {
-    p {
-      max-width: 80%;
-    }
-  }
-
-  .study-container {
-    .card-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-}
-
-@media (max-width: 900px) {
-  .react-p5 {
-    flex-direction: column;
-    canvas {
-      width: 100% !important;
-    }
-    .sketch-control {
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-
-      margin-left: 0;
-    }
-  }
-
-  .new-topics-section {
-    .quick-links {
-      flex-direction: column;
     }
   }
 }
