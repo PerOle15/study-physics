@@ -2,11 +2,11 @@ import Sketch from 'react-p5'
 
 function ThrowSketch() {
   const frames = 60
-  const scale = 17
+  const scale = 40
   const g = 9.81
   const ballRadius = 7
 
-  let controller
+  // let controller
   // let pauseBtn
   let angleSlider
   let heightSlider
@@ -16,11 +16,11 @@ function ThrowSketch() {
   const maxAngle = 90
   const startingAngle = 40
   const minHeight = 0
-  const maxHeight = 3
+  const maxHeight = 4
   const startingHeight = 0
-  const minVel = 0.3
-  const maxVel = 1
-  const startingVel = 0.7
+  const minVel = 5
+  const maxVel = 12
+  const startingVel = 10
 
   let ball
   const balls = []
@@ -29,7 +29,7 @@ function ThrowSketch() {
     p.frameRate(frames)
     p.background(180)
 
-    controller = new Controller(p)
+    // controller = new Controller(p)
 
     const controlContainer = p
       .createDiv()
@@ -79,7 +79,7 @@ function ThrowSketch() {
       .class('sketch-slider')
       .input(() => {
         heightLabel.html(`Anfangshöhe: ${heightSlider.value().toFixed(2)} m`)
-        ball.offsetY = heightSlider.value() * scale
+        ball.offsetY = heightSlider.value()
         ball.calcY()
       })
     heightLabel.html(`Anfangshöhe: ${heightSlider.value().toFixed(2)} m`)
@@ -97,7 +97,7 @@ function ThrowSketch() {
         velLabel.html(
           `Anfangsgeschwindigkeit: ${velSlider.value().toFixed(2)} m/s`
         )
-        ball.startv = velSlider.value() * scale
+        ball.startv = velSlider.value()
         ball.calcVel()
       })
     velLabel.html(`Anfangsgeschwindigkeit: ${velSlider.value().toFixed(2)} m/s`)
@@ -107,6 +107,18 @@ function ThrowSketch() {
   const draw = (p) => {
     p.background(180)
 
+    // Draw platform
+    p.fill('#888')
+    if (ball.offsetY !== 0) {
+      p.rect(
+        0,
+        p.height - ball.offsetY * scale,
+        ball.platformWidth * scale,
+        ball.offsetY * scale
+      )
+    }
+
+    // Draw balls
     p.fill('#999')
     balls.forEach((ball) => {
       p.circle(ball.x, ball.y, ballRadius * 2)
@@ -114,85 +126,88 @@ function ThrowSketch() {
     ball.display()
   }
 
-  class Controller {
-    constructor(p) {
-      this.p = p
-    }
-    // handleLoop() {
-    //   if (this.p.isLooping()) {
-    //     this.p.noLoop()
-    //     pauseBtn.html('Fortfahren')
-    //   } else {
-    //     this.p.loop()
-    //     pauseBtn.html('Stoppen')
-    //   }
-    // }
-  }
+  // class Controller {
+  //   constructor(p) {
+  //     this.p = p
+  //   }
+  //   handleLoop() {
+  //     if (this.p.isLooping()) {
+  //       this.p.noLoop()
+  //       pauseBtn.html('Fortfahren')
+  //     } else {
+  //       this.p.loop()
+  //       pauseBtn.html('Stoppen')
+  //     }
+  //   }
+  // }
 
   class Ball {
     constructor(p) {
       this.p = p
-      this.radius = ballRadius
-      this.platformWidth = 50
-      this.offsetY = heightSlider.value() * scale
+      this.width = this.p.width / scale
+      this.height = this.p.height / scale
+      this.radius = ballRadius / scale
+      this.platformWidth = 70 / scale
+      this.offsetY = heightSlider.value()
       this.x = this.platformWidth / 2
       this.calcY()
       this.angle = (angleSlider.value() / 360) * Math.PI * 2
       this.shot = false
       this.landed = false
 
-      this.startv = velSlider.value() * scale
+      this.startv = velSlider.value()
 
       this.calcVel()
-      this.ay = (g / frames ** 2) * scale
-      console.log(this.vy, this.vx, this.ay)
+      this.ay = g / frames
     }
     calcY() {
       if (!this.shot) {
-        this.y = this.p.height - this.radius - this.offsetY
+        this.y = this.height - this.radius - this.offsetY
       }
     }
     calcVel() {
       if (!this.shot) {
-        this.vx = ((Math.cos(this.angle) * this.startv) / frames) * scale
-        this.vy = ((Math.sin(this.angle) * this.startv) / frames) * scale
+        this.vx = Math.cos(this.angle) * this.startv
+        this.vy = Math.sin(this.angle) * this.startv
       }
     }
     checkCollision() {
-      if (this.y - this.vy + this.radius > this.p.height) {
+      if (this.y - this.vy / frames + this.radius > this.height) {
         // Der Teil der Geschwindigkeit, den der Ball noch zurücklegt
         const partOfDistance = Math.abs(
-          (this.p.height - (this.y + this.radius)) / this.vy
+          (this.height - (this.y + this.radius)) / (this.vy / frames)
         )
-        this.x += this.vx * partOfDistance
-        this.y = this.p.height - this.radius
+        this.x += (this.vx / frames) * partOfDistance
+        this.y = this.height - this.radius
         this.vy = 0
         this.vx = 0
         this.landed = true
-        balls.push({ x: this.x, y: this.y })
+        balls.push({ x: this.x * scale, y: this.p.height - ballRadius })
         ball = new Ball(this.p)
       }
     }
     checkHitWall() {
       // Hit right or left wall
       if (
-        this.x + this.radius + this.vx > this.p.width ||
-        this.x - this.radius + this.vx < 0
+        this.x + this.radius + this.vx / frames > this.width ||
+        this.x - this.radius + this.vx / frames < 0
       ) {
         this.vx *= -1
       }
 
       // Hit the top
-      if (this.y - this.radius - this.vy < 0) {
+      if (this.y - this.radius - this.vy / frames < 0) {
         this.vy *= -1
       }
     }
     update() {
-      this.checkCollision()
-      this.checkHitWall()
+      if (this.shot) {
+        this.checkCollision()
+        this.checkHitWall()
+      }
 
-      this.x += this.vx
-      this.y -= this.vy
+      this.x += this.vx / frames
+      this.y -= this.vy / frames
 
       this.vy -= this.ay
     }
@@ -202,17 +217,7 @@ function ThrowSketch() {
         this.update()
       }
       this.p.fill('#f25c05')
-      this.p.circle(this.x, this.y, this.radius * 2)
-
-      this.p.fill('#888')
-      if (this.offsetY !== 0) {
-        this.p.rect(
-          0,
-          this.p.height - this.offsetY,
-          this.platformWidth,
-          this.offsetY
-        )
-      }
+      this.p.circle(this.x * scale, this.y * scale, this.radius * 2 * scale)
     }
   }
 
