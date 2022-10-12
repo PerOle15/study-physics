@@ -1,13 +1,13 @@
 import Sketch from 'react-p5'
+import Vector from '../utils/Vector'
 
 function ThrowSketch() {
   const frames = 60
   const scale = 40
+  const vectorScale = 10
   const g = 9.81
   const ballRadius = 7
 
-  // let controller
-  // let pauseBtn
   let angleSlider
   let heightSlider
   let velSlider
@@ -29,20 +29,10 @@ function ThrowSketch() {
     p.frameRate(frames)
     p.background(180)
 
-    // controller = new Controller(p)
-
     const controlContainer = p
       .createDiv()
       .parent(canvasParentRef)
       .class('sketch-control highlight-box')
-
-    // pauseBtn = p
-    //   .createButton('Stoppen')
-    //   .parent(controlContainer)
-    //   .class('btn')
-    //   .mousePressed(() => {
-    //     controller.handleLoop()
-    //   })
 
     // Shoot Button
     p.createButton('Werfen')
@@ -65,6 +55,7 @@ function ThrowSketch() {
         angleLabel.html(`Anfangswinkel: ${angleSlider.value().toFixed(2)} °`)
         ball.angle = (angleSlider.value() / 360) * Math.PI * 2
         ball.calcVel()
+        ball.updateVector()
       })
     angleLabel.html(`Anfangswinkel: ${angleSlider.value().toFixed(2)} °`)
 
@@ -81,6 +72,7 @@ function ThrowSketch() {
         heightLabel.html(`Anfangshöhe: ${heightSlider.value().toFixed(2)} m`)
         ball.offsetY = heightSlider.value()
         ball.calcY()
+        ball.updateVector()
       })
     heightLabel.html(`Anfangshöhe: ${heightSlider.value().toFixed(2)} m`)
 
@@ -99,6 +91,7 @@ function ThrowSketch() {
         )
         ball.startv = velSlider.value()
         ball.calcVel()
+        ball.updateVector()
       })
     velLabel.html(`Anfangsgeschwindigkeit: ${velSlider.value().toFixed(2)} m/s`)
 
@@ -126,21 +119,6 @@ function ThrowSketch() {
     ball.display()
   }
 
-  // class Controller {
-  //   constructor(p) {
-  //     this.p = p
-  //   }
-  //   handleLoop() {
-  //     if (this.p.isLooping()) {
-  //       this.p.noLoop()
-  //       pauseBtn.html('Fortfahren')
-  //     } else {
-  //       this.p.loop()
-  //       pauseBtn.html('Stoppen')
-  //     }
-  //   }
-  // }
-
   class Ball {
     constructor(p) {
       this.p = p
@@ -159,6 +137,14 @@ function ThrowSketch() {
 
       this.calcVel()
       this.ay = g / frames
+
+      this.velVector = new Vector(
+        p,
+        this.x * scale,
+        this.y * scale,
+        Math.PI / 2 + this.angle,
+        this.startv * vectorScale
+      )
     }
     calcY() {
       if (!this.shot) {
@@ -200,14 +186,21 @@ function ThrowSketch() {
         this.vy *= -1
       }
     }
+    updateVector() {
+      this.velVector.length =
+        Math.sqrt(this.vx ** 2 + this.vy ** 2) * vectorScale
+      this.velVector.angle = Math.atan(this.vy / this.vx) + Math.PI / 2
+      this.velVector.x1 = this.x * scale
+      this.velVector.y1 = this.y * scale
+    }
     update() {
-      if (this.shot) {
-        this.checkCollision()
-        this.checkHitWall()
-      }
+      this.checkCollision()
+      this.checkHitWall()
 
       this.x += this.vx / frames
       this.y -= this.vy / frames
+
+      this.updateVector()
 
       this.vy -= this.ay
     }
@@ -218,6 +211,24 @@ function ThrowSketch() {
       }
       this.p.fill('#f25c05')
       this.p.circle(this.x * scale, this.y * scale, this.radius * 2 * scale)
+
+      this.velVector.display()
+
+      this.p.fill(0)
+      this.p.noStroke()
+      const distFromVec = 20
+      this.p.textSize(16)
+      this.p.textAlign(this.p.CENTER, this.p.CENTER)
+      this.p.text(
+        this.shot ? 'v' : 'v_0',
+        this.velVector.x2 +
+          Math.cos(this.velVector.angle - Math.PI / 2) * distFromVec,
+        this.velVector.y2 -
+          Math.sin(this.velVector.angle - Math.PI / 2) * distFromVec
+      )
+
+      this.p.strokeWeight(1)
+      this.p.stroke(0)
     }
   }
 
