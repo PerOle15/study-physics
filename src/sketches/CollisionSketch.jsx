@@ -4,7 +4,6 @@ import Arrow from '../utils/Vector'
 export default function CollisionSketch() {
   const frames = 60
   const scale = 60
-  const textSize = 16
   const trainHeight = 50 / scale
   const trainLength = 100 / scale
   const elastic = true
@@ -136,7 +135,6 @@ export default function CollisionSketch() {
         const newVel = v1Slider.value()
         // set v1Label value
         v1Label.html(`Startgeschwindigkeit 1: ${newVel.toFixed(2)} m/s`)
-        trainLeft.vel = newVel
         trainLeft.vpf = newVel / frames
         controller.resetCanvas()
       })
@@ -155,7 +153,6 @@ export default function CollisionSketch() {
         const newVel = v2Slider.value()
         // set v2Label value
         v2Label.html(`Startgeschwindigkeit 2: ${newVel.toFixed(2)} m/s`)
-        trainRight.vel = newVel
         trainRight.vpf = newVel / frames
         controller.resetCanvas()
       })
@@ -169,34 +166,84 @@ export default function CollisionSketch() {
   class Controller {
     constructor(p) {
       this.p = p
+      this.width = this.p.width / scale
       this.elastic = elastic
       this.collided = false
     }
     display(displayOnly = false) {
       this.p.background(180)
 
-      this.collision()
       if (!displayOnly) {
-        trainLeft.checkCollision(trainRight)
-        trainLeft.checkHitWall(trainRight)
-        trainRight.checkHitWall(trainLeft)
+        this.collision()
       }
       trainLeft.display()
       trainRight.display()
       diagram.display()
-
-      this.p.fill(0)
-      this.p.textAlign(this.p.LEFT, this.p.TOP)
-      this.p.textSize(textSize)
-      this.p.text(`${(trainLeft.vpf * frames).toFixed(2)} m/s`, 10, 10)
     }
-    collision() {}
+    collision() {
+      const hitLeftWall = trainLeft.x + trainLeft.vpf < 0
+      const hitRightWall = trainRight.right + trainRight.vpf > this.width
+      // Check if left train hits a wall
+      if (hitLeftWall) {
+        // Hit left wall
+        trainLeft.x = 0
+        trainLeft.vpf *= -1
+        if (this.collided) {
+          trainRight.x = trainLeft.x + trainLeft.l
+          trainRight.vpf *= -1
+          return
+        }
+      } else {
+        trainLeft.x += trainLeft.vpf
+      }
+
+      // Check if right train hits a wall
+      if (hitRightWall) {
+        // Hit right wall
+        trainRight.x = trainRight.width - trainRight.l
+        trainRight.vpf *= -1
+        if (this.collided) {
+          trainLeft.x = trainRight.x - trainLeft.l
+          trainLeft.vpf *= -1
+          return
+        }
+      } else {
+        trainRight.x += trainRight.vpf
+      }
+
+      // Check collision between trains
+      // This train is left, the other one comes from the right
+      if (!this.collided) {
+        const collision =
+          trainLeft.right + trainLeft.vpf > trainRight.x + trainRight.vpf &&
+          trainLeft.x < trainRight.right
+        if (collision) {
+          const mediumV =
+            (trainLeft.mass * trainLeft.vpf +
+              trainRight.mass * trainRight.vpf) /
+            (trainLeft.mass + trainRight.mass)
+
+          if (this.elastic) {
+            // If elastic collision
+            trainLeft.vpf = 2 * mediumV - trainLeft.vpf
+            trainRight.vpf = 2 * mediumV - trainRight.vpf
+          } else {
+            // If inelastic collision
+            this.collided = true
+            trainLeft.vpf = mediumV
+            trainRight.vpf = mediumV
+
+            trainRight.x = trainLeft.x + trainLeft.l
+          }
+        }
+      }
+    }
     resetCanvas() {
       this.collided = false
       trainLeft.x = 0
       trainRight.x = this.p.width / scale - trainLength
-      trainLeft.vel = v1Slider.value()
-      trainRight.vel = v2Slider.value()
+      trainLeft.vpf = v1Slider.value() / frames
+      trainRight.vpf = v2Slider.value() / frames
       controller.display(true)
     }
     handleLoop() {
@@ -222,75 +269,17 @@ export default function CollisionSketch() {
       this.wheelRadius = 7 / scale
       this.wheelY = this.height - this.wheelRadius
 
-      this.vel = startingVel
       // vpf = velocity per frame
-      this.vpf = this.vel / frames
+      this.vpf = startingVel / frames
       this.x = x
       this.right = this.x + this.l
       this.y = this.height - this.h - 2 * this.wheelRadius
-      this.momentum = this.mass * this.vel
     }
-    checkCollision(other) {
-      // This train is left, the other one comes from the right
-      const collisionLeft =
-        this.right + this.vpf > other.x + other.vpf && this.x < other.right
-      // This train is right, the other one comes from the left
-      const collisionRight =
-        this.x < other.x + other.l && this.x + this.l > other.x
-      if (collisionLeft || collisionRight) {
-        const mediumV =
-          (this.mass * this.vpf + other.mass * other.vpf) /
-          (this.mass + other.mass)
 
-        if (controller.elastic) {
-          // If elastic collision
-          this.vpf = 2 * mediumV - this.vpf
-          other.vpf = 2 * mediumV - other.vpf
-        } else {
-          // If inelastic collision
-          controller.collided = true
-          this.vpf = mediumV
-          other.vpf = mediumV
-
-          if (collisionLeft) {
-            other.x = this.x + this.l
-          } else {
-            other.x = this.x - this.l
-          }
-        }
-      } else {
-        return
-      }
-    }
-    checkHitWall(other) {
-      if (this.x + this.l + this.vpf > this.width) {
-        console.log('collided right')
-        // Teil der Geschwindigkeit bei Aufprall mit der Seite speichern, damit immer die ganze Strecke genutzt wird.
-        // const partvpf = this.vpf - (this.width - this.x - this.l)
-        // this.x = this.width - this.l - partvpf
-        this.x = this.width - this.l
-        this.vpf *= -1
-        if (controller.collided) {
-          other.x = this.x - other.l
-          other.vpf *= -1
-        }
-      } else if (this.x + this.vpf < 0) {
-        console.log('collided left')
-        // const partvpf = -this.vpf - this.x
-        // this.x = partvpf
-        this.x = 0
-        if (controller.collided) {
-          other.x = this.x + this.l
-          other.vpf *= -1
-        }
-        this.vpf *= -1
-      } else {
-        this.x += this.vpf
-      }
-    }
     update() {
       this.right = this.x + this.l
     }
+
     display() {
       this.update()
 
