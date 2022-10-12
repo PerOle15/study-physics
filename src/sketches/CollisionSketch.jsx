@@ -1,4 +1,5 @@
 import Sketch from 'react-p5'
+import Arrow from '../utils/Vector'
 
 export default function CollisionSketch() {
   const frames = 60
@@ -14,6 +15,7 @@ export default function CollisionSketch() {
   let controller
   let trainLeft
   let trainRight
+  let diagram
 
   let pauseBtn
   let m1Slider
@@ -45,6 +47,7 @@ export default function CollisionSketch() {
       startm2,
       trainRightColor
     )
+    diagram = new Diagram(p)
 
     const controlContainer = p
       .createDiv()
@@ -170,17 +173,21 @@ export default function CollisionSketch() {
     display() {
       this.p.background(180)
 
+      this.collision()
+
       trainLeft.checkCollision(trainRight)
       trainLeft.checkHitWall(trainRight)
       trainRight.checkHitWall(trainLeft)
       trainLeft.display()
       trainRight.display()
+      diagram.display()
 
       this.p.fill(0)
       this.p.textAlign(this.p.LEFT, this.p.TOP)
       this.p.textSize(textSize)
       this.p.text(`${(trainLeft.vpf * frames).toFixed(2)} m/s`, 10, 10)
     }
+    collision() {}
     resetCanvas() {
       this.collided = false
       trainLeft.x = 0
@@ -310,6 +317,83 @@ export default function CollisionSketch() {
   class Diagram {
     constructor(p) {
       this.p = p
+      this.gap = 20
+      this.h = this.p.height * 0.75 - this.gap * 2
+      this.w = this.p.width - this.gap * 2
+      this.x = this.gap
+      this.y = this.p.height * 0.75 - this.gap - this.h / 2
+      this.xAxis = new Arrow(this.p, this.x, this.y, Math.PI / 2, this.w)
+      this.yAxis = new Arrow(
+        this.p,
+        this.x,
+        this.y + this.h / 2,
+        Math.PI,
+        this.h
+      )
+
+      this.maxHeight = 20
+
+      this.scale = this.h / this.maxHeight
+
+      this.v1Array = []
+      this.v2Array = []
+      this.v1Color = trainLeftColor
+      this.v2Color = trainRightColor
+      this.textSize = 16
+      this.textGap = 8
+      for (let i = 0; i < this.w; i++) {
+        this.v1Array.push(startv1)
+        this.v2Array.push(startv2)
+      }
+    }
+
+    drawGraph(array, color) {
+      this.p.stroke(color)
+      this.p.beginShape()
+      array.forEach((y, i) => {
+        this.p.vertex(i + this.x + 1, this.y - y * this.scale - 1)
+      })
+      this.p.endShape()
+    }
+
+    update() {
+      this.v1Array.push(trainLeft.vpf * frames)
+      this.v1Array.shift()
+      this.v2Array.push(trainRight.vpf * frames)
+      this.v2Array.shift()
+    }
+
+    display() {
+      this.update()
+      this.xAxis.display()
+      this.yAxis.display()
+      // Potentielle Energie
+      this.p.strokeWeight(2)
+      this.p.noFill()
+      this.drawGraph(this.v1Array, this.v1Color)
+      this.drawGraph(this.v2Array, this.v2Color)
+      this.p.strokeWeight(1)
+
+      this.p.textAlign(this.p.RIGHT, this.p.TOP)
+      this.p.textSize(this.textSize)
+      this.p.noStroke()
+      this.p.fill(this.v1Color)
+      this.p.text(
+        `Geschwindigkeit 1: ${this.v1Array[this.v1Array.length - 1].toFixed(
+          2
+        )} m/s`,
+        this.p.width - this.textGap,
+        this.textGap
+      )
+      this.p.fill(this.v2Color)
+      this.p.text(
+        `Geschwindigkeit 2: ${this.v2Array[this.v2Array.length - 1].toFixed(
+          2
+        )} m/s^2`,
+        this.p.width - this.textGap,
+        this.textGap * 2 + this.textSize
+      )
+      this.p.stroke(0)
     }
   }
 
