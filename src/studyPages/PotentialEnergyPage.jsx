@@ -6,7 +6,9 @@ function DensityPage() {
 
   const formulas = []
   const potFormula = '$$E_{pot}=m\\cdot g\\cdot h$$'
-  formulas.push({ title: 'Gewichtskraft', formula: potFormula })
+  const totalEnergy = '$$E_{ges}=E_{pot}+E_{kin}+E_{wärme}$$'
+  formulas.push({ title: 'Potentielle Energie', formula: potFormula })
+  formulas.push({ title: 'Gesamtenergie', formula: totalEnergy })
 
   return (
     <div className='container'>

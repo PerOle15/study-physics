@@ -6,8 +6,12 @@ function DensityPage() {
   document.title = 'Fysihka - Stösse'
 
   const formulas = []
-  const force = '$$F_{G}=m\\cdot g$$'
-  formulas.push({ title: 'Gewichtskraft', formula: force })
+  const half = '\\frac{1}{2}'
+  const momentum =
+    "$$m_{1}\\cdot v_{1} + m_{2}\\cdot v_{2}=m_{1}\\cdot v_{1} ' + m_{2}\\cdot v_{2} '$$"
+  const energy = `$$${half}\\cdot m_{1}\\cdot v_{1}^2 + ${half}\\cdot m_{2}\\cdot v_{2}^2=${half}\\cdot m_{1}\\cdot v_{1}'^2 + ${half}\\cdot m_{2}\\cdot v_{2}'^2$$`
+  formulas.push({ title: 'Impulserhaltung', formula: momentum })
+  formulas.push({ title: 'Energieerhaltung', formula: energy })
 
   return (
     <div className='container'>
