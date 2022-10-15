@@ -8,8 +8,10 @@ function DensityPage() {
   const formulas = []
   const force = 'F_{F}'
   const springForce = `$$${force}=D\\cdot s$$`
+  const springEnergy = '$$E_{F}=\\frac{1}{2}\\cdot D \\cdot s^2$$'
 
   formulas.push({ title: 'Federkraft', formula: springForce })
+  formulas.push({ title: 'Federenergie', formula: springEnergy })
 
   return (
     <div className='container'>

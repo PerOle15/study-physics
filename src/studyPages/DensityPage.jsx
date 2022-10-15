@@ -15,10 +15,11 @@ function DensityPage() {
       <section className='topic-description'>
         <div className='short-description'>
           <p>
-            Die Dichte ist in der Physik eine sehr wichtige Eigenschaft von
-            Körpern. Jeder Körper besitzt eine Dichte oder eine mittlere Dichte.
-            Mit der Dichte wird angegeben, welche Masse ein bestimmtes Volumen
-            eines Körpers besitzt.
+            Die Dichte (genauer: Massendichte) ist in der Physik eine sehr
+            wichtige Eigenschaft von Körpern mit Masse. Jeder Körper besitzt
+            eine Dichte oder eine mittlere Dichte. Mit der Dichte wird
+            angegeben, welche Masse ein bestimmtes Volumen eines Körpers
+            besitzt.
           </p>
         </div>
         <ImportantFormulas content={formulas} />
