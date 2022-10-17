@@ -9,12 +9,14 @@ function HomePage() {
           <p className='section-heading'>Ergibt die Physik keinen Sinn?</p>
           <p>
             Unserer Erfahrung nach ist es für viele schwierig, sich unter
-            physikalischen Konzepten etwas konkretes vorzustellen. Oft versteht
-            man nicht genau, um was es sich bei verschieden Themen handelt. Wenn
-            man ein Beispiel zur Verfügung hat und selbst ausprobieren kann, was
-            passiert, wenn man bestimmte Faktoren verändert, kann dies ein Thema
-            viel einfacher verständlich machen. Genau das ist das Ziel dieser
-            Plattform - interaktives Lernen mithilfe von Animationen.
+            physikalischen Konzepten etwas konkretes vorzustellen. Oft sind die
+            Konzepte zu abstrakt oder scheinen auf den ersten Blick zu
+            kompliziert. Um eine Vorstellung davon zu bekommen, wie etwas
+            funktioniert, ist es oft notwendig, dass man sich selbst damit
+            beschäftigt. Bei den einzelnen Themen muss man sich ansehen, wie
+            jeder Teil davon funktioniert und was passiert, wenn man einzelne
+            Bedingungen verändert. Genau das ist das Ziel dieser Website -
+            interaktives Lernen mithilfe von Simulationen.
           </p>
           <Link to='/study' className='btn btn-light '>
             Beginne zu lernen
@@ -25,27 +27,31 @@ function HomePage() {
       <section className='new-topics-section'>
         <p className='section-heading'>Die Neuesten Themen:</p>
         <div className='quick-links max-width'>
-          <Link to='/study/sine-wave' className='new-topic'>
-            <p className='card-heading secondary'>Sinuswellen</p>
+          <Link to='/study/mass' className='new-topic'>
+            <p className='card-heading secondary'>Masse und Gewichtskraft</p>
             <p className='secondary'>
-              Wellen kommen überall in unserer Umgebung vor, ob als Schall oder
-              im Wasser. Entdecke, wie sie sich verhalten!
+              Die Masse ist grundlegend für einen Grossteil von dem, was unser
+              Universum ausmacht. Die Gewichtskraft ist eine Erscheinung von
+              massebehafteten Körpern, die unter Einfluss von Gravitation
+              stehen.
             </p>
           </Link>
-          <Link to='/study/inclined-plane' className='new-topic'>
-            <p className='card-heading secondary'>Schiefe Ebene</p>
+          <Link to='/study/buoyancy' className='new-topic'>
+            <p className='card-heading secondary'>Auftrieb</p>
             <p className='secondary'>
-              Eine beliebte Prüfungsaufgabe ist es, welche Kraft man braucht, um
-              einen Schlitten einen Berg hochzuziehen. Wie löst man dieses
-              Problem?
+              Der Grund, weshalb Schiffe schwimmen und Fische im Wasser schweben
+              können ist der Auftrieb. Hier lernst du, wann etwas aufschwimmt
+              und wann nicht.
             </p>
           </Link>
-          <Link to='/study/pendulum' className='new-topic'>
-            <p className='card-heading secondary'>Pendel</p>
+          <Link to='/study/interference' className='new-topic'>
+            <p className='card-heading secondary'>
+              Interferenz von Sinuswellen
+            </p>
             <p className='secondary'>
-              In der alten Uhr der Grosseltern schwingt immer ein Pendel hin und
-              her. Es schwingt immer gleich lange, wie du vielleicht schon
-              bemerkt hast.
+              Die Überlagerung von Wellen ist ein sehr schönes Phänomen. Sehr
+              simpel lassen sich faszinierende Muster und Bewegungen erzeugen.
+              Diese Überlagerungen kommen überall in unserer Umgebung vor.
             </p>
           </Link>
         </div>

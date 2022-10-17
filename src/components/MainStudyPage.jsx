@@ -81,7 +81,7 @@ function MainStudyPage() {
           </div>
           <p className='card-heading secondary'>Sinuswellen</p>
         </Link>
-        <Link to='wave-addition' className='card'>
+        <Link to='interference' className='card'>
           <div className='card-icon'>
             <img src={interference} alt='' />
           </div>

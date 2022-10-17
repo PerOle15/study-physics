@@ -14,11 +14,11 @@ export class AboutPage extends Component {
           kreieren und so unsere Kreativität auszuleben ist eine unserer
           Leidenschaften. Dafür ist Programmieren die perfekte Beschäftigung.
           Mit genügend Wissen kann man unendlich viele verschiedene Dinge
-          erschaffen, egal, ob man eine Webseite zum Physik lernen, ein
+          erschaffen, egal, ob man eine Website zum Physik lernen, ein
           Computerspiel oder eine riesige Plattform wie Facebook kreieren
           möchte.
         </p>
-        <p className='section-heading'>Wieso gibt es diese Webseite?</p>
+        <p className='section-heading'>Wieso gibt es diese Website?</p>
         <p>
           In unserem Umfeld haben viele Leute Probleme mit dem Physikunterricht
           am Gymnasium. Sie können sich nichts unter den Theorien vorstellen,
@@ -29,7 +29,7 @@ export class AboutPage extends Component {
           und die Bereitschaft sich Themen anzueignen erniedrigend klein und
           widerspiegelte sich dann auch in der Leistung der Klasse.
           <br />
-          Viele dieser Probleme wollen wir mit unserer Webseite ansprechen und
+          Viele dieser Probleme wollen wir mit unserer Website ansprechen und
           damit möglichst vielen Lernenden helfen, die Physik besser zu
           verstehen und bei ihnen das Interesse an der Physik wecken. Wenn man
           die Physik nämlich einmal verstanden hat, gibt es fast kein Thema, das

@@ -52,7 +52,7 @@ ReactDOM.render(
                 <Route path='springs' element={<SpringPage />} />
                 <Route path='mass' element={<MassPage />} />
                 <Route path='throw' element={<ThrowPage />} />
-                <Route path='wave-addition' element={<WaveAdditionPage />} />
+                <Route path='interference' element={<WaveAdditionPage />} />
                 <Route path='collision' element={<CollisionPage />} />
                 <Route path='*' element={<NotFoundPage />} />
               </Route>
