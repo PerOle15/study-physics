@@ -1,3 +1,4 @@
+import L from '../components/PageLink'
 import DensitySketch from '../sketches/DensitySketch'
 import ImportantFormulas from '../components/ImportantFormulas'
 
@@ -26,11 +27,11 @@ function DensityPage() {
         <br />
         <div className='long-description'>
           <p>
-            Durch die Formel wird klar, was die Dichte ausmacht. Die Masse des
-            Körpers wird durch das Volumen des Körpers geteilt. Das heisst, die
-            Dichte gibt an, welche Masse pro Volumen ein Körper besitzt. Die
-            Einheit der Dichte wird meistens als kg/m<sup>3</sup>, manchmal aber
-            auch als g/l oder ähnlich angegeben.
+            Durch die Formel wird klar, was die Dichte ausmacht. Die{' '}
+            <L to='mass'>Masse</L> des Körpers wird durch das Volumen des
+            Körpers geteilt. Das heisst, die Dichte gibt an, welche Masse pro
+            Volumen ein Körper besitzt. Die Einheit der Dichte wird meistens als
+            kg/m<sup>3</sup>, manchmal aber auch als g/l oder ähnlich angegeben.
             <br />
             Je grösser die Dichte eines Körpers, desto grösser ist dessen Masse
             bei gleichbleibendem Volumen.
