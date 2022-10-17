@@ -2,7 +2,7 @@ import PotentialEnergySketch from '../sketches/PotentialEnergySketch'
 import ImportantFormulas from '../components/ImportantFormulas'
 
 function DensityPage() {
-  document.title = 'Fysihka - Potentielle Energie'
+  document.title = 'Fysihka - Energie'
 
   const formulas = []
   const potFormula = '$$E_{pot}=m\\cdot g\\cdot h$$'
@@ -12,7 +12,7 @@ function DensityPage() {
 
   return (
     <div className='container'>
-      <p className='page-heading'>Potentielle Energie</p>
+      <p className='page-heading'>Energie</p>
       <PotentialEnergySketch />
       <section className='topic-description'>
         <div className='short-description'>

@@ -48,10 +48,7 @@ ReactDOM.render(
                 <Route path='pendulum' element={<PendulumPage />} />
                 <Route path='acceleration' element={<AccelerationPage />} />
                 <Route path='buoyancy' element={<BuoyancyPage />} />
-                <Route
-                  path='potential-energy'
-                  element={<PotentialEnergyPage />}
-                />
+                <Route path='energy' element={<PotentialEnergyPage />} />
                 <Route path='springs' element={<SpringPage />} />
                 <Route path='mass' element={<MassPage />} />
                 <Route path='throw' element={<ThrowPage />} />
