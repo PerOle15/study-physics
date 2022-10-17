@@ -1,4 +1,5 @@
 import L from '../components/PageLink'
+import M from '../components/Maths'
 import DensitySketch from '../sketches/DensitySketch'
 import ImportantFormulas from '../components/ImportantFormulas'
 
@@ -27,14 +28,26 @@ function DensityPage() {
         <br />
         <div className='long-description'>
           <p>
-            Durch die Formel wird klar, was die Dichte ausmacht. Die{' '}
-            <L to='mass'>Masse</L> des Körpers wird durch das Volumen des
-            Körpers geteilt. Das heisst, die Dichte gibt an, welche Masse pro
-            Volumen ein Körper besitzt. Die Einheit der Dichte wird meistens als
-            kg/m<sup>3</sup>, manchmal aber auch als g/l oder ähnlich angegeben.
+            Durch die Formel wird klar, was die Dichte ausmacht. Um die Dichte
+            zu erhalten wird die <L to='mass'>Masse</L> des Körpers durch das
+            Volumen des Körpers geteilt. Das heisst, die Dichte gibt an, welche
+            Masse pro Volumen ein Körper besitzt. Die Einheit der Dichte wird
+            meistens als <M>kg/m^3</M>, manchmal aber auch als <M>g/l</M> oder
+            ähnlich angegeben.
             <br />
             Je grösser die Dichte eines Körpers, desto grösser ist dessen Masse
-            bei gleichbleibendem Volumen.
+            bei gleichbleibendem Volumen und umgekehrt. Stoffe mit besonders
+            hoher Dichte sind zum Beispiel Gold oder Blei. Diese werden
+            umgangssprachlich als "schwer" bezeichnet. Was damit gemeint ist,
+            ist nicht die tatsächliche Masse, sondern deren Verhältnis zum
+            Volumen. Ein Kilogramm Federn ist exakt gleich schwer wie ein
+            Kilogramm Blei. Nur wird ein Kilogramm Federn ein ganzes Auto
+            ausfüllen, während ein Kilogramm Blei knapp das Volumen von einem
+            Deziliter besitzt.
+            <br />
+            Die Dichte spielt unter anderem bei dem{' '}
+            <L to='buoyancy'>Auftrieb</L> eine wichtige Rolle. Sie bestimmt, ob
+            ein Gegenstand in einer Flüssigkeit schwimmt oder untergeht.
           </p>
         </div>
       </section>
