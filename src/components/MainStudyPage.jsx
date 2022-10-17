@@ -6,6 +6,7 @@ import pendulum from '../svg/pendulum.svg'
 import wave from '../svg/wave.svg'
 import inclinedPlane from '../svg/inclined-plane.svg'
 import potentialEnergy from '../svg/potential-energy.svg'
+import buoyancy from '../svg/buoyancy.svg'
 import interference from '../svg/interference.png'
 import acceleration from '../svg/acceleration.png'
 
@@ -64,7 +65,7 @@ function MainStudyPage() {
         </Link>
         <Link to='buoyancy' className='card'>
           <div className='card-icon'>
-            <GiWindSlap />
+            <img src={buoyancy} alt='' />
           </div>
           <p className='card-heading secondary'>Auftrieb</p>
         </Link>
