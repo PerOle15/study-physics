@@ -10,7 +10,6 @@ function MassSketch() {
 
   let cube
   let dyn
-  let force
 
   let gravitySlider
   let massSlider
@@ -18,9 +17,9 @@ function MassSketch() {
   const minGravity = 1
   const maxGravity = 30
   const startingGravity = 9.81
-  const minMass = 100
-  const maxMass = 5000
-  const startingMass = 1000
+  const minMass = 1
+  const maxMass = 20
+  const startingMass = 10
 
   const setup = (p, canvasParentRef) => {
     p.createCanvas(800, 500).parent(canvasParentRef)
@@ -31,14 +30,6 @@ function MassSketch() {
 
     dyn = new Dynamometer(p)
     cube = new Cube(p)
-    force = new Vector(
-      p,
-      p.width / 2,
-      cube.y + cube.dim / 2,
-      0,
-      cube.force * scale,
-      '#f25c05'
-    )
 
     controlContainer = p
       .createDiv()
@@ -56,13 +47,13 @@ function MassSketch() {
       .parent(massContainer)
       .class('sketch-slider')
       .input(() => {
-        massLabel.html(`Masse: ${Math.round(massSlider.value())} kg`)
+        massLabel.html(`Masse: ${massSlider.value().toFixed(2)} kg`)
         cube.mass = massSlider.value()
-        cube.dim = cube.mass ** (1 / 3) * scale
-        cube.force = cube.mass * controller.gravity
+        cube.calcDim()
+        cube.calcForce()
         controller.display()
       })
-    massLabel.html(`Masse: ${Math.round(massSlider.value())} kg`)
+    massLabel.html(`Masse: ${massSlider.value().toFixed(2)} kg`)
 
     const gravityContainer = p
       .createDiv()
@@ -78,7 +69,7 @@ function MassSketch() {
           `Ortsfaktor: ${gravitySlider.value().toFixed(2)} m/s<sup>2</sup>`
         )
         controller.gravity = gravitySlider.value()
-        cube.force = controller.gravity * cube.mass
+        cube.calcForce()
         controller.display()
       })
     gravityLabel.html(
@@ -87,11 +78,6 @@ function MassSketch() {
 
     controller.display()
   }
-  // const draw = (p) => {
-  //   p.fill(180)
-  //   p.rect(0, 0, p.width, p.height)
-  //   controller.update()
-  // }
 
   class Controller {
     constructor(p) {
@@ -107,34 +93,42 @@ function MassSketch() {
       this.p.fill(0)
       this.p.textSize(20)
       this.p.textAlign(this.p.LEFT, this.p.TOP)
-      this.p.text(`Masse: ${Math.round(cube.mass)} kg`, 10, 10)
-      this.p.text(
-        `Gewichtskraft: ${Math.round(cube.mass * this.gravity)} N`,
-        10,
-        35
-      )
+      this.p.text(`Gewichtskraft: ${Math.round(cube.force)} N`, 10, 10)
 
       dyn.display()
       cube.display()
-      force.display()
     }
   }
 
   class Cube {
     constructor(p) {
       this.p = p
+      this.height = p.height / scale
       this.mass = startingMass
-      this.dim = this.mass ** (1 / 3) * scale
-      this.force = this.mass * controller.gravity
+      this.calcDim()
+      this.calcForce()
       this.hookRadius = 8
       this.y = dyn.entLength + this.hookRadius
+      this.vector = new Vector(
+        p,
+        p.width / 2,
+        this.y + this.dim,
+        0,
+        this.force / 3,
+        '#395d66'
+      )
+    }
+    calcDim() {
+      this.dim = this.mass ** (1 / 3) * scale * 5
+    }
+    calcForce() {
+      this.force = this.mass * controller.gravity
     }
     update() {
-      this.force = this.mass * controller.gravity
       this.y = dyn.entLength + this.hookRadius
 
-      force.length = this.force / 1000
-      force.y1 = this.y + this.dim / 2
+      this.vector.length = this.force / 3
+      this.vector.y1 = this.y + this.dim / 2
     }
     display() {
       this.update()
@@ -149,7 +143,9 @@ function MassSketch() {
 
       this.p.strokeWeight(1)
       this.p.fill(0)
-      this.p.rect(this.p.width / 2 - this.dim / 2, this.y, this.dim, this.dim)
+      this.p.square(this.p.width / 2 - this.dim / 2, this.y, this.dim)
+
+      this.vector.display()
     }
   }
 
@@ -163,7 +159,7 @@ function MassSketch() {
       this.extw = this.w - 2
       this.extLength = this.h + this.ext
 
-      this.springConst = 10000
+      this.springConst = 100
 
       this.hookRadius = 10
       this.hookDiameter = this.hookRadius * 2
@@ -205,7 +201,7 @@ function MassSketch() {
     }
   }
 
-  return <Sketch setup={setup} /* draw={draw} */ />
+  return <Sketch setup={setup} />
 }
 
 export default MassSketch
