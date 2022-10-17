@@ -35,13 +35,38 @@ function DensityPage() {
       <CollisionSketch />
       <section className='topic-description'>
         <div className='short-description'>
-          <p></p>
+          <p>
+            Bei einem Stoss üben zwei oder mehr Körper kurzzeitig gegenseitig
+            eine Kraft aufeinander aus. Die Folge davon ist die
+            Geschwindigkeitsänderung aller beteiligten Körper und gegebenenfalls
+            auch die Richtungsänderung.
+            <br />
+            In der Physik unterscheidet man zwischen elastischen und
+            unelastischen Stössen. Bei einem elastischen Stoss bleiben sowohl
+            die kinetische Energie als auch der Impuls des Systems vor und nach
+            der Kollision erhalten. Wenn zum Beispiel zwei Billardkugeln
+            zusammenstoßen, prallen die Kugeln mit der gleichen kinetischen
+            Energie voneinander ab, die sie beim Zusammenstoß hatten. Die
+            gesamte kinetische Energie des Systems (die Summe der kinetischen
+            Energien der beiden Kugeln) bleibt erhalten und der
+            Energieerhaltungssatz gilt in diesem Fall.
+          </p>
         </div>
         <ImportantFormulas content={formulas} />
         <br />
         <div className='long-description'>
           <p>
-            <M>F=m\\cdot g</M>
+            Unelastische Kollisionen sind solche, bei denen die kinetische
+            Energie nicht erhalten bleibt, da ein Teil der Energie in andere
+            Formen wie Wärme, Schall oder sogar Verformungsenergie umgewandelt
+            wird. Die Menge an kinetischer Energie, die bei einem unelastischen
+            Stoß verloren geht, ist gleich der Menge an umgewandelter Energie.
+            <br />
+            Wenn zwei Körper vollkommen unelastisch zusammenstoßen, bleiben sie
+            aneinander haften und die maximal mögliche Menge an kinetischer
+            Energie wird in Verformungsenergie umgewandelt. Nach dem
+            Zusammenstoss bewegen sich beide Körper mit gleicher Geschwindigkeit
+            in dieselbe Richtung.
           </p>
         </div>
       </section>
