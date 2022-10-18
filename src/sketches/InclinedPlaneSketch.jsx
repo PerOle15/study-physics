@@ -98,11 +98,13 @@ function InclinedPlaneSketch() {
       const slidingFriction = slidingFrictionSlider.value()
       if (!slidingChanged && staticFriction < slidingFriction) {
         slidingFrictionSlider.value(staticFriction)
+        plane.slidingFriction = staticFriction
         slidingFrictionLabel.html(
           `Gleitreibungszahl: ${slidingFrictionSlider.value().toFixed(2)}`
         )
       } else if (slidingChanged && staticFriction < slidingFriction) {
         staticFrictionSlider.value(slidingFriction)
+        plane.staticFriction = slidingFriction
         staticFrictionLabel.html(
           `Haftreibungszahl: ${staticFrictionSlider.value().toFixed(2)}`
         )
@@ -131,6 +133,7 @@ function InclinedPlaneSketch() {
         staticFrictionLabel.html(
           `Haftreibungszahl: ${staticFrictionSlider.value().toFixed(2)}`
         )
+        plane.staticFriction = staticFrictionSlider.value()
       })
     staticFrictionLabel.html(
       `Haftreibungszahl: ${staticFrictionSlider.value().toFixed(2)}`
@@ -158,6 +161,7 @@ function InclinedPlaneSketch() {
         slidingFrictionLabel.html(
           `Gleitreibungszahl: ${slidingFrictionSlider.value().toFixed(2)}`
         )
+        plane.slidingFriction = slidingFrictionSlider.value()
       })
     slidingFrictionLabel.html(
       `Gleitreibungszahl: ${slidingFrictionSlider.value().toFixed(2)}`
@@ -173,9 +177,7 @@ function InclinedPlaneSketch() {
       this.p = p
     }
     display() {
-      this.p.fill(180)
-      this.p.noStroke()
-      this.p.rect(0, 0, this.p.width, this.p.height)
+      this.p.background(180)
 
       plane.display()
       block.display()
@@ -214,8 +216,6 @@ function InclinedPlaneSketch() {
     }
 
     update() {
-      this.staticFriction = staticFrictionSlider.value()
-      this.slidingFriction = slidingFrictionSlider.value()
       this.distance = this.width / Math.cos(this.angle)
       this.x1 = 0
       this.y1 = this.y2 - this.distance * Math.sin(this.angle)
@@ -308,7 +308,7 @@ function InclinedPlaneSketch() {
       this.y2 = this.y1 + Math.sin(plane.angle) * this.dim
       this.x3 = this.x2 + Math.cos(plane.angle + Math.PI / 2) * this.dim
       this.y3 = this.y2 + Math.sin(plane.angle + Math.PI / 2) * this.dim
-      this.x4 = this.x1 + Math.cos(plane.angle + Math.PI / 2) * this.dim
+      this.x4 = this.x1 - Math.sin(plane.angle) * this.dim
       this.y4 = this.y1 + Math.sin(plane.angle + Math.PI / 2) * this.dim
 
       if (this.x4 < 0) {
