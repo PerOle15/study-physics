@@ -6,6 +6,8 @@ function BuoyancySketch() {
   const g = 9.81
   const flowResistance = 1.1
 
+  let pauseBtn
+
   let volumeSlider
   let densitySlider
   let liquidDensitySlider
@@ -35,6 +37,20 @@ function BuoyancySketch() {
       .createDiv()
       .parent(canvasParentRef)
       .class('sketch-control highlight-box')
+
+    pauseBtn = p
+      .createButton('Stoppen')
+      .parent(controlContainer)
+      .class('btn sketch-btn')
+      .mousePressed(() => {
+        if (p.isLooping()) {
+          p.noLoop()
+          pauseBtn.html('Fortfahren')
+        } else {
+          p.loop()
+          pauseBtn.html('Stoppen')
+        }
+      })
 
     const volumeContainer = p
       .createDiv()
