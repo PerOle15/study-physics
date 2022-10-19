@@ -234,10 +234,10 @@ function WaveAdditionSketch() {
       this.p.fill(0)
       this.p.textSize(textSize)
       this.p.textAlign(this.p.LEFT, this.p.TOP)
-      this.p.text('Welle 1', textGap, textGap)
-      this.p.text('Welle 2', textGap, this.p.height / 2 + textGap)
+      this.p.text('Welle 1; g(x)', textGap, textGap)
+      this.p.text('Welle 2; h(x)', textGap, this.p.height / 2 + textGap)
       this.p.text(
-        'Interferenz von Welle 1 & Welle 2',
+        'Überlagerung von Welle 1 & Welle 2',
         this.p.width / 2 + textGap,
         textGap
       )
