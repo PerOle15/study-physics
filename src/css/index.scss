@@ -267,6 +267,7 @@ header.main-header {
     .logo-img {
       height: 11vh;
       margin-right: 0.5rem;
+      user-select: none;
     }
     h1 {
       color: var(--primary-accent-color);
@@ -419,6 +420,7 @@ Study Page
     transition: 0.2s;
 
     .card-icon {
+      user-select: none;
       font-size: 3.5rem;
       height: 100%;
       align-self: center;
