@@ -73,7 +73,10 @@ export default function CollisionSketch() {
       .createDiv()
       .parent(controlContainer)
       .class('sketch-input-container')
-    p.createDiv().parent(elasticContainer).html('Elastischer Stoss')
+    const elasticLabel = p
+      .createDiv()
+      .parent(elasticContainer)
+      .html('Vollkommen Elastisch')
     // checkbox
     const checkBox = p
       .createCheckbox('', elastic)
@@ -83,6 +86,9 @@ export default function CollisionSketch() {
         controller.elastic = checkBox.checked()
         if (checkBox.checked()) {
           controller.collided = false
+          elasticLabel.html('Vollkommen Elastisch')
+        } else {
+          elasticLabel.html('Vollkommen Inelastisch')
         }
       })
     //Span for checkbox
