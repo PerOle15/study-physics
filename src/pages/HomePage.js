@@ -40,7 +40,7 @@ function HomePage() {
             <p className='card-heading secondary'>Auftrieb</p>
             <p className='secondary'>
               Der Grund, weshalb Schiffe schwimmen und Fische im Wasser schweben
-              können ist der Auftrieb. Hier lernst du, wann etwas aufschwimmt
+              können, ist der Auftrieb. Hier lernst du, wann etwas aufschwimmt
               und wann nicht.
             </p>
           </Link>
@@ -49,7 +49,7 @@ function HomePage() {
               Interferenz von Sinuswellen
             </p>
             <p className='secondary'>
-              Die Überlagerung von Wellen ist ein sehr schönes Phänomen. Sehr
+              Die Überlagerung von Wellen ist ein elegantes Phänomen. Sehr
               simpel lassen sich faszinierende Muster und Bewegungen erzeugen.
               Diese Überlagerungen kommen überall in unserer Umgebung vor.
             </p>
