@@ -34,45 +34,5 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!-- <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        function hideOnClickOutside(element) {
-          const outsideClickListener = (event) => {
-            if (
-              !element.contains(event.target) &&
-              isVisible(element) &&
-              element.classList.contains('is-active')
-            ) {
-              element.classList.add('outside-clicked')
-              // removeClickListener()
-            } else if (
-              !element.contains(event.target) &&
-              isVisible(element) &&
-              !element.classList.contains('is-active')
-            ) {
-              element.classList.remove('outside-clicked')
-            }
-          }
-
-          const removeClickListener = () => {
-            document.removeEventListener('click', outsideClickListener)
-          }
-
-          document.addEventListener('click', outsideClickListener)
-        }
-
-        const isVisible = (elem) =>
-          !!elem &&
-          !!(
-            elem.offsetWidth ||
-            elem.offsetHeight ||
-            elem.getClientRects().length
-          ) // source (2018-03-11): https://github.com/jquery/jquery/blob/master/src/css/hiddenVisibleSelectors.js
-
-        const navLinks = document.getElementById('nav-links')
-        console.log(navLinks)
-        hideOnClickOutside(navLinks)
-      })
-    </script> -->
   </body>
 </html>
