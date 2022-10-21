@@ -85,7 +85,7 @@ function MainStudyPage() {
           <div className='card-icon'>
             <img src={interference} alt='' />
           </div>
-          <p className='card-heading secondary'>Interferenz von Sinuswellen</p>
+          <p className='card-heading secondary'>Überlagerung von Sinuswellen</p>
         </Link>
       </div>
     </div>

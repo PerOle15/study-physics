@@ -4,7 +4,7 @@ import M from '../components/Maths'
 import L from '../components/PageLink'
 
 function WaveAdditionPage() {
-  document.title = 'Fysihka - Interferenz von Sinuswellen'
+  document.title = 'Fysihka - Überlagerung von Sinuswellen'
 
   const formulas = []
   const waveSum = '$$f(x)=g(x)+h(x)$$'
@@ -12,7 +12,7 @@ function WaveAdditionPage() {
 
   return (
     <div className='container'>
-      <p className='page-heading'>Interferenz von Sinuswellen</p>
+      <p className='page-heading'>Überlagerung von Sinuswellen</p>
       <WaveAdditionSketch />
       <section className='topic-description'>
         <div className='short-description'>
