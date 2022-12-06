@@ -14,7 +14,7 @@ function AccelerationPage() {
 
   return (
     <div className='container'>
-      <p className='page-heading'>AccelerationPage</p>
+      <p className='page-heading'>Beschleunigung</p>
       <AccelerationSketch />
       <section className='topic-description'>
         <div className='short-description'>
