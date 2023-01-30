@@ -74,7 +74,7 @@ function SineWavePage() {
             nur die Störung, die durch die Welle verursacht wird. Die Teilchen
             bewegen sich stets an Ort und Stelle auf und ab.
             <br /> <br />
-            Ein sehr interessantes Phänomen, das autritt, wenn mehrere Wellen
+            Ein sehr interessantes Phänomen, das auftritt, wenn mehrere Wellen
             aufeinander treffen, ist deren <L to='interference'>Überlagerung</L>
             .
           </p>
